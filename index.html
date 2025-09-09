@@ -90,7 +90,6 @@
     <!-- Firebase -->
     <script type="module">
         // --- Configuração do Firebase ---
-        // Suas credenciais do Firebase preenchidas automaticamente aqui.
         const firebaseConfig = {
           apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
           authDomain: "minhas-credenciais-firebase.firebaseapp.com",
@@ -99,27 +98,24 @@
           messagingSenderId: "90146495031",
           appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
         };
-        const appId = firebaseConfig.projectId; // Usar o projectId como ID do app
+        const appId = firebaseConfig.projectId;
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, query, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, query, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firestore.js";
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // --- Variáveis Globais ---
         let cart = [];
         let siteConfig = {};
         let currentSlide = 0;
 
-        // --- Elementos do DOM ---
         const menuContainer = document.getElementById('menu-container');
         const cartButton = document.getElementById('cart-button');
         const cartModal = document.getElementById('cart-modal');
         const closeCartBtn = document.getElementById('close-cart-btn');
         const checkoutBtn = document.getElementById('checkout-btn');
 
-        // --- Lógica de Personalização da Página ---
         const configDocRef = doc(db, `/artifacts/${appId}/public/data/config`, 'site_settings');
         onSnapshot(configDocRef, (doc) => {
             if (doc.exists()) {
@@ -156,10 +152,7 @@
             }
             container.classList.remove('hidden');
             images.forEach((url, index) => {
-                wrapper.innerHTML += `
-                    <div class="carousel-slide ${index === 0 ? 'active' : ''}">
-                        <div class="carousel-item"><img src="${url}" alt="Imagem do Carrossel ${index + 1}"></div>
-                    </div>`;
+                wrapper.innerHTML += `<div class="carousel-slide ${index === 0 ? 'active' : ''}"><div class="carousel-item"><img src="${url}" alt="Imagem do Carrossel ${index + 1}"></div></div>`;
             });
             setupCarousel(images.length);
         }
@@ -167,12 +160,16 @@
         function setupCarousel(length) {
             if (length <= 1) return;
             const slides = document.querySelectorAll('.carousel-slide');
-            document.getElementById('prevBtn').onclick = () => {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            prevBtn.classList.toggle('hidden', length <= 1);
+            nextBtn.classList.toggle('hidden', length <= 1);
+            prevBtn.onclick = () => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide - 1 + length) % length;
                 slides[currentSlide].classList.add('active');
             };
-            document.getElementById('nextBtn').onclick = () => {
+            nextBtn.onclick = () => {
                 slides[currentSlide].classList.remove('active');
                 currentSlide = (currentSlide + 1) % length;
                 slides[currentSlide].classList.add('active');
@@ -183,10 +180,7 @@
             const container = document.getElementById('fixed-images-container');
             container.innerHTML = '';
             images.forEach(url => {
-                container.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                        <img src="${url}" alt="Imagem Fixa" class="w-full h-64 object-cover">
-                    </div>`;
+                container.innerHTML += `<div class="bg-white rounded-2xl shadow-lg overflow-hidden"><img src="${url}" alt="Imagem Fixa" class="w-full h-64 object-cover"></div>`;
             });
         }
 
@@ -208,7 +202,6 @@
             }
         }
 
-        // --- Lógica do Cardápio ---
         const menuCollectionPath = `/artifacts/${appId}/public/data/menu`;
         onSnapshot(query(collection(db, menuCollectionPath)), (snapshot) => {
             const itemsByCategory = {};
@@ -220,19 +213,20 @@
             
             menuContainer.innerHTML = '';
             Object.keys(itemsByCategory).sort().forEach(category => {
-                let categoryHtml = `<section class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-yellow-700">${category}</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+                let categoryHtml = `<section class="bg-white p-6 rounded-2xl shadow-lg"><h2 class="text-2xl md:text-3xl font-bold mb-6 text-yellow-700">${category}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
                 
                 itemsByCategory[category].forEach(item => {
+                    const isAvailable = item.available ?? true; // Default to available
                     categoryHtml += `
-                        <div class="flex flex-col bg-gray-50 p-4 rounded-xl border">
+                        <div class="flex flex-col bg-gray-50 p-4 rounded-xl border ${!isAvailable ? 'opacity-50' : ''}">
                             ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-lg mb-4">` : ''}
                             <h3 class="text-lg font-semibold">${item.name}</h3>
                             <p class="text-gray-600 text-sm flex-grow my-2">${item.description}</p>
                             <div class="flex justify-between items-center mt-2">
                                 <p class="text-lg font-bold text-green-600">€${parseFloat(item.price).toFixed(2)}</p>
-                                <button data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" class="add-to-cart-btn bg-yellow-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600">Adicionar</button>
+                                <button data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" class="add-to-cart-btn font-semibold px-4 py-2 rounded-lg ${isAvailable ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}" ${!isAvailable ? 'disabled' : ''}>
+                                    ${isAvailable ? 'Adicionar' : 'Esgotado'}
+                                </button>
                             </div>
                         </div>`;
                 });
@@ -241,7 +235,6 @@
             });
         });
 
-        // --- Lógica do Carrinho ---
         function updateCartCounter() {
             document.getElementById('cart-counter').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
         }
@@ -250,17 +243,14 @@
             const cartItemsContainer = document.getElementById('cart-items');
             cartItemsContainer.innerHTML = '';
             let total = 0;
-            if(cart.length === 0) {
+            if (cart.length === 0) {
                  cartItemsContainer.innerHTML = '<p class="text-gray-500">O seu carrinho está vazio.</p>';
             } else {
                 cart.forEach(item => {
                     total += item.price * item.quantity;
                     cartItemsContainer.innerHTML += `
                         <div class="flex items-center justify-between">
-                            <div>
-                                <p class="font-bold">${item.name}</p>
-                                <p class="text-sm text-gray-600">€${(item.price * item.quantity).toFixed(2)}</p>
-                            </div>
+                            <div><p class="font-bold">${item.name}</p><p class="text-sm text-gray-600">€${(item.price * item.quantity).toFixed(2)}</p></div>
                             <div class="flex items-center space-x-3">
                                 <button data-id="${item.id}" class="quantity-change bg-gray-200 w-7 h-7 rounded-full font-bold">-</button>
                                 <span>${item.quantity}</span>
@@ -294,9 +284,7 @@
                     item.quantity++;
                 } else {
                     item.quantity--;
-                    if (item.quantity === 0) {
-                        cart = cart.filter(i => i.id !== id);
-                    }
+                    if (item.quantity === 0) cart = cart.filter(i => i.id !== id);
                 }
                 updateCartCounter();
                 renderCart();
@@ -316,7 +304,10 @@
                 return;
             }
 
-            let message = "Olá! Gostaria de fazer o seguinte pedido:\n\n";
+            const customerName = prompt("Por favor, digite o seu nome para o pedido:", "");
+            if (!customerName) return; // Se o cliente cancelar, não faz nada
+
+            let message = `Olá! Sou *${customerName.trim()}* e gostaria de fazer o seguinte pedido:\n\n`;
             let total = 0;
             cart.forEach(item => {
                 message += `*${item.quantity}x* ${item.name} - €${(item.price * item.quantity).toFixed(2)}\n`;
@@ -327,7 +318,6 @@
             const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         });
-
     </script>
 </body>
 </html>
