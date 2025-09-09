@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- =================================================================== -->
+    <!-- ======================= SEO MELHORIAS ABAIXO ====================== -->
+    <!-- =================================================================== -->
+
+    <!-- TÍTULO ATUALIZADO PARA DELIVERY -->
+    <title>Cardápio Online - Faça seu Pedido</title>
+
+    <!-- META DESCRIPTION: Descrição para os resultados de busca -->
+    <meta name="description" content="Confira nosso cardápio online e faça seu pedido para delivery. Lanches, refeições e doces entregues na sua casa de forma rápida e fácil.">
+    
+    <!-- OPEN GRAPH (PARA FACEBOOK, WHATSAPP, ETC.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Cardápio Online - Faça seu Pedido">
+    <meta property="og:description" content="O melhor da nossa cozinha, direto para a sua casa. Peça agora!">
+    <meta property="og:image" content="https://i.postimg.cc/fTRd0F6R/LOGO-AXONCODE.png"> 
+
+    <!-- TWITTER CARD -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Cardápio Online - Faça seu Pedido">
+    <meta property="twitter:description" content="O melhor da nossa cozinha, direto para a sua casa. Peça agora!">
+    <meta property="twitter:image" content="https://i.postimg.cc/fTRd0F6R/LOGO-AXONCODE.png">
+
+    <!-- =================================================================== -->
+    <!-- ======================= FIM DAS MELHORIAS ========================= -->
+    <!-- =================================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Poppins:wght@300;400;600&family=Bebas+Neue&family=Anton&family=Oswald&family=Roboto&family=Lato&family=Montserrat&family=Playfair+Display&family=Lobster&family=Alfa+Slab+One&family=Patua+One&family=Merriweather&family=Source+Sans+Pro&family=Nunito+Sans&display=swap" rel="stylesheet">
+    <link id="favicon-link" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍔</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #D97706;
+            --background-color: #111827;
+            --text-color: #F3F4F6;
+            --card-bg-color: #1F2937;
+            --card-border-color: #374151;
+            --title-font: 'Teko', sans-serif;
+            --body-font: 'Poppins', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: var(--body-font); 
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.5s, color 0.5s;
+        }
+        h1, h2, h3, .font-teko { font-family: var(--title-font); letter-spacing: 1.5px; }
+        .text-brand-primary { color: var(--primary-color); }
+        .bg-brand-primary { background-color: var(--primary-color); }
+        .bg-brand-primary:hover { filter: brightness(0.9); }
+        .ring-brand-primary { ring-color: var(--primary-color); }
+        .btn-primary { 
+            background-color: var(--primary-color); 
+            color: white; 
+            transition: all 0.3s ease-in-out; 
+            box-shadow: 0 4px 15px 0 rgba(0, 0, 0, 0.2); 
+            border: 1px solid rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover { transform: translateY(-3px); filter: brightness(0.9); }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+        .btn-primary:hover::after { left: 150%; }
+
+        .card { background-color: var(--card-bg-color); background-image: url('https://www.transparenttextures.com/patterns/noise.png'); border: 1px solid var(--card-border-color); transition: all 0.3s ease-in-out; box-shadow: 0 10px 30px -15px rgba(0,0,0,0.5); }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary-color); }
+        .form-input { background-color: var(--background-color); border: 1px solid var(--card-border-color); transition: all 0.3s ease; }
+        .form-input:focus { background-color: var(--card-bg-color); border-color: var(--primary-color); box-shadow: 0 0 0 2px var(--primary-color); outline: none; }
+        .social-icon { transition: transform 0.3s ease, color 0.3s ease; }
+        .social-icon:hover { transform: scale(1.2); color: var(--primary-color); }
+
+        /* Animações */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+        .fade-enter-from, .fade-leave-to {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .cart-item-enter-active, .cart-item-leave-active {
+          transition: all 0.5s ease;
+        }
+        .cart-item-enter-from, .cart-item-leave-to {
+          opacity: 0;
+          transform: translateX(30px);
+        }
+    </style>
+</head>
+<body class="text-gray-300">
+
+    <div id="app" class="container mx-auto p-4 md:p-8">
+        
+        <!-- Tela de Bloqueio -->
+        <div v-if="isBlocked" class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center text-center p-8 z-50">
+            <i class="fas fa-store-slash text-6xl text-red-500 mb-4"></i>
+            <h1 class="text-4xl font-bold text-white mb-2">Página Indisponível</h1>
+            <p class="text-lg text-gray-400">Este delivery está temporariamente indisponível. Por favor, contacte o estabelecimento para mais informações.</p>
+        </div>
+
+        <div v-if="isReady && !isBlocked">
+            <header class="text-center mb-16 relative fade-in-section" data-animate>
+                <h1 class="font-bold uppercase tracking-wider break-words" :style="{color: appearance.textColor, fontFamily: appearance.titleFont, fontSize: appearance.titleFontSize + 'px'}">{{ appearance.title }}</h1>
+                <div class="flex justify-center"><p class="mt-2 font-semibold text-center max-w-3xl break-words" :style="{color: appearance.primaryColor, fontSize: appearance.subtitleFontSize + 'px'}">{{ truncatedSubtitle }}</p></div>
+            </header>
+
+            <div v-if="appearance.description" class="mb-12 text-center max-w-3xl mx-auto px-6 py-4 border-y-2 fade-in-section" data-animate :style="{ borderColor: 'rgba(217, 119, 6, 0.2)' }">
+                <p class="italic break-words" :style="{color: appearance.textColor, fontSize: appearance.descriptionFontSize + 'px'}">{{ appearance.description }}</p>
+            </div>
+
+            <!-- Layout Principal: Cardápio e Carrinho -->
+            <div class="flex flex-col lg:grid lg:grid-cols-5 lg:gap-8">
+                
+                <!-- Coluna do Cardápio -->
+                <main id="ordering-section" class="lg:col-span-3 bg-gray-900/50 backdrop-blur-sm rounded-2xl shadow-2xl shadow-black/30 p-6 md:p-10 fade-in-section" data-animate>
+                    <h2 class="text-4xl font-teko font-bold text-center mb-8 uppercase tracking-wider" :style="{color: appearance.textColor, fontFamily: appearance.titleFont}">{{ appearance.bookingTitle || 'Nosso Cardápio' }}</h2>
+                    
+                    <div v-if="products.length === 0" class="text-center text-gray-400 py-8">
+                        <i class="fas fa-spinner fa-spin fa-2x mb-3"></i>
+                        <p>Carregando cardápio...</p>
+                    </div>
+
+                    <div v-else class="space-y-8">
+                        <div v-for="(group, category) in groupedProducts" :key="category" class="fade-in-section" data-animate>
+                           <h3 class="text-3xl font-teko tracking-wider text-brand-primary mb-4" :style="{color: appearance.primaryColor}">{{ category }}</h3>
+                           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                               <div v-for="product in group" :key="product.id" class="card rounded-lg overflow-hidden flex flex-col">
+                                   <img :src="product.imageUrl" :alt="product.title" onerror="this.src='https://placehold.co/400x300/1F2937/FFFFFF?text=Produto'" class="w-full h-48 object-cover">
+                                   <div class="p-4 flex flex-col flex-grow">
+                                       <h4 class="text-xl font-bold" :style="{color: appearance.textColor}">{{ product.title }}</h4>
+                                       <p class="text-gray-400 text-sm mt-1 flex-grow">{{ product.description }}</p>
+                                       <div class="flex justify-between items-center mt-4">
+                                           <span class="text-lg font-bold text-brand-primary" :style="{color: appearance.primaryColor}">R$ {{ product.price.toFixed(2) }}</span>
+                                           <button @click="addToCart(product)" class="btn-primary text-sm font-bold py-2 px-4 rounded-lg"><i class="fas fa-cart-plus mr-2"></i>Adicionar</button>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                        </div>
+                    </div>
+                </main>
+
+                <!-- Coluna do Carrinho/Checkout -->
+                <aside class="lg:col-span-2 mt-8 lg:mt-0 fade-in-section" data-animate>
+                    <div id="cart-section" class="card p-6 rounded-xl sticky top-8">
+                        <h3 class="text-3xl font-teko font-bold mb-4 flex items-center"><i class="fas fa-shopping-cart mr-3 text-brand-primary" :style="{color: appearance.primaryColor}"></i>Seu Pedido</h3>
+                        
+                        <div v-if="cart.length === 0" class="text-center text-gray-400 py-8">
+                            <p>Seu carrinho está vazio.</p>
+                            <p class="text-sm">Adicione itens do cardápio para começar.</p>
+                        </div>
+
+                        <div v-else>
+                            <div class="space-y-4 max-h-64 overflow-y-auto pr-2">
+                                <transition-group name="cart-item">
+                                    <div v-for="item in cart" :key="item.id" class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-semibold">{{ item.title }}</p>
+                                            <p class="text-sm text-gray-400">R$ {{ item.price.toFixed(2) }}</p>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button @click="updateQuantity(item.id, item.quantity - 1)" class="bg-gray-700 w-6 h-6 rounded-full">-</button>
+                                            <span>{{ item.quantity }}</span>
+                                            <button @click="updateQuantity(item.id, item.quantity + 1)" class="bg-gray-700 w-6 h-6 rounded-full">+</button>
+                                            <button @click="removeFromCart(item.id)" class="text-red-500 hover:text-red-400 ml-2"><i class="fas fa-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </transition-group>
+                            </div>
+
+                            <div class="border-t border-gray-700 mt-4 pt-4 space-y-2">
+                                <div class="flex justify-between"><span>Subtotal</span><span>R$ {{ cartSubtotal.toFixed(2) }}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">Taxa de Entrega</span><span class="text-gray-400">R$ {{ deliveryFee.toFixed(2) }}</span></div>
+                                <div class="flex justify-between font-bold text-lg"><span class="text-brand-primary" :style="{color: appearance.primaryColor}">Total</span><span>R$ {{ cartTotal.toFixed(2) }}</span></div>
+                            </div>
+                            
+                            <div class="mt-8">
+                                <h3 class="text-xl font-semibold mb-4 font-teko tracking-wide"><i class="fas fa-map-marker-alt mr-2"></i>Detalhes da Entrega:</h3>
+                                <div class="space-y-4">
+                                    <div><label for="name" class="block text-sm font-medium text-gray-400">Seu nome:</label><input type="text" id="name" v-model="order.clientName" placeholder="Nome Completo" class="mt-1 w-full p-3 rounded-lg text-white form-input"></div>
+                                    <div><label for="phone" class="block text-sm font-medium text-gray-400">Seu WhatsApp:</label><input type="tel" id="phone" v-model="order.clientPhone" placeholder="(XX) XXXXX-XXXX" class="mt-1 w-full p-3 rounded-lg text-white form-input"></div>
+                                    <div><label for="address" class="block text-sm font-medium text-gray-400">Endereço de Entrega:</label><input type="text" id="address" v-model="order.clientAddress" placeholder="Rua, Número, Bairro, Complemento" class="mt-1 w-full p-3 rounded-lg text-white form-input"></div>
+                                    <div>
+                                        <label for="payment" class="block text-sm font-medium text-gray-400">Forma de Pagamento:</label>
+                                        <select id="payment" v-model="order.paymentMethod" class="mt-1 w-full p-3 rounded-lg text-white form-input">
+                                            <option value="" disabled>Selecione...</option>
+                                            <option value="Dinheiro">Dinheiro</option>
+                                            <option value="Cartão de Crédito">Cartão de Crédito</option>
+                                            <option value="Cartão de Débito">Cartão de Débito</option>
+                                            <option value="PIX">PIX</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button @click="placeOrder" class="w-full btn-primary text-white font-bold py-4 rounded-lg text-lg mt-6" :disabled="isSubmitting"><span v-if="!isSubmitting"><i class="fab fa-whatsapp mr-2"></i>Finalizar Pedido via WhatsApp</span><span v-else><i class="fas fa-spinner fa-spin mr-2"></i>Enviando...</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            
+            <!-- Outras seções (Sobre, Localização) -->
+            <section v-if="appearance.aboutUsDescription" class="mt-16 fade-in-section" data-animate>
+                <h3 class="text-3xl font-bold text-center mb-8" :style="{color: appearance.textColor, fontFamily: appearance.titleFont}">{{ appearance.aboutUsTitle || 'Nossa História' }}</h3>
+                <div class="max-w-4xl mx-auto card p-8 rounded-xl">
+                    <p class="text-center whitespace-pre-wrap break-words" :style="{color: appearance.textColor}">{{ appearance.aboutUsDescription }}</p>
+                </div>
+            </section>
+
+            <section v-if="profile.address" class="mt-16 fade-in-section" data-animate>
+                <h3 class="text-3xl font-bold text-center mb-8" :style="{color: appearance.textColor, fontFamily: appearance.titleFont}">{{ appearance.locationTitle || 'Onde Estamos' }}</h3>
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center card p-8 rounded-xl">
+                    <div class="text-center md:text-left">
+                        <p class="text-lg font-semibold" :style="{color: appearance.textColor}"><i class="fas fa-map-marker-alt mr-2 text-brand-primary"></i>Endereço</p>
+                        <p :style="{color: appearance.textColor}">{{ profile.address }}</p>
+                        <p class="text-lg font-semibold mt-4" :style="{color: appearance.textColor}"><i class="fas fa-clock mr-2 text-brand-primary"></i>Horário</p>
+                        <p :style="{color: appearance.textColor}">{{ displayBusinessHours }}</p>
+                    </div>
+                    <div class="bg-gray-700 w-full h-64 rounded-lg overflow-hidden" v-html="sanitizedGoogleMapsEmbed"></div>
+                </div>
+            </section>
+
+            <footer class="text-center mt-12 py-6 border-t border-gray-800 fade-in-section" data-animate>
+                <div class="flex justify-center items-center space-x-6">
+                    <a v-if="profile.instagram" :href="profile.instagram" target="_blank" class="text-gray-400 social-icon"><i class="fab fa-instagram fa-2x"></i></a>
+                    <a v-if="profile.facebook" :href="profile.facebook" target="_blank" class="text-gray-400 social-icon"><i class="fab fa-facebook fa-2x"></i></a>
+                    <a v-if="sanitizedWhatsapp" :href="`https://wa.me/${sanitizedWhatsapp}`" target="_blank" class="text-gray-400 social-icon"><i class="fab fa-whatsapp fa-2x"></i></a>
+                </div>
+                <p class="text-sm text-gray-600 mt-4">&copy; {{ new Date().getFullYear() }} {{ appearance.title }}. Todos os direitos reservados.</p>
+            </footer>
+            
+            <!-- Modal de Feedback -->
+            <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"><div class="bg-gray-800 border border-gray-700 rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center"><i :class="modal.icon" class="text-5xl mb-4" :style="{ color: modal.color }"></i><h3 class="text-2xl font-bold mb-2 text-white">{{ modal.title }}</h3><p class="text-gray-300 mb-6">{{ modal.message }}</p><button @click="showModal = false" class="btn-primary text-white font-bold py-2 px-8 rounded-lg">OK</button></div></div>
+        </div>
+    </div>
+    
+    <script src="./firebase-config.js"></script>
+
+    <script type="module">
+        import { createApp, ref, onMounted, nextTick, computed, watch } from 'https://unpkg.com/vue@3.4.21/dist/vue.esm-browser.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, getDocs, getDoc, addDoc, query, doc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        if (typeof window.firebaseConfig === 'undefined' || !window.firebaseConfig.apiKey) {
+            console.error("Erro Crítico: Configuração do Firebase não encontrada ou inválida.");
+            document.getElementById('app').innerHTML = `
+                <div class="fixed inset-0 bg-gray-900 flex flex-col items-center justify-center text-center p-8 z-50">
+                    <i class="fas fa-cogs text-6xl text-red-500 mb-4"></i>
+                    <h1 class="text-4xl font-bold text-white mb-2">Erro de Configuração</h1>
+                    <p class="text-lg text-gray-400">Não foi possível carregar as configurações da página. Contacte o suporte.</p>
+                </div>`;
+        } else {
+            const app = initializeApp(window.firebaseConfig);
+            const db = getFirestore(app);
+            const auth = getAuth(app);
+            
+            createApp({
+                setup() {
+                    const products = ref([]);
+                    const gallery = ref([]);
+                    const settings = ref({ 
+                        deliveryFee: 5.00,
+                        businessHours: { start: '18:00', end: '23:00', breaks: [] }
+                    });
+                    const profile = ref({ instagram: '', facebook: '', whatsapp: '', address: '', googleMapsEmbed: '' });
+                    const isReady = ref(false);
+                    const isBlocked = ref(false);
+                    
+                    const appearance = ref({ 
+                        title: 'Lanchonete Saboroso', 
+                        subtitle: 'O melhor lanche da cidade, direto na sua casa!', 
+                        faviconUrl: '',
+                        primaryColor: '#D97706', 
+                        backgroundColor: '#111827', 
+                        textColor: '#F3F4F6', 
+                        backgroundImageUrl: '', 
+                        description: 'Qualidade e sabor que você já conhece, agora com a comodidade do delivery.', 
+                        aboutUsDescription: '',
+                        bookingTitle: 'Nosso Cardápio',
+                        aboutUsTitle: 'Nossa História',
+                        locationTitle: 'Onde Estamos',
+                        titleFont: 'Teko', 
+                        bodyFont: 'Poppins',
+                        titleFontSize: 80,
+                        subtitleFontSize: 24,
+                        descriptionFontSize: 18,
+                    });
+
+                    const cart = ref([]);
+                    const order = ref({ clientName: '', clientPhone: '', clientAddress: '', paymentMethod: '' });
+                    const isSubmitting = ref(false);
+                    const showModal = ref(false);
+                    const modal = ref({ title: '', message: '', icon: '', color: '' });
+                    const tenantId = ref(null);
+
+                    watch(appearance, (newAppearance) => {
+                        const root = document.documentElement;
+                        root.style.setProperty('--primary-color', newAppearance.primaryColor);
+                        root.style.setProperty('--background-color', newAppearance.backgroundColor);
+                        root.style.setProperty('--text-color', newAppearance.textColor);
+                        root.style.setProperty('--title-font', newAppearance.titleFont);
+                        root.style.setProperty('--body-font', newAppearance.bodyFont);
+
+                        if (newAppearance.backgroundImageUrl) {
+                            document.body.style.backgroundImage = `url('${newAppearance.backgroundImageUrl}')`;
+                        } else {
+                            document.body.style.backgroundImage = `radial-gradient(ellipse at top, #374151, ${newAppearance.backgroundColor})`;
+                        }
+                        
+                        const faviconLink = document.getElementById('favicon-link');
+                        if (newAppearance.faviconUrl && faviconLink) {
+                            faviconLink.href = newAppearance.faviconUrl;
+                        }
+
+                        document.title = `${newAppearance.title} | Cardápio Online`;
+                        document.querySelector('meta[name="description"]').setAttribute('content', `Confira o cardápio de ${newAppearance.title}. ${newAppearance.subtitle}`);
+                    }, { deep: true });
+                    
+                    const groupedProducts = computed(() => {
+                      return products.value.reduce((groups, product) => {
+                        const category = product.category || 'Outros';
+                        if (!groups[category]) {
+                          groups[category] = [];
+                        }
+                        groups[category].push(product);
+                        return groups;
+                      }, {});
+                    });
+
+                    const sanitizedWhatsapp = computed(() => profile.value.whatsapp ? profile.value.whatsapp.replace(/\D/g, '') : '');
+                    const truncatedSubtitle = computed(() => {
+                        const subtitle = appearance.value.subtitle || '';
+                        return subtitle.length > 100 ? subtitle.substring(0, 100) + '...' : subtitle;
+                    });
+                    
+                    const displayBusinessHours = computed(() => {
+                        if (settings.value.businessHours && settings.value.businessHours.start && settings.value.businessHours.end) {
+                            return `Todos os dias: ${settings.value.businessHours.start} - ${settings.value.businessHours.end}`;
+                        }
+                        return 'Todos os dias: 18:00 - 23:00'; // Fallback
+                    });
+
+                    const sanitizedGoogleMapsEmbed = computed(() => {
+                        if (!profile.value.googleMapsEmbed) return '';
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = profile.value.googleMapsEmbed;
+                        const iframe = tempDiv.querySelector('iframe');
+                        if (iframe) {
+                            iframe.setAttribute('class', 'w-full h-full');
+                            iframe.removeAttribute('width');
+                            iframe.removeAttribute('height');
+                            return iframe.outerHTML;
+                        }
+                        return '';
+                    });
+                    
+                    const deliveryFee = computed(() => settings.value.deliveryFee || 0);
+                    const cartSubtotal = computed(() => cart.value.reduce((total, item) => total + (item.price * item.quantity), 0));
+                    const cartTotal = computed(() => cartSubtotal.value + deliveryFee.value);
+
+                    const openModal = (title, message, icon, color) => { modal.value = { title, message, icon, color }; showModal.value = true; };
+
+                    const addToCart = (product) => {
+                        const existingItem = cart.value.find(item => item.id === product.id);
+                        if (existingItem) {
+                            existingItem.quantity++;
+                        } else {
+                            cart.value.push({ ...product, quantity: 1 });
+                        }
+                    };
+
+                    const removeFromCart = (productId) => {
+                        cart.value = cart.value.filter(item => item.id !== productId);
+                    };
+
+                    const updateQuantity = (productId, quantity) => {
+                        const item = cart.value.find(item => item.id === productId);
+                        if (item) {
+                            if (quantity <= 0) {
+                                removeFromCart(productId);
+                            } else {
+                                item.quantity = quantity;
+                            }
+                        }
+                    };
+
+                    const placeOrder = async () => {
+                        if (cart.value.length === 0) { openModal('Carrinho Vazio', 'Adicione itens ao seu pedido antes de finalizar.', 'fas fa-shopping-cart', '#f97316'); return; }
+                        if (!order.value.clientName || !order.value.clientPhone || !order.value.clientAddress || !order.value.paymentMethod) { openModal('Dados Incompletos', 'Por favor, preencha todos os campos de contato, endereço e pagamento.', 'fas fa-times-circle', '#ef4444'); return; }
+                        isSubmitting.value = true;
+                        
+                        // Formata a mensagem do pedido
+                        let orderSummary = `*-- NOVO PEDIDO --*\n\n`;
+                        orderSummary += `*Cliente:* ${order.value.clientName}\n`;
+                        orderSummary += `*Contato:* ${order.value.clientPhone}\n\n`;
+                        orderSummary += `*Itens do Pedido:*\n`;
+                        cart.value.forEach(item => {
+                            orderSummary += `${item.quantity}x ${item.title} - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+                        });
+                        orderSummary += `\n*Subtotal:* R$ ${cartSubtotal.value.toFixed(2)}\n`;
+                        orderSummary += `*Taxa de Entrega:* R$ ${deliveryFee.value.toFixed(2)}\n`;
+                        orderSummary += `*TOTAL:* R$ ${cartTotal.value.toFixed(2)}\n\n`;
+                        orderSummary += `*Endereço de Entrega:*\n${order.value.clientAddress}\n\n`;
+                        orderSummary += `*Forma de Pagamento:* ${order.value.paymentMethod}\n`;
+
+                        try {
+                            // Salva o pedido no banco de dados
+                            await addDoc(collection(db, `tenants/${tenantId.value}/orders`), { 
+                                clientName: order.value.clientName, 
+                                clientPhone: order.value.clientPhone, 
+                                clientAddress: order.value.clientAddress,
+                                paymentMethod: order.value.paymentMethod,
+                                items: cart.value.map(i => ({id: i.id, title: i.title, quantity: i.quantity, price: i.price})),
+                                subtotal: cartSubtotal.value,
+                                deliveryFee: deliveryFee.value,
+                                total: cartTotal.value,
+                                createdAt: new Date(), 
+                                status: 'recebido' 
+                            });
+                            
+                            // Redireciona para o WhatsApp
+                            const restaurantNumber = sanitizedWhatsapp.value;
+                            if (restaurantNumber) {
+                                const whatsappUrl = `https://wa.me/${restaurantNumber}?text=${encodeURIComponent(orderSummary)}`;
+                                window.open(whatsappUrl, '_blank');
+                                openModal('Pedido Enviado!', 'Seu pedido foi enviado para a cozinha. Você será redirecionado para o WhatsApp para finalizar.', 'fas fa-check-circle', '#22c55e');
+                            } else {
+                                openModal('Pedido Registrado!', 'Seu pedido foi enviado para a cozinha com sucesso!', 'fas fa-check-circle', '#22c55e');
+                            }
+
+                            cart.value = [];
+                            order.value = { clientName: '', clientPhone: '', clientAddress: '', paymentMethod: '' };
+                        } catch (error) { 
+                            console.error("Erro ao enviar pedido: ", error); 
+                            openModal('Erro no Servidor', 'Não foi possível registrar seu pedido. Tente novamente.', 'fas fa-server', '#ef4444'); 
+                        } finally { 
+                            isSubmitting.value = false; 
+                        }
+                    };
+                    
+                    const initializeAndAuth = async () => { try { if (!auth.currentUser) await signInAnonymously(auth); } catch (error) { console.error("Auth Error:", error); } };
+
+                    const fetchInitialData = async () => {
+                        const tenantDoc = await getDoc(doc(db, "tenants", tenantId.value));
+                        if (!tenantDoc.exists()) { isBlocked.value = true; return; }
+
+                        const tenantData = tenantDoc.data();
+                        const now = new Date();
+                        const expiryDate = tenantData.subscriptionExpiresAt ? tenantData.subscriptionExpiresAt.toDate() : now;
+
+                        if (tenantData.status !== 'active' || now > expiryDate) { isBlocked.value = true; return; }
+
+                        // ATENÇÃO: A coleção agora é 'products' e não 'services'
+                        const productSnapshot = await getDocs(query(collection(db, `tenants/${tenantId.value}/products`)));
+                        products.value = productSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                        const gallerySnapshot = await getDocs(query(collection(db, `tenants/${tenantId.value}/gallery`)));
+                        gallery.value = gallerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                        // ATENÇÃO: O documento de config agora é 'delivery'
+                        const settingsSnap = await getDoc(doc(db, `tenants/${tenantId.value}/config/delivery`));
+                        if (settingsSnap.exists()) settings.value = {...settings.value, ...settingsSnap.data()};
+
+                        const profileSnap = await getDoc(doc(db, `tenants/${tenantId.value}/config/profile`));
+                        if (profileSnap.exists()) profile.value = profileSnap.data();
+                        
+                        const appearanceSnap = await getDoc(doc(db, `tenants/${tenantId.value}/config/appearance`));
+                        if (appearanceSnap.exists()) appearance.value = {...appearance.value, ...appearanceSnap.data()};
+                    };
+
+                    onMounted(async () => {
+                        const pathParts = window.location.pathname.split('/').filter(p => p && p.toLowerCase() !== 'index.html');
+                        const urlParams = new URLSearchParams(window.location.search);
+                        tenantId.value = pathParts[0] || urlParams.get('id');
+
+                        if (!tenantId.value) { 
+                            isBlocked.value = true;
+                            isReady.value = true;
+                            return; 
+                        }
+                        
+                        try {
+                            await initializeAndAuth();
+                            await fetchInitialData();
+                        } catch(error) {
+                            console.error("Initialization Error:", error);
+                            isBlocked.value = true;
+                        } finally {
+                            isReady.value = true;
+                        }
+
+                        nextTick(() => {
+                            if (!isBlocked.value) {
+                                const observer = new IntersectionObserver((entries) => {
+                                    entries.forEach(entry => {
+                                        if (entry.isIntersecting) {
+                                            entry.target.classList.add('is-visible');
+                                        }
+                                    });
+                                }, { threshold: 0.1 });
+
+                                document.querySelectorAll('[data-animate]').forEach(el => {
+                                    observer.observe(el);
+                                });
+                            }
+                        });
+                    });
+
+                    return {
+                        products, gallery, profile, sanitizedWhatsapp, appearance, truncatedSubtitle,
+                        order, cart, isSubmitting, showModal, modal, placeOrder,
+                        openModal, isReady, isBlocked, displayBusinessHours, sanitizedGoogleMapsEmbed,
+                        groupedProducts, addToCart, removeFromCart, updateQuantity,
+                        cartSubtotal, deliveryFee, cartTotal
+                    };
+                }
+            }).mount('#app');
+        }
+    </script>
+</body>
+</html>

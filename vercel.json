@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "src": "/admin/([^/]+)",
+      "dest": "/admin.html?id=$1"
+    },
+    {
+      "src": "/([^/.]+)",
+      "dest": "/index.html?id=$1"
+    }
+  ]
+}
