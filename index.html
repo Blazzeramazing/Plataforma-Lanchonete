@@ -5,14 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cardápio da Lanchonete</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', sans-serif; }
+        :root {
+            --color-bg: #FDFBF7;
+            --color-surface: #FFFFFF;
+            --color-primary: #D4AF37; /* Dourado */
+            --color-primary-dark: #B8860B;
+            --color-text: #333333;
+            --color-text-light: #555555;
+            --color-border: #EAEAEA;
+        }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            scroll-behavior: smooth;
+        }
         .carousel-container { position: relative; overflow: hidden; }
-        .carousel-slide { display: none; transition: opacity 0.5s ease-in-out; }
+        .carousel-slide { display: none; transition: opacity 0.7s ease-in-out; }
         .carousel-slide.active { display: block; }
-        .carousel-item img { width: 100%; height: 40vh; object-fit: cover; border-radius: 1rem; }
-        .cart-modal-backdrop {
+        .carousel-item img { width: 100%; height: 50vh; object-fit: cover; border-radius: 1.5rem; }
+        
+        .modal-backdrop {
             display: none;
             position: fixed;
             top: 0; left: 0;
@@ -21,74 +36,97 @@
             z-index: 40;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.flex {
+            display: flex;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .smooth-transition {
+            transition: all 0.3s ease-in-out;
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="antialiased">
 
-    <div class="container mx-auto p-4 md:p-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         
         <!-- Banner de Status -->
-        <div id="status-banner" class="p-4 mb-6 text-center text-white font-bold rounded-lg shadow-md hidden transition-all"></div>
+        <div id="status-banner" class="p-4 mb-8 text-center text-white font-semibold rounded-xl shadow-lg hidden smooth-transition"></div>
 
         <!-- Cabeçalho Dinâmico -->
-        <header id="main-header" class="text-center mb-10">
-            <h1 id="header-title" class="text-4xl md:text-5xl font-bold text-yellow-600">Lanchonete Sabor Único</h1>
-            <p id="header-subtitle" class="text-gray-600 mt-2 text-lg">O melhor sabor da cidade, feito com carinho para si!</p>
+        <header id="main-header" class="text-center mb-12">
+            <h1 id="header-title" class="text-4xl md:text-6xl font-bold" style="color: var(--color-primary-dark);">Lanchonete Sabor Único</h1>
+            <p id="header-subtitle" class="text-gray-600 mt-3 text-lg md:text-xl">O melhor sabor da cidade, feito com carinho para si!</p>
         </header>
 
         <!-- Carrossel de Imagens -->
-        <div id="carousel-container" class="carousel-container w-full mx-auto mb-10 shadow-lg rounded-2xl hidden">
+        <div id="carousel-container" class="carousel-container w-full mx-auto mb-12 shadow-2xl rounded-3xl hidden">
             <div id="carousel-wrapper"></div>
-            <button id="prevBtn" class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/70 p-2 rounded-full shadow-md">&lt;</button>
-            <button id="nextBtn" class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/70 p-2 rounded-full shadow-md">&gt;</button>
+            <button id="prevBtn" class="absolute top-1/2 left-5 transform -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg smooth-transition">&lt;</button>
+            <button id="nextBtn" class="absolute top-1/2 right-5 transform -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg smooth-transition">&gt;</button>
         </div>
 
         <!-- Imagens Fixas -->
-        <div id="fixed-images-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></div>
+        <div id="fixed-images-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12"></div>
 
         <!-- Container do Cardápio -->
-        <main id="menu-container" class="space-y-12 transition-opacity duration-300">
+        <main id="menu-container" class="space-y-16 smooth-transition">
             <!-- Itens do cardápio -->
         </main>
         
         <!-- Onde Estamos -->
-        <section id="location-section" class="mt-12 bg-white p-6 rounded-2xl shadow-lg hidden">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4 text-yellow-700">Onde Estamos</h2>
-            <div id="maps-container" class="w-full h-96 rounded-xl overflow-hidden [&>iframe]:w-full [&>iframe]:h-full"></div>
+        <section id="location-section" class="mt-16 bg-white p-8 rounded-3xl shadow-xl hidden">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6" style="color: var(--color-primary-dark);">Onde Estamos</h2>
+            <div id="maps-container" class="w-full h-96 rounded-2xl overflow-hidden [&>iframe]:w-full [&>iframe]:h-full border-2 border-gray-100"></div>
         </section>
 
         <!-- Rodapé Dinâmico -->
-        <footer class="text-center mt-12 text-gray-500">
-            <div id="social-links" class="flex justify-center space-x-6 mb-4"></div>
+        <footer class="text-center mt-16 text-gray-500">
+            <div id="social-links" class="flex justify-center space-x-6 mb-5"></div>
             <p>&copy; 2025 Lanchonete Sabor Único. Todos os direitos reservados.</p>
         </footer>
 
     </div>
 
     <!-- Carrinho Flutuante -->
-    <button id="cart-button" class="fixed bottom-5 right-5 bg-yellow-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl">
+    <button id="cart-button" class="fixed bottom-6 right-6 bg-yellow-500 hover:bg-yellow-600 w-20 h-20 rounded-full shadow-2xl flex items-center justify-center text-4xl text-white transform hover:scale-110 smooth-transition">
         🛒
-        <span id="cart-counter" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">0</span>
+        <span id="cart-counter" class="absolute -top-1 -right-1 bg-red-600 text-white text-sm font-bold rounded-full h-8 w-8 flex items-center justify-center border-4 border-white">0</span>
     </button>
 
     <!-- Modal do Carrinho -->
-    <div id="cart-modal" class="cart-modal-backdrop">
-        <div class="bg-white rounded-2xl shadow-xl w-11/12 max-w-lg p-6 relative max-h-[85vh] flex flex-col">
-            <h2 class="text-2xl font-bold mb-4">Seu Pedido</h2>
-            <button id="close-cart-btn" class="absolute top-4 right-4 text-2xl">&times;</button>
-            <div id="cart-items" class="flex-grow overflow-y-auto pr-2 space-y-3">
-                <!-- Itens do carrinho -->
-            </div>
-            <div class="mt-4 pt-4 border-t">
-                <div class="flex justify-between items-center text-xl font-bold">
+    <div id="cart-modal" class="modal-backdrop">
+        <div class="modal-content bg-white rounded-3xl shadow-2xl w-11/12 max-w-lg p-6 relative max-h-[85vh] flex flex-col">
+            <h2 class="text-3xl font-bold mb-6">Seu Pedido</h2>
+            <button id="close-cart-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-gray-700 smooth-transition">&times;</button>
+            <div id="cart-items" class="flex-grow overflow-y-auto pr-2 -mr-2 space-y-4"></div>
+            <div class="mt-6 pt-6 border-t">
+                <div class="flex justify-between items-center text-xl font-bold mb-5">
                     <span>Total:</span>
                     <span id="cart-total">€0.00</span>
                 </div>
-                <button id="checkout-btn" class="mt-4 w-full bg-green-600 text-white py-3 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors">Finalizar Pedido (WhatsApp)</button>
+                <button id="checkout-btn" class="w-full bg-green-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-green-700 transform hover:scale-105 smooth-transition">Finalizar Pedido (WhatsApp)</button>
             </div>
         </div>
     </div>
+    
+    <!-- Modal para Nome do Cliente -->
+    <div id="name-modal" class="modal-backdrop">
+        <div class="modal-content bg-white rounded-3xl shadow-2xl w-11/12 max-w-sm p-8 text-center">
+             <h2 class="text-2xl font-bold mb-4">Identificação</h2>
+             <p class="text-gray-600 mb-6">Para continuar, por favor, digite o seu nome.</p>
+             <form id="name-form">
+                 <input type="text" id="customer-name-input" placeholder="Seu nome aqui..." class="w-full border-2 border-gray-200 p-3 rounded-lg mb-4 focus:border-yellow-500 focus:ring-0 outline-none">
+                 <button type="submit" class="w-full bg-yellow-500 text-white py-3 rounded-lg font-bold hover:bg-yellow-600 smooth-transition">Confirmar Pedido</button>
+             </form>
+        </div>
+    </div>
+
 
     <!-- Firebase -->
     <script type="module">
@@ -118,7 +156,24 @@
         const cartModal = document.getElementById('cart-modal');
         const closeCartBtn = document.getElementById('close-cart-btn');
         const checkoutBtn = document.getElementById('checkout-btn');
+        const nameModal = document.getElementById('name-modal');
+        const nameForm = document.getElementById('name-form');
+        const customerNameInput = document.getElementById('customer-name-input');
 
+        function toggleModal(modal, show) {
+            if (show) {
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    modal.style.opacity = '1';
+                    modal.querySelector('.modal-content').style.transform = 'scale(1)';
+                }, 10);
+            } else {
+                modal.style.opacity = '0';
+                modal.querySelector('.modal-content').style.transform = 'scale(0.95)';
+                setTimeout(() => modal.classList.remove('flex'), 300);
+            }
+        }
+        
         const configDocRef = doc(db, `/artifacts/${appId}/public/data/config`, 'site_settings');
         onSnapshot(configDocRef, (doc) => {
             if (doc.exists()) {
@@ -142,16 +197,19 @@
         }
 
         function setOrderingEnabled(enabled) {
+            const elementsToDisable = [checkoutBtn, ...document.querySelectorAll('.add-to-cart-btn')];
             if (!enabled) {
-                menuContainer.style.pointerEvents = 'none';
                 menuContainer.style.opacity = '0.7';
-                checkoutBtn.disabled = true;
-                checkoutBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                elementsToDisable.forEach(el => {
+                    el.disabled = true;
+                    el.classList.add('opacity-50', 'cursor-not-allowed');
+                });
             } else {
-                menuContainer.style.pointerEvents = 'auto';
                 menuContainer.style.opacity = '1';
-                checkoutBtn.disabled = false;
-                checkoutBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                elementsToDisable.forEach(el => {
+                    el.disabled = false;
+                    el.classList.remove('opacity-50', 'cursor-not-allowed');
+                });
             }
         }
 
@@ -165,11 +223,11 @@
 
             if (siteConfig.isAcceptingOrders === false) {
                 banner.textContent = 'Pedidos temporariamente suspensos. Tente mais tarde.';
-                banner.className = 'p-4 mb-6 text-center text-white font-bold rounded-lg shadow-md bg-red-500';
+                banner.className = 'p-4 mb-8 text-center text-white font-bold rounded-xl shadow-lg bg-red-500';
                 setOrderingEnabled(false);
                 return;
             }
-
+            
             const now = new Date();
             const dayNames = ['domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado'];
             const todayName = dayNames[now.getDay()];
@@ -177,7 +235,7 @@
 
             if (!todayHours || todayHours.isClosed) {
                 banner.textContent = 'Hoje estamos fechados.';
-                banner.className = 'p-4 mb-6 text-center text-white font-bold rounded-lg shadow-md bg-red-500';
+                banner.className = 'p-4 mb-8 text-center text-white font-bold rounded-xl shadow-lg bg-red-500';
                 setOrderingEnabled(false);
                 return;
             }
@@ -191,24 +249,18 @@
             closeDate.setHours(closeH, closeM, 0, 0);
 
             if (closeDate < openDate) {
-                if (now < openDate && now > closeDate) { // Handle overnight case before midnight
-                     closeDate.setDate(closeDate.getDate() + 1);
-                }
-                if (now < openDate && now.getDate() === closeDate.getDate()){ // Handle case after midnight
-                    openDate.setDate(openDate.getDate() -1);
-                }
-                 if (closeDate < openDate && now > openDate) { // Handles case where it is past midnight but before closing
-                    closeDate.setDate(closeDate.getDate() + 1);
-                }
+                if (now < openDate && now > closeDate) closeDate.setDate(closeDate.getDate() + 1);
+                if (now < openDate && now.getDate() === closeDate.getDate()) openDate.setDate(openDate.getDate() -1);
+                if (closeDate < openDate && now > openDate) closeDate.setDate(closeDate.getDate() + 1);
             }
             
             if (now >= openDate && now <= closeDate) {
                 banner.textContent = 'Estamos abertos! Faça o seu pedido.';
-                banner.className = 'p-4 mb-6 text-center text-white font-bold rounded-lg shadow-md bg-green-600';
+                banner.className = 'p-4 mb-8 text-center text-white font-bold rounded-xl shadow-lg bg-green-600';
                 setOrderingEnabled(true);
             } else {
                 banner.textContent = `Estamos fechados. Abrimos hoje às ${todayHours.open}.`;
-                banner.className = 'p-4 mb-6 text-center text-white font-bold rounded-lg shadow-md bg-yellow-600';
+                banner.className = 'p-4 mb-8 text-center text-white font-bold rounded-xl shadow-lg bg-yellow-600';
                 setOrderingEnabled(false);
             }
         }
@@ -238,14 +290,14 @@
         function renderFixedImages(images) {
             const container = document.getElementById('fixed-images-container');
             container.innerHTML = '';
-            images.forEach(url => { container.innerHTML += `<div class="bg-white rounded-2xl shadow-lg overflow-hidden"><img src="${url}" alt="Imagem Fixa" class="w-full h-64 object-cover"></div>`; });
+            images.forEach(url => { container.innerHTML += `<div class="bg-white rounded-3xl shadow-xl overflow-hidden group smooth-transition hover:shadow-2xl"><img src="${url}" alt="Imagem Fixa" class="w-full h-72 object-cover smooth-transition group-hover:scale-105"></div>`; });
         }
 
         function renderSocialLinks(config) {
             const container = document.getElementById('social-links');
             container.innerHTML = '';
-            if (config.instagramLink) container.innerHTML += `<a href="${config.instagramLink}" target="_blank" class="text-2xl hover:text-yellow-600">📸</a>`;
-            if (config.facebookLink) container.innerHTML += `<a href="${config.facebookLink}" target="_blank" class="text-2xl hover:text-yellow-600">👍</a>`;
+            if (config.instagramLink) container.innerHTML += `<a href="${config.instagramLink}" target="_blank" class="text-gray-400 hover:text-yellow-600 smooth-transition"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441 1.441-.645 1.441-1.441-.645-1.44-1.441-1.44z"/></svg></a>`;
+            if (config.facebookLink) container.innerHTML += `<a href="${config.facebookLink}" target="_blank" class="text-gray-400 hover:text-yellow-600 smooth-transition"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v2.385z"/></svg></a>`;
         }
 
         function renderMap(mapCode) {
@@ -266,17 +318,17 @@
             
             menuContainer.innerHTML = '';
             Object.keys(itemsByCategory).sort().forEach(category => {
-                let categoryHtml = `<section class="bg-white p-6 rounded-2xl shadow-lg"><h2 class="text-2xl md:text-3xl font-bold mb-6 text-yellow-700">${category}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">`;
+                let categoryHtml = `<section><h2 class="text-3xl md:text-4xl font-bold mb-8" style="color: var(--color-primary-dark);">${category}</h2><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">`;
                 itemsByCategory[category].forEach(item => {
                     const isAvailable = item.available ?? true;
                     categoryHtml += `
-                        <div class="flex flex-col bg-gray-50 p-4 rounded-xl border ${!isAvailable ? 'opacity-50' : ''}">
-                            ${item.imageUrl ? `<img src="${item.imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-lg mb-4">` : ''}
-                            <h3 class="text-lg font-semibold">${item.name}</h3>
-                            <p class="text-gray-600 text-sm flex-grow my-2">${item.description}</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <p class="text-lg font-bold text-green-600">€${parseFloat(item.price).toFixed(2)}</p>
-                                <button data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" class="add-to-cart-btn font-semibold px-4 py-2 rounded-lg ${isAvailable ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}" ${!isAvailable ? 'disabled' : ''}>
+                        <div class="flex flex-col bg-white p-5 rounded-2xl shadow-lg border border-transparent hover:border-yellow-400 group smooth-transition ${!isAvailable ? 'opacity-60' : ''}">
+                            ${item.imageUrl ? `<div class="overflow-hidden rounded-xl mb-5"><img src="${item.imageUrl}" alt="${item.name}" class="w-full h-48 object-cover smooth-transition group-hover:scale-105"></div>` : ''}
+                            <h3 class="text-xl font-semibold">${item.name}</h3>
+                            <p class="text-gray-500 text-sm flex-grow my-3">${item.description}</p>
+                            <div class="flex justify-between items-center mt-3">
+                                <p class="text-xl font-bold text-green-600">€${parseFloat(item.price).toFixed(2)}</p>
+                                <button data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" class="add-to-cart-btn font-semibold px-5 py-2 rounded-lg text-white smooth-transition transform group-hover:scale-105 ${isAvailable ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}" ${!isAvailable ? 'disabled' : ''}>
                                     ${isAvailable ? 'Adicionar' : 'Esgotado'}
                                 </button>
                             </div>
@@ -285,22 +337,25 @@
                 categoryHtml += `</div></section>`;
                 menuContainer.innerHTML += categoryHtml;
             });
-            checkRestaurantStatus(); // Re-check status after rendering menu
+            checkRestaurantStatus();
         });
 
         function updateCartCounter() {
-            document.getElementById('cart-counter').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const counter = document.getElementById('cart-counter');
+            counter.textContent = count;
+            counter.classList.toggle('hidden', count === 0);
         }
 
         function renderCart() {
             const cartItemsContainer = document.getElementById('cart-items');
             cartItemsContainer.innerHTML = '';
             let total = 0;
-            if (cart.length === 0) { cartItemsContainer.innerHTML = '<p class="text-gray-500">O seu carrinho está vazio.</p>'; } 
+            if (cart.length === 0) { cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center py-4">O seu carrinho está vazio.</p>'; } 
             else {
                 cart.forEach(item => {
                     total += item.price * item.quantity;
-                    cartItemsContainer.innerHTML += `<div class="flex items-center justify-between"><div><p class="font-bold">${item.name}</p><p class="text-sm text-gray-600">€${(item.price * item.quantity).toFixed(2)}</p></div><div class="flex items-center space-x-3"><button data-id="${item.id}" class="quantity-change bg-gray-200 w-7 h-7 rounded-full font-bold">-</button><span>${item.quantity}</span><button data-id="${item.id}" class="quantity-change bg-gray-200 w-7 h-7 rounded-full font-bold">+</button></div></div>`;
+                    cartItemsContainer.innerHTML += `<div class="flex items-center justify-between"><div><p class="font-semibold">${item.name}</p><p class="text-sm text-gray-500">€${(item.price * item.quantity).toFixed(2)}</p></div><div class="flex items-center space-x-4"><button data-id="${item.id}" class="quantity-change bg-gray-200 w-8 h-8 rounded-full font-bold text-lg hover:bg-gray-300">-</button><span class="font-semibold w-5 text-center">${item.quantity}</span><button data-id="${item.id}" class="quantity-change bg-gray-200 w-8 h-8 rounded-full font-bold text-lg hover:bg-gray-300">+</button></div></div>`;
                 });
             }
             document.getElementById('cart-total').textContent = `€${total.toFixed(2)}`;
@@ -330,22 +385,36 @@
                 renderCart();
             }
         });
-
-        cartButton.addEventListener('click', () => { renderCart(); cartModal.style.display = 'flex'; });
-        closeCartBtn.addEventListener('click', () => cartModal.style.display = 'none');
+        
+        cartButton.addEventListener('click', () => { renderCart(); toggleModal(cartModal, true); });
+        closeCartBtn.addEventListener('click', () => toggleModal(cartModal, false));
+        cartModal.addEventListener('click', (e) => { if (e.target === cartModal) toggleModal(cartModal, false); });
         
         checkoutBtn.addEventListener('click', () => {
             if (cart.length === 0) return;
             if (!siteConfig.whatsappNumber) { alert("O número de WhatsApp do estabelecimento não foi configurado."); return; }
-            const customerName = prompt("Por favor, digite o seu nome para o pedido:", "");
-            if (!customerName) return;
+            toggleModal(cartModal, false);
+            setTimeout(() => toggleModal(nameModal, true), 350);
+        });
+
+        nameForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const customerName = customerNameInput.value;
+            if (!customerName.trim()) return;
+
             let message = `Olá! Sou *${customerName.trim()}* e gostaria de fazer o seguinte pedido:\n\n`;
             let total = 0;
             cart.forEach(item => { message += `*${item.quantity}x* ${item.name} - €${(item.price * item.quantity).toFixed(2)}\n`; total += item.price * item.quantity; });
             message += `\n*Total: €${total.toFixed(2)}*`;
             const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+            toggleModal(nameModal, false);
+            customerNameInput.value = '';
         });
+        
+        // Inicializar contador do carrinho
+        updateCartCounter();
+
     </script>
 </body>
 </html>
