@@ -202,7 +202,32 @@
 
         // --- FUNÇÕES DE RENDERIZAÇÃO DO PAINEL DE ADMIN ---
         const renderLogin = () => {
-            // ... (código inalterado)
+             appContainer.innerHTML = `
+                <div class="flex items-center justify-center min-h-screen bg-gray-100">
+                    <div class="px-8 py-6 mt-4 text-left bg-white shadow-lg rounded-lg">
+                        <h3 class="text-2xl font-bold text-center">Login do Administrador</h3>
+                        <form id="login-form">
+                            <div class="mt-4">
+                                <div>
+                                    <label class="block" for="email">Email</label>
+                                    <input type="email" placeholder="Email" id="email" required
+                                        class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-600">
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block">Senha</label>
+                                    <input type="password" placeholder="Senha" id="password" required
+                                        class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-600">
+                                </div>
+                                <div class="flex items-baseline justify-between">
+                                    <button class="px-6 py-2 mt-4 text-white bg-indigo-600 rounded-lg hover:bg-indigo-900">Entrar</button>
+                                </div>
+                                <p id="login-error" class="text-red-500 text-sm mt-2"></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            document.getElementById('login-form').addEventListener('submit', handleLogin);
         };
         
         const renderAdminPanel = () => {
@@ -266,9 +291,88 @@
             mainContent.innerHTML = sectionHtml;
         };
 
-        const getHeroAdminHtml = () => { /* ... (código inalterado) ... */ };
+        const getHeroAdminHtml = () => {
+            const c = pageContent.hero || {};
+            return `
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold mb-6">Editar Seção Hero</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Texto do Logo</label>
+                            <input type="text" id="hero-logoText" value="${c.logoText || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                         <div>
+                            <label class="block text-sm font-medium text-gray-700">Título Principal</label>
+                            <input type="text" id="hero-title" value="${c.title || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${c.subtitle || ''}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Texto Botão 1 (Principal)</label>
+                            <input type="text" id="hero-ctaButton1" value="${c.ctaButton1 || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Texto Botão 2 (Secundário)</label>
+                            <input type="text" id="hero-ctaButton2" value="${c.ctaButton2 || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                           <label class="block text-sm font-medium text-gray-700">Cor do Título</label>
+                           <input type="color" id="hero-titleColor" value="${c.titleColor || '#111827'}" class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                           <label class="block text-sm font-medium text-gray-700">Cor do Texto</label>
+                           <input type="color" id="hero-textColor" value="${c.textColor || '#4B5563'}" class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                           <label class="block text-sm font-medium text-gray-700">Cor de Fundo da Seção</label>
+                           <input type="color" id="hero-bgColor" value="${c.bgColor || '#FFFFFF'}" class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                           <label class="block text-sm font-medium text-gray-700">Imagem Principal</label>
+                           <input type="file" id="hero-image-upload" data-type="hero" class="item-image-upload mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                           <img id="hero-preview" src="${c.imageUrl || 'https://placehold.co/100x60'}" class="mt-2 h-20 rounded-md object-cover bg-gray-200"/>
+                           <p class="upload-status text-sm text-gray-500 mt-1"></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
 
-        const getAboutAdminHtml = () => { /* ... (código inalterado) ... */ };
+        const getAboutAdminHtml = () => {
+            const c = pageContent.about || {};
+            const stepsHtml = (c.steps || []).map((step, index) => `
+                <div class="border p-4 rounded-md space-y-2 relative bg-gray-50">
+                    <button data-index="${index}" data-type="about" class="remove-item-btn absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <label class="block text-sm font-medium">Passo ${index + 1} - Título</label>
+                    <input type="text" data-index="${index}" data-field="title" value="${step.title || ''}" class="data-input w-full rounded-md border-gray-300" data-type="about">
+                    <label class="block text-sm font-medium">Passo ${index + 1} - Descrição</label>
+                    <textarea data-index="${index}" data-field="description" class="data-input w-full rounded-md border-gray-300" data-type="about">${step.description || ''}</textarea>
+                </div>
+            `).join('');
+
+            return `
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold mb-6">Editar Seção Sobre</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="about-title" value="${c.title || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="about-subtitle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${c.subtitle || ''}</textarea>
+                        </div>
+                        <h3 class="text-lg font-semibold pt-4">Passos do Processo</h3>
+                        <div id="about-steps-container" class="space-y-4">${stepsHtml}</div>
+                        <button id="add-about-step-btn" class="mt-4 bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-600 text-sm">+ Adicionar Passo</button>
+                    </div>
+                </div>
+            `;
+        };
         
         const getServicesAdminHtml = () => {
             const c = pageContent.services || {};
@@ -308,7 +412,9 @@
             const c = pageContent.testimonials || {};
             const itemsHtml = (c.items || []).map((item, index) => `
                 <div class="border p-4 rounded-md space-y-2 relative bg-gray-50">
-                    <button data-index="${index}" data-type="testimonials" class="remove-item-btn absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">&times;</button>
+                    <button data-index="${index}" data-type="testimonials" class="remove-item-btn absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                     <label class="block text-sm font-medium">Depoimento ${index + 1}</label>
                     <textarea data-index="${index}" data-field="text" class="data-input w-full rounded-md border-gray-300" data-type="testimonials" placeholder="Texto do depoimento...">${item.text || ''}</textarea>
                     <label class="block text-sm font-medium">Autor</label>
@@ -373,7 +479,16 @@
         // --- HANDLERS DE EVENTOS ---
         const handleLogin = async (e) => {
             e.preventDefault();
-            // ... (código inalterado)
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorP = document.getElementById('login-error');
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.hash = '#/admin';
+            } catch (error) {
+                console.error("Erro no login:", error);
+                errorP.textContent = "Email ou senha inválidos.";
+            }
         };
 
         const handleLogout = async () => {
@@ -386,32 +501,31 @@
             saveBtn.textContent = 'Salvando...';
             saveBtn.disabled = true;
 
-            // Coleta os dados de todas as seções
             const updatedContent = {
                 hero: {
-                    logoText: document.getElementById('hero-logoText')?.value || pageContent.hero?.logoText,
-                    title: document.getElementById('hero-title')?.value || pageContent.hero?.title,
-                    subtitle: document.getElementById('hero-subtitle')?.value || pageContent.hero?.subtitle,
-                    ctaButton1: document.getElementById('hero-ctaButton1')?.value || pageContent.hero?.ctaButton1,
-                    ctaButton2: document.getElementById('hero-ctaButton2')?.value || pageContent.hero?.ctaButton2,
-                    titleColor: document.getElementById('hero-titleColor')?.value || pageContent.hero?.titleColor,
-                    textColor: document.getElementById('hero-textColor')?.value || pageContent.hero?.textColor,
-                    bgColor: document.getElementById('hero-bgColor')?.value || pageContent.hero?.bgColor,
-                    imageUrl: document.getElementById('hero-preview')?.src || pageContent.hero?.imageUrl
+                    logoText: document.getElementById('hero-logoText')?.value ?? pageContent.hero?.logoText,
+                    title: document.getElementById('hero-title')?.value ?? pageContent.hero?.title,
+                    subtitle: document.getElementById('hero-subtitle')?.value ?? pageContent.hero?.subtitle,
+                    ctaButton1: document.getElementById('hero-ctaButton1')?.value ?? pageContent.hero?.ctaButton1,
+                    ctaButton2: document.getElementById('hero-ctaButton2')?.value ?? pageContent.hero?.ctaButton2,
+                    titleColor: document.getElementById('hero-titleColor')?.value ?? pageContent.hero?.titleColor,
+                    textColor: document.getElementById('hero-textColor')?.value ?? pageContent.hero?.textColor,
+                    bgColor: document.getElementById('hero-bgColor')?.value ?? pageContent.hero?.bgColor,
+                    imageUrl: document.getElementById('hero-preview')?.src ?? pageContent.hero?.imageUrl
                 },
                 about: {
-                    title: document.getElementById('about-title')?.value || pageContent.about?.title,
-                    subtitle: document.getElementById('about-subtitle')?.value || pageContent.about?.subtitle,
+                    title: document.getElementById('about-title')?.value ?? pageContent.about?.title,
+                    subtitle: document.getElementById('about-subtitle')?.value ?? pageContent.about?.subtitle,
                     steps: pageContent.about?.steps || []
                 },
                 services: {
-                    title: document.getElementById('services-title')?.value || pageContent.services?.title,
-                    subtitle: document.getElementById('services-subtitle')?.value || pageContent.services?.subtitle,
+                    title: document.getElementById('services-title')?.value ?? pageContent.services?.title,
+                    subtitle: document.getElementById('services-subtitle')?.value ?? pageContent.services?.subtitle,
                     items: pageContent.services?.items || []
                 },
                 testimonials: {
-                    title: document.getElementById('testimonials-title')?.value || pageContent.testimonials?.title,
-                    subtitle: document.getElementById('testimonials-subtitle')?.value || pageContent.testimonials?.subtitle,
+                    title: document.getElementById('testimonials-title')?.value ?? pageContent.testimonials?.title,
+                    subtitle: document.getElementById('testimonials-subtitle')?.value ?? pageContent.testimonials?.subtitle,
                     items: pageContent.testimonials?.items || []
                 },
                 socials: pageContent.socials || []
@@ -434,12 +548,11 @@
             if (!file) return;
 
             const { type, index } = e.target.dataset;
-            const statusP = e.target.nextElementSibling.nextElementSibling; // Pega o <p> de status
-            const previewImg = e.target.nextElementSibling; // Pega o <img> de preview
+            const statusP = e.target.nextElementSibling.nextElementSibling;
+            const previewImg = e.target.nextElementSibling;
 
             statusP.textContent = 'Enviando imagem...';
-
-            const storagePath = `landing-page/${type}/${Date.now()}_${file.name}`;
+            const storagePath = `landing-page/${type || 'images'}/${Date.now()}_${file.name}`;
             const imageRef = ref(storage, storagePath);
 
             try {
@@ -451,7 +564,7 @@
                 if (type === 'hero') {
                     if (!pageContent.hero) pageContent.hero = {};
                     pageContent.hero.imageUrl = url;
-                } else {
+                } else if (pageContent[type] && pageContent[type].items && pageContent[type].items[index]) {
                     pageContent[type].items[index].imageUrl = url;
                 }
 
@@ -466,9 +579,10 @@
             document.getElementById('save-btn')?.addEventListener('click', handleSave);
             
             const mainContent = document.getElementById('admin-main-content');
+            if (!mainContent) return;
 
             mainContent.addEventListener('change', e => {
-                if (e.target.classList.contains('item-image-upload') || e.target.id === 'hero-image-upload') {
+                if (e.target.classList.contains('item-image-upload')) {
                      handleImageUpload(e);
                 }
             });
@@ -478,8 +592,7 @@
                 if (!target) return;
 
                 const id = target.id;
-                const type = target.dataset.type;
-                const index = target.dataset.index;
+                const { type, index } = target.dataset;
 
                 if (id === 'add-about-step-btn') {
                     if (!pageContent.about) pageContent.about = { steps: [] };
@@ -498,12 +611,13 @@
                 if (target.classList.contains('remove-item-btn')) {
                     if (type === 'socials') {
                         pageContent.socials.splice(index, 1);
+                    } else if (type === 'about') {
+                        pageContent.about?.steps?.splice(index, 1);
                     } else {
                         pageContent[type]?.items?.splice(index, 1);
                     }
                 }
                 
-                // Re-renderiza a seção após adicionar/remover
                 if (id || target.classList.contains('remove-item-btn')) {
                     renderAdminSection();
                 }
@@ -515,8 +629,10 @@
 
                 if (target.classList.contains('data-input')) {
                      if (type === 'socials') {
-                         pageContent.socials[index][field] = target.value;
-                     } else {
+                        pageContent.socials[index][field] = target.value;
+                     } else if (type === 'about') {
+                        pageContent.about.steps[index][field] = target.value;
+                     } else if (pageContent[type] && pageContent[type].items) {
                         pageContent[type].items[index][field] = target.value;
                      }
                 }
