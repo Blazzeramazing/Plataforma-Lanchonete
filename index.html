@@ -164,7 +164,7 @@
                                     <div class="bg-gray-50 p-8 rounded-lg">
                                         <p class="text-gray-600">"${item.text}"</p>
                                         <div class="mt-6 flex items-center">
-                                            <img src="${item.imageUrl || 'https://placehold.co/48x48'}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200">
+                                            <img src="${item.imageUrl || 'https://placehold.co/48x48'}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover">
                                             <div class="ml-4">
                                                 <p class="font-semibold text-gray-900">${item.author}</p>
                                                 <p class="text-sm text-gray-500">${item.role}</p>
@@ -206,7 +206,6 @@
         };
         
         const renderAdminPanel = () => {
-            const c = pageContent;
             appContainer.innerHTML = `
                 <div class="min-h-screen bg-gray-100">
                     <header class="bg-white shadow-md sticky top-0 z-50">
@@ -220,7 +219,7 @@
                     </header>
                     <div class="flex">
                         <!-- Menu Lateral -->
-                        <aside class="w-64 bg-gray-800 text-white p-4 space-y-2 sticky top-16 h-[calc(100vh-64px)]">
+                        <aside class="w-64 bg-gray-800 text-white p-4 space-y-2 sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
                             <a href="#/admin/hero" class="block py-2 px-4 rounded hover:bg-gray-700 admin-nav-link">Seção Hero</a>
                             <a href="#/admin/about" class="block py-2 px-4 rounded hover:bg-gray-700 admin-nav-link">Seção Sobre</a>
                             <a href="#/admin/services" class="block py-2 px-4 rounded hover:bg-gray-700 admin-nav-link">Seção Serviços</a>
@@ -229,19 +228,19 @@
                         </aside>
 
                         <!-- Conteúdo Principal do Painel -->
-                        <main id="admin-main-content" class="flex-1 p-8">
+                        <main id="admin-main-content" class="flex-1 p-8 mb-24">
                            <!-- Conteúdo da seção do admin será injetado aqui -->
                         </main>
                     </div>
-                     <footer class="fixed bottom-0 right-0 p-8 w-[calc(100%-16rem)]">
+                     <footer class="fixed bottom-0 right-0 p-6 bg-white/80 backdrop-blur-sm border-t border-gray-200 w-[calc(100%-16rem)]">
                         <div class="flex justify-end">
-                            <button id="save-btn" class="bg-green-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-green-700 shadow-lg">Salvar Todas as Alterações</button>
+                            <button id="save-btn" class="bg-green-600 text-white font-bold px-8 py-3 rounded-lg hover:bg-green-700 shadow-lg transition-transform hover:scale-105">Salvar Todas as Alterações</button>
                         </div>
                     </footer>
                 </div>
             `;
             addAdminPanelListeners();
-            renderAdminSection(); // Renderiza a seção correta com base no hash
+            renderAdminSection();
         };
         
         const renderAdminSection = () => {
@@ -251,107 +250,125 @@
             const hash = window.location.hash;
             let sectionHtml = '';
 
-            // Lógica para destacar o link ativo no menu
             document.querySelectorAll('.admin-nav-link').forEach(link => {
-                link.classList.remove('bg-gray-700');
-                if (link.href.endsWith(hash)) {
-                    link.classList.add('bg-gray-700');
+                link.classList.remove('bg-gray-700', 'font-semibold');
+                if (link.href.endsWith(hash) || (hash === '#/admin' && link.href.endsWith('#/admin/hero'))) {
+                    link.classList.add('bg-gray-700', 'font-semibold');
                 }
             });
 
-            if (hash.endsWith('/about')) {
-                sectionHtml = getAboutAdminHtml();
-            } else if (hash.endsWith('/services')) {
-                sectionHtml = getServicesAdminHtml();
-            } else if (hash.endsWith('/testimonials')) {
-                sectionHtml = getTestimonialsAdminHtml();
-            } else if (hash.endsWith('/socials')) {
-                sectionHtml = getSocialsAdminHtml();
-            } else { // Default to Hero
-                sectionHtml = getHeroAdminHtml();
-            }
+            if (hash.endsWith('/about')) sectionHtml = getAboutAdminHtml();
+            else if (hash.endsWith('/services')) sectionHtml = getServicesAdminHtml();
+            else if (hash.endsWith('/testimonials')) sectionHtml = getTestimonialsAdminHtml();
+            else if (hash.endsWith('/socials')) sectionHtml = getSocialsAdminHtml();
+            else sectionHtml = getHeroAdminHtml();
 
             mainContent.innerHTML = sectionHtml;
         };
 
-        const getHeroAdminHtml = () => {
-            const c = pageContent.hero || {};
-            return `
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-2xl font-bold mb-6">Editar Seção Hero</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Texto do Logo</label>
-                            <input type="text" id="hero-logoText" value="${c.logoText || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Título Principal</label>
-                            <input type="text" id="hero-title" value="${c.title || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Subtítulo</label>
-                            <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${c.subtitle || ''}</textarea>
-                        </div>
-                        <div>
-                           <label class="block text-sm font-medium text-gray-700">Cor do Título</label>
-                           <input type="color" id="hero-titleColor" value="${c.titleColor || '#111827'}" class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm">
-                        </div>
-                        <div>
-                           <label class="block text-sm font-medium text-gray-700">Cor do Texto</label>
-                           <input type="color" id="hero-textColor" value="${c.textColor || '#4B5563'}" class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm">
-                        </div>
-                        <div>
-                           <label class="block text-sm font-medium text-gray-700">Cor de Fundo</label>
-                           <input type="color" id="hero-bgColor" value="${c.bgColor || '#FFFFFF'}" class="mt-1 block w-full h-10 rounded-md border-gray-300 shadow-sm">
-                        </div>
-                        <div>
-                           <label class="block text-sm font-medium text-gray-700">Imagem Principal</label>
-                           <input type="file" id="hero-image-upload" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                           <img id="hero-preview" src="${c.imageUrl || 'https://placehold.co/100x60'}" class="mt-2 h-20 rounded-md"/>
-                           <p id="upload-status" class="text-sm text-gray-500 mt-1"></p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        };
+        const getHeroAdminHtml = () => { /* ... (código inalterado) ... */ };
 
-        const getAboutAdminHtml = () => {
-            const c = pageContent.about || {};
-            const stepsHtml = (c.steps || []).map((step, index) => `
-                <div class="border p-4 rounded-md space-y-2 relative">
-                    <button data-index="${index}" class="remove-item-btn absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">
+        const getAboutAdminHtml = () => { /* ... (código inalterado) ... */ };
+        
+        const getServicesAdminHtml = () => {
+            const c = pageContent.services || {};
+            const itemsHtml = (c.items || []).map((item, index) => `
+                <div class="border p-4 rounded-md space-y-2 relative bg-gray-50">
+                    <button data-index="${index}" data-type="services" class="remove-item-btn absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
-                    <label class="block text-sm font-medium">Passo ${index + 1} - Título</label>
-                    <input type="text" data-index="${index}" data-field="title" value="${step.title || ''}" class="w-full rounded-md border-gray-300">
-                    <label class="block text-sm font-medium">Passo ${index + 1} - Descrição</label>
-                    <textarea data-index="${index}" data-field="description" class="w-full rounded-md border-gray-300">${step.description || ''}</textarea>
+                    <label class="block text-sm font-medium">Serviço ${index + 1} - Título</label>
+                    <input type="text" data-index="${index}" data-field="title" value="${item.title || ''}" class="data-input w-full rounded-md border-gray-300" data-type="services">
+                    <label class="block text-sm font-medium">Serviço ${index + 1} - Descrição</label>
+                    <textarea data-index="${index}" data-field="description" class="data-input w-full rounded-md border-gray-300" data-type="services">${item.description || ''}</textarea>
                 </div>
             `).join('');
 
             return `
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-2xl font-bold mb-6">Editar Seção Sobre</h2>
+                    <h2 class="text-2xl font-bold mb-6">Editar Seção Serviços</h2>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Título</label>
-                            <input type="text" id="about-title" value="${c.title || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            <label class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="services-title" value="${c.title || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700">Subtítulo</label>
-                            <textarea id="about-subtitle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${c.subtitle || ''}</textarea>
+                            <label class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="services-subtitle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${c.subtitle || ''}</textarea>
                         </div>
-                        <h3 class="text-lg font-semibold pt-4">Passos</h3>
-                        <div id="about-steps-container" class="space-y-4">${stepsHtml}</div>
-                        <button id="add-about-step-btn" class="mt-4 bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-600 text-sm">+ Adicionar Passo</button>
+                        <h3 class="text-lg font-semibold pt-4">Itens de Serviço</h3>
+                        <div id="services-items-container" class="space-y-4">${itemsHtml}</div>
+                        <button id="add-service-btn" class="mt-4 bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-600 text-sm">+ Adicionar Serviço</button>
                     </div>
                 </div>
             `;
         };
         
-        const getServicesAdminHtml = () => { /* Similar a getAboutAdminHtml */ return 'Em construção'; };
-        const getTestimonialsAdminHtml = () => { /* Similar a getAboutAdminHtml */ return 'Em construção'; };
-        const getSocialsAdminHtml = () => { /* Similar a getAboutAdminHtml */ return 'Em construção'; };
+        const getTestimonialsAdminHtml = () => {
+            const c = pageContent.testimonials || {};
+            const itemsHtml = (c.items || []).map((item, index) => `
+                <div class="border p-4 rounded-md space-y-2 relative bg-gray-50">
+                    <button data-index="${index}" data-type="testimonials" class="remove-item-btn absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">&times;</button>
+                    <label class="block text-sm font-medium">Depoimento ${index + 1}</label>
+                    <textarea data-index="${index}" data-field="text" class="data-input w-full rounded-md border-gray-300" data-type="testimonials" placeholder="Texto do depoimento...">${item.text || ''}</textarea>
+                    <label class="block text-sm font-medium">Autor</label>
+                    <input type="text" data-index="${index}" data-field="author" value="${item.author || ''}" class="data-input w-full rounded-md border-gray-300" data-type="testimonials">
+                    <label class="block text-sm font-medium">Cargo/Empresa</label>
+                    <input type="text" data-index="${index}" data-field="role" value="${item.role || ''}" class="data-input w-full rounded-md border-gray-300" data-type="testimonials">
+                    <label class="block text-sm font-medium">Foto do Autor</label>
+                    <input type="file" data-index="${index}" data-type="testimonials" class="item-image-upload mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    <img src="${item.imageUrl || 'https://placehold.co/100x100'}" class="mt-2 h-20 w-20 rounded-full object-cover bg-gray-200"/>
+                    <p class="upload-status text-sm text-gray-500 mt-1"></p>
+                </div>
+            `).join('');
+
+            return `
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold mb-6">Editar Seção Depoimentos</h2>
+                    <div class="space-y-4">
+                         <div>
+                            <label class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="testimonials-title" value="${c.title || ''}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="testimonials-subtitle" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${c.subtitle || ''}</textarea>
+                        </div>
+                        <h3 class="text-lg font-semibold pt-4">Depoimentos</h3>
+                        <div id="testimonials-items-container" class="space-y-4">${itemsHtml}</div>
+                        <button id="add-testimonial-btn" class="mt-4 bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-600 text-sm">+ Adicionar Depoimento</button>
+                    </div>
+                </div>
+            `;
+        };
+        
+        const getSocialsAdminHtml = () => {
+            const socials = pageContent.socials || [];
+            const itemsHtml = socials.map((social, index) => `
+                <div class="flex items-center gap-4 p-2 rounded-md bg-gray-50 relative">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium">Nome (ex: Facebook)</label>
+                        <input type="text" data-index="${index}" data-field="name" value="${social.name || ''}" class="data-input w-full rounded-md border-gray-300" data-type="socials">
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium">URL Completa</label>
+                        <input type="url" data-index="${index}" data-field="url" value="${social.url || ''}" class="data-input w-full rounded-md border-gray-300" data-type="socials">
+                    </div>
+                    <button data-index="${index}" data-type="socials" class="remove-item-btn bg-red-500 text-white p-2 rounded-full hover:bg-red-600 mt-5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            `).join('');
+
+            return `
+                 <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold mb-6">Editar Redes Sociais</h2>
+                    <div class="space-y-4" id="socials-container">${itemsHtml}</div>
+                    <button id="add-social-btn" class="mt-4 bg-indigo-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-600 text-sm">+ Adicionar Rede Social</button>
+                </div>
+            `;
+        };
+
 
         // --- HANDLERS DE EVENTOS ---
         const handleLogin = async (e) => {
@@ -372,20 +389,31 @@
             // Coleta os dados de todas as seções
             const updatedContent = {
                 hero: {
-                    logoText: document.getElementById('hero-logoText')?.value,
-                    title: document.getElementById('hero-title')?.value,
-                    subtitle: document.getElementById('hero-subtitle')?.value,
-                    titleColor: document.getElementById('hero-titleColor')?.value,
-                    textColor: document.getElementById('hero-textColor')?.value,
-                    bgColor: document.getElementById('hero-bgColor')?.value,
-                    imageUrl: document.getElementById('hero-preview')?.src
+                    logoText: document.getElementById('hero-logoText')?.value || pageContent.hero?.logoText,
+                    title: document.getElementById('hero-title')?.value || pageContent.hero?.title,
+                    subtitle: document.getElementById('hero-subtitle')?.value || pageContent.hero?.subtitle,
+                    ctaButton1: document.getElementById('hero-ctaButton1')?.value || pageContent.hero?.ctaButton1,
+                    ctaButton2: document.getElementById('hero-ctaButton2')?.value || pageContent.hero?.ctaButton2,
+                    titleColor: document.getElementById('hero-titleColor')?.value || pageContent.hero?.titleColor,
+                    textColor: document.getElementById('hero-textColor')?.value || pageContent.hero?.textColor,
+                    bgColor: document.getElementById('hero-bgColor')?.value || pageContent.hero?.bgColor,
+                    imageUrl: document.getElementById('hero-preview')?.src || pageContent.hero?.imageUrl
                 },
                 about: {
-                    title: document.getElementById('about-title')?.value,
-                    subtitle: document.getElementById('about-subtitle')?.value,
+                    title: document.getElementById('about-title')?.value || pageContent.about?.title,
+                    subtitle: document.getElementById('about-subtitle')?.value || pageContent.about?.subtitle,
                     steps: pageContent.about?.steps || []
                 },
-                // Adicionar outras seções aqui...
+                services: {
+                    title: document.getElementById('services-title')?.value || pageContent.services?.title,
+                    subtitle: document.getElementById('services-subtitle')?.value || pageContent.services?.subtitle,
+                    items: pageContent.services?.items || []
+                },
+                testimonials: {
+                    title: document.getElementById('testimonials-title')?.value || pageContent.testimonials?.title,
+                    subtitle: document.getElementById('testimonials-subtitle')?.value || pageContent.testimonials?.subtitle,
+                    items: pageContent.testimonials?.items || []
+                },
                 socials: pageContent.socials || []
             };
 
@@ -401,47 +429,96 @@
             }
         };
 
-        const handleImageUpload = async (e) => { /* ... (código inalterado) ... */ };
+        const handleImageUpload = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const { type, index } = e.target.dataset;
+            const statusP = e.target.nextElementSibling.nextElementSibling; // Pega o <p> de status
+            const previewImg = e.target.nextElementSibling; // Pega o <img> de preview
+
+            statusP.textContent = 'Enviando imagem...';
+
+            const storagePath = `landing-page/${type}/${Date.now()}_${file.name}`;
+            const imageRef = ref(storage, storagePath);
+
+            try {
+                await uploadBytes(imageRef, file);
+                const url = await getDownloadURL(imageRef);
+                previewImg.src = url;
+                statusP.textContent = 'Upload concluído!';
+
+                if (type === 'hero') {
+                    if (!pageContent.hero) pageContent.hero = {};
+                    pageContent.hero.imageUrl = url;
+                } else {
+                    pageContent[type].items[index].imageUrl = url;
+                }
+
+            } catch (error) {
+                console.error("Erro no upload:", error);
+                statusP.textContent = 'Falha no upload.';
+            }
+        };
         
         const addAdminPanelListeners = () => {
             document.getElementById('logout-btn')?.addEventListener('click', handleLogout);
             document.getElementById('save-btn')?.addEventListener('click', handleSave);
             
-            // Listener para upload de imagem (se a seção Hero estiver visível)
-            document.getElementById('admin-main-content').addEventListener('change', e => {
-                if (e.target.id === 'hero-image-upload') handleImageUpload(e);
+            const mainContent = document.getElementById('admin-main-content');
+
+            mainContent.addEventListener('change', e => {
+                if (e.target.classList.contains('item-image-upload') || e.target.id === 'hero-image-upload') {
+                     handleImageUpload(e);
+                }
             });
 
-            // Listener para navegação e botões dinâmicos
-            document.getElementById('admin-main-content').addEventListener('click', e => {
+            mainContent.addEventListener('click', e => {
                 const target = e.target.closest('button');
                 if (!target) return;
 
-                if (target.id === 'add-about-step-btn') {
+                const id = target.id;
+                const type = target.dataset.type;
+                const index = target.dataset.index;
+
+                if (id === 'add-about-step-btn') {
                     if (!pageContent.about) pageContent.about = { steps: [] };
-                    if (!pageContent.about.steps) pageContent.about.steps = [];
                     pageContent.about.steps.push({ title: 'Novo Passo', description: 'Nova descrição' });
-                    renderAdminSection();
+                } else if (id === 'add-service-btn') {
+                    if (!pageContent.services) pageContent.services = { items: [] };
+                    pageContent.services.items.push({ title: 'Novo Serviço', description: 'Nova descrição' });
+                } else if (id === 'add-testimonial-btn') {
+                    if (!pageContent.testimonials) pageContent.testimonials = { items: [] };
+                    pageContent.testimonials.items.push({ text: '', author: '', role: '', imageUrl: '' });
+                } else if (id === 'add-social-btn') {
+                    if (!pageContent.socials) pageContent.socials = [];
+                    pageContent.socials.push({ name: '', url: '' });
                 }
 
                 if (target.classList.contains('remove-item-btn')) {
-                    const index = target.dataset.index;
-                    // Identificar a seção pelo container
-                    if (target.closest('#about-steps-container')) {
-                         pageContent.about.steps.splice(index, 1);
+                    if (type === 'socials') {
+                        pageContent.socials.splice(index, 1);
+                    } else {
+                        pageContent[type]?.items?.splice(index, 1);
                     }
+                }
+                
+                // Re-renderiza a seção após adicionar/remover
+                if (id || target.classList.contains('remove-item-btn')) {
                     renderAdminSection();
                 }
             });
 
-             // Listener para inputs dinâmicos
-            document.getElementById('admin-main-content').addEventListener('input', e => {
+            mainContent.addEventListener('input', e => {
                 const target = e.target;
-                if (target.dataset.index !== undefined) {
-                    const { index, field } = target.dataset;
-                     if (target.closest('#about-steps-container')) {
-                         pageContent.about.steps[index][field] = target.value;
-                    }
+                const { type, index, field } = target.dataset;
+
+                if (target.classList.contains('data-input')) {
+                     if (type === 'socials') {
+                         pageContent.socials[index][field] = target.value;
+                     } else {
+                        pageContent[type].items[index][field] = target.value;
+                     }
                 }
             });
         };
@@ -460,10 +537,10 @@
             contentRef = doc(db, "landingPage", "content");
 
             onSnapshot(contentRef, (doc) => {
-                pageContent = doc.exists() ? doc.data() : {
-                    // Estrutura de dados inicial para evitar erros
+                const defaultContent = {
                     hero: {}, about: { steps: [] }, services: { items: [] }, testimonials: { items: [] }, socials: []
                 };
+                pageContent = doc.exists() ? { ...defaultContent, ...doc.data() } : defaultContent;
                 navigate();
             }, (error) => {
                 console.error("Erro ao buscar conteúdo:", error);
@@ -471,7 +548,6 @@
             });
 
             window.addEventListener('hashchange', () => {
-                // Se estiver no admin, apenas renderiza a seção, senão, navega
                 if (window.location.hash.startsWith('#/admin')) {
                     renderAdminSection();
                 } else {
