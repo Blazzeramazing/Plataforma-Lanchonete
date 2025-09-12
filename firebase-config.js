@@ -21,6 +21,14 @@
 // Siga os Passos 2 e 3 do guia que enviei anteriormente para implementar
 // estas camadas de segurança essenciais.
 
+// git add .
+
+
+//git commit -m "Atualização/"
+
+
+//git push
+
 window.firebaseConfig = {
   apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
   authDomain: "minhas-credenciais-firebase.firebaseapp.com",
