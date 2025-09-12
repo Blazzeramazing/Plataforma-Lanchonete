@@ -26,19 +26,7 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- Tela de Verificação de Email -->
-    <div id="verification-screen" class="hidden h-screen w-full flex items-center justify-center bg-gray-200">
-        <div class="bg-white p-8 rounded-lg shadow-md text-center max-w-lg">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800">Verifique seu Email</h2>
-            <p class="text-gray-600 mb-6">Enviamos um link de verificação para <strong id="user-email"></strong>. Por favor, clique no link para ativar sua conta e aceder ao painel.</p>
-            <button id="resend-verification" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 mb-4">Reenviar Email de Verificação</button>
-            <p id="resend-message" class="text-sm text-green-600"></p>
-        </div>
-    </div>
-
-
-    <!-- Painel Principal -->
-    <div id="main-panel" class="flex h-screen bg-gray-200 invisible">
+    <div class="flex h-screen bg-gray-200">
         <!-- Barra Lateral de Navegação -->
         <aside class="w-64 bg-gray-800 text-white flex flex-col">
             <div class="px-6 py-4 border-b border-gray-700">
@@ -67,11 +55,11 @@
                     Depoimentos
                 </a>
                 <a href="#" class="sidebar-link" data-section="faq">
-                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     FAQ
                 </a>
                 <a href="#" class="sidebar-link" data-section="cta">
-                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
                     Chamada Final (CTA)
                 </a>
                 <a href="#" class="sidebar-link" data-section="footer">
@@ -79,12 +67,6 @@
                     Rodapé
                 </a>
             </nav>
-            <div class="mt-auto p-4 border-t border-gray-700">
-                <button id="logout-button" class="w-full sidebar-link text-left">
-                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
-                    Sair
-                </button>
-            </div>
         </aside>
 
         <!-- Conteúdo Principal -->
@@ -308,63 +290,7 @@
         Alterações salvas com sucesso!
     </div>
     
-    <!-- Scripts do Firebase -->
-    <script src="firebase-config.js"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
-
-        // Inicializa Firebase
-        const app = initializeApp(window.firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        const contentRef = doc(db, "landingpage", "content");
-
-        // Elementos da UI
-        const mainPanel = document.getElementById('main-panel');
-        const verificationScreen = document.getElementById('verification-screen');
-        
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                if (user.emailVerified) {
-                    // Usuário logado e verificado -> mostra o painel
-                    mainPanel.classList.remove('invisible');
-                    verificationScreen.classList.add('hidden');
-                    loadData(); // Carrega os dados do Firestore
-                } else {
-                    // Usuário logado mas não verificado -> mostra tela de verificação
-                    document.getElementById('user-email').textContent = user.email;
-                    mainPanel.classList.add('invisible');
-                    verificationScreen.classList.remove('hidden');
-                }
-            } else {
-                // Usuário não logado -> redireciona para a página de login
-                window.location.href = 'login.html';
-            }
-        });
-
-        document.getElementById('logout-button').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                // Logout bem-sucedido, onAuthStateChanged vai redirecionar
-            }).catch((error) => {
-                console.error("Erro ao fazer logout: ", error);
-            });
-        });
-
-        document.getElementById('resend-verification').addEventListener('click', () => {
-            const user = auth.currentUser;
-            if (user) {
-                sendEmailVerification(user)
-                    .then(() => {
-                        const resendMsg = document.getElementById('resend-message');
-                        resendMsg.textContent = 'Email de verificação reenviado!';
-                        setTimeout(() => { resendMsg.textContent = ''; }, 5000);
-                    });
-            }
-        });
-
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
@@ -395,55 +321,74 @@
                 });
             });
             
-            let pageData = {};
+            let pageData = {
+                hero: {
+                    title: 'Transforme Sua Ideia em um Negócio de Sucesso',
+                    subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.',
+                    cta1Text: 'Conheça Nossos Serviços',
+                    cta2Text: 'Fale com um Especialista',
+                    image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível'
+                },
+                socialProof: {
+                    title: 'Confiado por grandes empresas',
+                    logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ]
+                },
+                about: {
+                    title: 'Um Processo Simples para Resultados Incríveis',
+                    subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.',
+                    step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' },
+                    step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' },
+                    step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' }
+                },
+                services: {
+                    title: 'Soluções Completas para Você',
+                    subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.',
+                    items: [
+                        { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1. Ideal para quem busca qualidade e inovação.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' },
+                        { title: 'Serviço Exemplo 2', description: 'Descrição completa do nosso serviço especializado 2. Transforme seu negócio conosco.', image: 'https://placehold.co/400x300/818CF8/1E1B4B?text=Serviço+2', price: '249,00' },
+                        { title: 'Produto Exemplo 3', description: 'Descrição detalhada do produto 3. Solução eficiente e com ótimo custo-benefício.', image: 'https://placehold.co/400x300/F87171/450A0A?text=Produto+3', price: '49,90' }
+                    ]
+                },
+                testimonials: {
+                    title: 'O que Nossos Clientes Dizem',
+                    subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa. Veja algumas de suas histórias.',
+                    items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ]
+                },
+                faq: {
+                    title: 'Perguntas Frequentes',
+                    subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas para as perguntas mais comuns.',
+                    items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ]
+                },
+                cta: {
+                    title: 'Pronto para Levar Seu Negócio para o Próximo Nível?',
+                    subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.',
+                    buttonText: 'Solicitar um Orçamento Gratuito'
+                },
+                footer: {
+                    logo: 'SuaLogo',
+                    description: 'Soluções inovadoras para impulsionar o seu sucesso.',
+                    whatsapp: '5532999998888',
+                    email: 'contato@suaempresa.com',
+                    phone: '(XX) XXXX-XXXX',
+                    address: 'Sua Rua, 123 - Cidade, Estado',
+                    copyright: '© 2024 Sua Empresa. Todos os direitos reservados.'
+                }
+            };
             
             function showToast() {
                 toast.classList.remove('opacity-0');
                 setTimeout(() => { toast.classList.add('opacity-0'); }, 3000);
             }
-
-            /**
-             * NOVO: Função para "limpar" o objeto de dados antes de enviar para o Firestore.
-             * Ela percorre o objeto e substitui `undefined` por `''` (string vazia).
-             */
-            function sanitizeObject(obj) {
-                for (const key in obj) {
-                    if (obj[key] === undefined) {
-                        obj[key] = ''; // Ou pode usar null, se preferir
-                    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-                        sanitizeObject(obj[key]); // Faz isso recursivamente para objetos aninhados
-                    }
-                }
-                return obj;
-            }
             
-            async function saveData() {
-                try {
-                    const sanitizedData = sanitizeObject(JSON.parse(JSON.stringify(pageData)));
-                    await setDoc(contentRef, sanitizedData); // Retirado o { merge: true } para garantir consistência
-                    showToast();
-                } catch (error) {
-                    console.error("Erro ao salvar dados no Firestore: ", error);
-                    alert("Ocorreu um erro ao salvar. Verifique a consola.");
-                }
+            function saveData() {
+                localStorage.setItem('landingPageData', JSON.stringify(pageData));
+                showToast();
             }
 
-            async function loadData() {
-                const docSnap = await getDoc(contentRef);
-                if (docSnap.exists()) {
-                    pageData = docSnap.data();
-                } else {
-                    console.log("Nenhum documento encontrado! Usando dados padrão.");
-                    pageData = {
-                        hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer...', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
-                        socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ]},
-                        about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação.' }, step3: { title: '3. Análise', description: 'Monitoramos os resultados.' }},
-                        services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para o seu crescimento.', items: [] },
-                        testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: []},
-                        faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre as respostas aqui.', items: []},
-                        cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar Orçamento' },
-                        footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123', copyright: '© 2024 Sua Empresa.' }
-                    };
+            function loadData() {
+                const savedData = localStorage.getItem('landingPageData');
+                if (savedData) {
+                    pageData = JSON.parse(savedData);
                 }
                 populateForms();
             }
@@ -473,87 +418,68 @@
             }
 
             function renderFAQ(item, index) {
-                const container = document.getElementById('faq-container');
-                const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
-                container.appendChild(div);
+                 const container = document.getElementById('faq-container');
+                 const div = document.createElement('div');
+                 div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                 div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
+                 container.appendChild(div);
             }
 
             function populateForms() {
-                if (!pageData) return;
                 // Hero
-                if(pageData.hero) {
-                    document.getElementById('hero-title').value = pageData.hero.title || '';
-                    document.getElementById('hero-subtitle').value = pageData.hero.subtitle || '';
-                    document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text || '';
-                    document.getElementById('hero-cta2-text').value = pageData.hero.cta2Text || '';
-                    document.getElementById('hero-image').value = pageData.hero.image || '';
-                }
+                document.getElementById('hero-title').value = pageData.hero.title;
+                document.getElementById('hero-subtitle').value = pageData.hero.subtitle;
+                document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text;
+                document.getElementById('hero-cta2-text').value = pageData.hero.cta2Text;
+                document.getElementById('hero-image').value = pageData.hero.image;
                 // Social Proof
-                if(pageData.socialProof) {
-                    document.getElementById('social-title').value = pageData.socialProof.title || '';
-                    document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
-                    if(pageData.socialProof.logos) pageData.socialProof.logos.forEach(renderLogo);
-                }
+                document.getElementById('social-title').value = pageData.socialProof.title;
+                document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
+                pageData.socialProof.logos.forEach(renderLogo);
                 // About
-                if(pageData.about) {
-                    document.getElementById('about-title').value = pageData.about.title || '';
-                    document.getElementById('about-subtitle').value = pageData.about.subtitle || '';
-                    document.getElementById('about-step1-title').value = pageData.about.step1?.title || '';
-                    document.getElementById('about-step1-desc').value = pageData.about.step1?.description || '';
-                    document.getElementById('about-step2-title').value = pageData.about.step2?.title || '';
-                    document.getElementById('about-step2-desc').value = pageData.about.step2?.description || '';
-                    document.getElementById('about-step3-title').value = pageData.about.step3?.title || '';
-                    document.getElementById('about-step3-desc').value = pageData.about.step3?.description || '';
-                }
+                document.getElementById('about-title').value = pageData.about.title;
+                document.getElementById('about-subtitle').value = pageData.about.subtitle;
+                document.getElementById('about-step1-title').value = pageData.about.step1.title;
+                document.getElementById('about-step1-desc').value = pageData.about.step1.description;
+                document.getElementById('about-step2-title').value = pageData.about.step2.title;
+                document.getElementById('about-step2-desc').value = pageData.about.step2.description;
+                document.getElementById('about-step3-title').value = pageData.about.step3.title;
+                document.getElementById('about-step3-desc').value = pageData.about.step3.description;
                 // Services
-                if(pageData.services) {
-                    document.getElementById('services-title').value = pageData.services.title || '';
-                    document.getElementById('services-subtitle').value = pageData.services.subtitle || '';
-                    document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
-                    if(pageData.services.items) pageData.services.items.forEach(renderService);
-                }
+                document.getElementById('services-title').value = pageData.services.title;
+                document.getElementById('services-subtitle').value = pageData.services.subtitle;
+                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
+                pageData.services.items.forEach(renderService);
                 // Testimonials
-                if(pageData.testimonials) {
-                    document.getElementById('testimonials-title').value = pageData.testimonials.title || '';
-                    document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle || '';
-                    document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
-                    if(pageData.testimonials.items) pageData.testimonials.items.forEach(renderTestimonial);
-                }
+                document.getElementById('testimonials-title').value = pageData.testimonials.title;
+                document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle;
+                document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
+                pageData.testimonials.items.forEach(renderTestimonial);
                 // FAQ
-                if(pageData.faq) {
-                    document.getElementById('faq-title').value = pageData.faq.title || '';
-                    document.getElementById('faq-subtitle').value = pageData.faq.subtitle || '';
-                    document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
-                    if(pageData.faq.items) pageData.faq.items.forEach(renderFAQ);
-                }
+                document.getElementById('faq-title').value = pageData.faq.title;
+                document.getElementById('faq-subtitle').value = pageData.faq.subtitle;
+                document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
+                pageData.faq.items.forEach(renderFAQ);
                 // CTA
-                if(pageData.cta) {
-                    document.getElementById('cta-title').value = pageData.cta.title || '';
-                    document.getElementById('cta-subtitle').value = pageData.cta.subtitle || '';
-                    document.getElementById('cta-button-text').value = pageData.cta.buttonText || '';
-                }
+                document.getElementById('cta-title').value = pageData.cta.title;
+                document.getElementById('cta-subtitle').value = pageData.cta.subtitle;
+                document.getElementById('cta-button-text').value = pageData.cta.buttonText;
                 // Footer
-                if(pageData.footer) {
-                    document.getElementById('footer-logo').value = pageData.footer.logo || '';
-                    document.getElementById('footer-description').value = pageData.footer.description || '';
-                    document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp || '';
-                    document.getElementById('footer-contact-email').value = pageData.footer.email || '';
-                    document.getElementById('footer-contact-phone').value = pageData.footer.phone || '';
-                    document.getElementById('footer-contact-address').value = pageData.footer.address || '';
-                    document.getElementById('footer-copyright').value = pageData.footer.copyright || '';
-                }
+                document.getElementById('footer-logo').value = pageData.footer.logo;
+                document.getElementById('footer-description').value = pageData.footer.description;
+                document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp;
+                document.getElementById('footer-contact-email').value = pageData.footer.email;
+                document.getElementById('footer-contact-phone').value = pageData.footer.phone;
+                document.getElementById('footer-contact-address').value = pageData.footer.address;
+                document.getElementById('footer-copyright').value = pageData.footer.copyright;
             }
             
             document.getElementById('save-hero').addEventListener('click', () => {
-                pageData.hero = {
-                    title: document.getElementById('hero-title').value,
-                    subtitle: document.getElementById('hero-subtitle').value,
-                    cta1Text: document.getElementById('hero-cta1-text').value,
-                    cta2Text: document.getElementById('hero-cta2-text').value,
-                    image: document.getElementById('hero-image').value
-                };
+                pageData.hero.title = document.getElementById('hero-title').value;
+                pageData.hero.subtitle = document.getElementById('hero-subtitle').value;
+                pageData.hero.cta1Text = document.getElementById('hero-cta1-text').value;
+                pageData.hero.cta2Text = document.getElementById('hero-cta2-text').value;
+                pageData.hero.image = document.getElementById('hero-image').value;
                 saveData();
             });
             document.getElementById('save-social-proof').addEventListener('click', () => {
@@ -566,13 +492,11 @@
                 saveData();
             });
             document.getElementById('save-about').addEventListener('click', () => {
-                pageData.about = {
-                    title: document.getElementById('about-title').value,
-                    subtitle: document.getElementById('about-subtitle').value,
-                    step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value },
-                    step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
-                    step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
-                };
+                pageData.about.title = document.getElementById('about-title').value;
+                pageData.about.subtitle = document.getElementById('about-subtitle').value;
+                pageData.about.step1 = { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value };
+                pageData.about.step2 = { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value };
+                pageData.about.step3 = { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value };
                 saveData();
             });
             document.getElementById('save-services').addEventListener('click', () => {
@@ -616,30 +540,26 @@
                 saveData();
             });
             document.getElementById('save-cta').addEventListener('click', () => {
-                pageData.cta = {
-                    title: document.getElementById('cta-title').value,
-                    subtitle: document.getElementById('cta-subtitle').value,
-                    buttonText: document.getElementById('cta-button-text').value
-                };
+                pageData.cta.title = document.getElementById('cta-title').value;
+                pageData.cta.subtitle = document.getElementById('cta-subtitle').value;
+                pageData.cta.buttonText = document.getElementById('cta-button-text').value;
                 saveData();
             });
             document.getElementById('save-footer').addEventListener('click', () => {
-                pageData.footer = {
-                    logo: document.getElementById('footer-logo').value,
-                    description: document.getElementById('footer-description').value,
-                    whatsapp: document.getElementById('footer-contact-whatsapp').value,
-                    email: document.getElementById('footer-contact-email').value,
-                    phone: document.getElementById('footer-contact-phone').value,
-                    address: document.getElementById('footer-contact-address').value,
-                    copyright: document.getElementById('footer-copyright').value
-                };
+                pageData.footer.logo = document.getElementById('footer-logo').value;
+                pageData.footer.description = document.getElementById('footer-description').value;
+                pageData.footer.whatsapp = document.getElementById('footer-contact-whatsapp').value;
+                pageData.footer.email = document.getElementById('footer-contact-email').value;
+                pageData.footer.phone = document.getElementById('footer-contact-phone').value;
+                pageData.footer.address = document.getElementById('footer-contact-address').value;
+                pageData.footer.copyright = document.getElementById('footer-copyright').value;
                 saveData();
             });
 
-            document.getElementById('add-social-logo').addEventListener('click', () => { if(!pageData.socialProof.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
-            document.getElementById('add-service').addEventListener('click', () => { if(!pageData.services.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
-            document.getElementById('add-testimonial').addEventListener('click', () => { if(!pageData.testimonials.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
-            document.getElementById('add-faq').addEventListener('click', () => { if(!pageData.faq.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
+            document.getElementById('add-social-logo').addEventListener('click', () => { renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
+            document.getElementById('add-service').addEventListener('click', () => { renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
+            document.getElementById('add-testimonial').addEventListener('click', () => { renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
+            document.getElementById('add-faq').addEventListener('click', () => { renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
             
             document.body.addEventListener('click', e => {
                 if (e.target.classList.contains('remove-logo') || e.target.classList.contains('remove-service') || e.target.classList.contains('remove-testimonial') || e.target.classList.contains('remove-faq')) {
@@ -647,6 +567,7 @@
                 }
             });
 
+            loadData();
         });
     </script>
 </body>

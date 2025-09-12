@@ -260,20 +260,9 @@
         </div>
     </footer>
 
-    <!-- Scripts do Firebase -->
-    <script src="firebase-config.js"></script>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
-
-        // Inicializa o Firebase
-        const app = initializeApp(window.firebaseConfig);
-        const db = getFirestore(app);
-
-        // Referência para o documento que contém o conteúdo da página
-        const contentRef = doc(db, "landingpage", "content");
-
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- LÓGICA PARA POPULAR A PÁGINA ---
             const defaultData = {
                 hero: { title: 'Título Padrão Hero', subtitle: 'Subtítulo padrão.', cta1Text: 'Botão 1', cta2Text: 'Botão 2', image: 'https://placehold.co/600x400' },
                 socialProof: { title: 'Confiado por grandes empresas', logos: [] },
@@ -285,14 +274,9 @@
                 footer: { logo: 'SuaLogo', description: 'Descrição.', whatsapp: '', email: '', phone: '', address: '', copyright: '' }
             };
 
-            // Ouve as alterações no documento do Firestore em tempo real
-            onSnapshot(contentRef, (doc) => {
-                console.log("Dados recebidos do Firestore!");
-                const pageData = doc.exists() ? doc.data() : defaultData;
-                renderContent(pageData);
-            });
-
-            function renderContent(pageData) {
+            const pageData = JSON.parse(localStorage.getItem('landingPageData')) || defaultData;
+            
+            function renderContent() {
                 // Hero
                 document.getElementById('hero-title').textContent = pageData.hero.title;
                 document.getElementById('hero-subtitle').textContent = pageData.hero.subtitle;
@@ -329,7 +313,7 @@
                 document.getElementById('services-subtitle').textContent = pageData.services.subtitle;
                 const track = document.getElementById('service-carousel-track');
                 track.innerHTML = '';
-                if(pageData.services.items && pageData.services.items.length > 0) {
+                if(pageData.services.items.length > 0) {
                     const whatsappNumber = pageData.footer.whatsapp;
                     pageData.services.items.forEach(item => {
                         const message = encodeURIComponent(`Olá, tenho interesse no produto/serviço: ${item.title}`);
@@ -352,48 +336,45 @@
                     track.innerHTML = '<p class="text-center w-full">Nenhum serviço cadastrado.</p>';
                 }
 
+
                 // Testimonials
                 document.getElementById('testimonials-title').textContent = pageData.testimonials.title;
                 document.getElementById('testimonials-subtitle').textContent = pageData.testimonials.subtitle;
                 const testimonialsContainer = document.getElementById('testimonials-container');
                 testimonialsContainer.innerHTML = '';
-                if(pageData.testimonials.items) {
-                    pageData.testimonials.items.forEach(item => {
-                        testimonialsContainer.innerHTML += `
-                            <div class="bg-gray-50 p-8 rounded-lg">
-                                <p class="text-gray-600">"${item.quote}"</p>
-                                <div class="mt-6 flex items-center">
-                                    <img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full">
-                                    <div class="ml-4">
-                                        <p class="font-semibold text-gray-900">${item.author}</p>
-                                        <p class="text-sm text-gray-500">${item.position}</p>
-                                    </div>
+                pageData.testimonials.items.forEach(item => {
+                     testimonialsContainer.innerHTML += `
+                        <div class="bg-gray-50 p-8 rounded-lg">
+                            <p class="text-gray-600">"${item.quote}"</p>
+                            <div class="mt-6 flex items-center">
+                                <img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full">
+                                <div class="ml-4">
+                                    <p class="font-semibold text-gray-900">${item.author}</p>
+                                    <p class="text-sm text-gray-500">${item.position}</p>
                                 </div>
                             </div>
-                        `;
-                    });
-                }
+                        </div>
+                    `;
+                });
 
                 // FAQ
                 document.getElementById('faq-title').textContent = pageData.faq.title;
                 document.getElementById('faq-subtitle').textContent = pageData.faq.subtitle;
                 const faqContainer = document.getElementById('faq-container');
                 faqContainer.innerHTML = '';
-                if(pageData.faq.items) {
-                    pageData.faq.items.forEach(item => {
-                        faqContainer.innerHTML += `
-                            <div class="bg-white rounded-lg shadow-sm">
-                                <button class="faq-toggle w-full text-left p-6 flex justify-between items-center">
-                                    <span class="text-lg font-semibold text-gray-800">${item.question}</span>
-                                    <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </button>
-                                <div class="faq-content px-6 pb-4">
-                                    <p class="text-gray-600">${item.answer}</p>
-                                </div>
+                pageData.faq.items.forEach(item => {
+                    faqContainer.innerHTML += `
+                        <div class="bg-white rounded-lg shadow-sm">
+                            <button class="faq-toggle w-full text-left p-6 flex justify-between items-center">
+                                <span class="text-lg font-semibold text-gray-800">${item.question}</span>
+                                <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="faq-content px-6 pb-4">
+                                <p class="text-gray-600">${item.answer}</p>
                             </div>
-                        `;
-                    });
-                }
+                        </div>
+                    `;
+                });
 
                 // CTA
                 document.getElementById('cta-title').textContent = pageData.cta.title;
@@ -408,6 +389,9 @@
                 document.getElementById('footer-address').textContent = `Endereço: ${pageData.footer.address}`;
                 document.getElementById('footer-copyright').textContent = pageData.footer.copyright;
             }
+
+            renderContent();
+
 
             // --- LÓGICA DE INTERAÇÃO (MENUS, FAQ, CARROSSEL) ---
             
@@ -429,10 +413,11 @@
                 const content = toggle.nextElementSibling;
                 const icon = toggle.querySelector('.faq-icon');
                 
+                // Fecha todos os outros antes de potencialmente abrir o atual
                 document.querySelectorAll('.faq-content').forEach(c => {
                     if (c !== content) {
-                        c.style.maxHeight = null;
-                        c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                       c.style.maxHeight = null;
+                       c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
                     }
                 });
 
@@ -451,7 +436,7 @@
             const nextBtn = document.getElementById('nextBtn');
             
             if(track && prevBtn && nextBtn){
-                 const scrollStep = () => track.querySelector('.service-card') ? track.querySelector('.service-card').offsetWidth + 16 : 300; // 16px de margem
+                 const scrollStep = () => track.querySelector('.service-card').offsetWidth + 16; // 16px de margem
 
                 nextBtn.addEventListener('click', () => {
                     track.scrollBy({ left: scrollStep(), behavior: 'smooth' });
@@ -465,3 +450,4 @@
     </script>
 </body>
 </html>
+
