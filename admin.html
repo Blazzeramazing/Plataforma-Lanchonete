@@ -26,7 +26,19 @@
 </head>
 <body class="bg-gray-100">
 
-    <div class="flex h-screen bg-gray-200">
+    <!-- Tela de Verificação de Email -->
+    <div id="verification-screen" class="hidden h-screen w-full flex items-center justify-center bg-gray-200">
+        <div class="bg-white p-8 rounded-lg shadow-md text-center max-w-lg">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Verifique seu Email</h2>
+            <p class="text-gray-600 mb-6">Enviamos um link de verificação para <strong id="user-email"></strong>. Por favor, clique no link para ativar sua conta e aceder ao painel.</p>
+            <button id="resend-verification" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition duration-300 mb-4">Reenviar Email de Verificação</button>
+            <p id="resend-message" class="text-sm text-green-600"></p>
+        </div>
+    </div>
+
+
+    <!-- Painel Principal -->
+    <div id="main-panel" class="flex h-screen bg-gray-200 invisible">
         <!-- Barra Lateral de Navegação -->
         <aside class="w-64 bg-gray-800 text-white flex flex-col">
             <div class="px-6 py-4 border-b border-gray-700">
@@ -67,6 +79,12 @@
                     Rodapé
                 </a>
             </nav>
+            <div class="mt-auto p-4 border-t border-gray-700">
+                <button id="logout-button" class="w-full sidebar-link text-left">
+                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Sair
+                </button>
+            </div>
         </aside>
 
         <!-- Conteúdo Principal -->
@@ -295,13 +313,57 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-        // Inicializa o Firebase
+        // Inicializa Firebase
         const app = initializeApp(window.firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        // Referência para o documento que vamos usar para guardar todo o conteúdo
         const contentRef = doc(db, "landingpage", "content");
+
+        // Elementos da UI
+        const mainPanel = document.getElementById('main-panel');
+        const verificationScreen = document.getElementById('verification-screen');
+        
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                if (user.emailVerified) {
+                    // Usuário logado e verificado -> mostra o painel
+                    mainPanel.classList.remove('invisible');
+                    verificationScreen.classList.add('hidden');
+                    loadData(); // Carrega os dados do Firestore
+                } else {
+                    // Usuário logado mas não verificado -> mostra tela de verificação
+                    document.getElementById('user-email').textContent = user.email;
+                    mainPanel.classList.add('invisible');
+                    verificationScreen.classList.remove('hidden');
+                }
+            } else {
+                // Usuário não logado -> redireciona para a página de login
+                window.location.href = 'login.html';
+            }
+        });
+
+        document.getElementById('logout-button').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Logout bem-sucedido, onAuthStateChanged vai redirecionar
+            }).catch((error) => {
+                console.error("Erro ao fazer logout: ", error);
+            });
+        });
+
+        document.getElementById('resend-verification').addEventListener('click', () => {
+            const user = auth.currentUser;
+            if (user) {
+                sendEmailVerification(user)
+                    .then(() => {
+                        const resendMsg = document.getElementById('resend-message');
+                        resendMsg.textContent = 'Email de verificação reenviado!';
+                        setTimeout(() => { resendMsg.textContent = ''; }, 5000);
+                    });
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', function () {
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
@@ -333,16 +395,32 @@
                 });
             });
             
-            let pageData = {}; // Objeto para guardar os dados da página
+            let pageData = {};
             
             function showToast() {
                 toast.classList.remove('opacity-0');
                 setTimeout(() => { toast.classList.add('opacity-0'); }, 3000);
             }
+
+            /**
+             * NOVO: Função para "limpar" o objeto de dados antes de enviar para o Firestore.
+             * Ela percorre o objeto e substitui `undefined` por `''` (string vazia).
+             */
+            function sanitizeObject(obj) {
+                for (const key in obj) {
+                    if (obj[key] === undefined) {
+                        obj[key] = ''; // Ou pode usar null, se preferir
+                    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+                        sanitizeObject(obj[key]); // Faz isso recursivamente para objetos aninhados
+                    }
+                }
+                return obj;
+            }
             
             async function saveData() {
                 try {
-                    await setDoc(contentRef, pageData, { merge: true }); // Usamos merge:true para não sobrescrever campos não relacionados
+                    const sanitizedData = sanitizeObject(JSON.parse(JSON.stringify(pageData)));
+                    await setDoc(contentRef, sanitizedData); // Retirado o { merge: true } para garantir consistência
                     showToast();
                 } catch (error) {
                     console.error("Erro ao salvar dados no Firestore: ", error);
@@ -356,8 +434,7 @@
                     pageData = docSnap.data();
                 } else {
                     console.log("Nenhum documento encontrado! Usando dados padrão.");
-                    // Define dados iniciais se o documento não existir
-                     pageData = {
+                    pageData = {
                         hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer...', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
                         socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ]},
                         about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação.' }, step3: { title: '3. Análise', description: 'Monitoramos os resultados.' }},
@@ -570,8 +647,8 @@
                 }
             });
 
-            loadData();
         });
     </script>
 </body>
 </html>
+
