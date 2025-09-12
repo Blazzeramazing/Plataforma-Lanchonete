@@ -8,16 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Ficheiro de Configuração do Firebase -->
-    <script src="firebase-config.js"></script>
-
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .sidebar-link.active { background-color: #4f46e5; color: white; }
-        .content-section { display: none; }
-        .content-section.active { display: block; }
-        .save-button.saving { background-color: #a5b4fc; cursor: not-allowed; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -30,217 +34,544 @@
                 <p class="text-sm text-gray-400">Landing Page</p>
             </div>
             <nav class="flex-1 px-4 py-4 space-y-2">
-                <a href="#" class="sidebar-link active" data-section="hero"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>Início (Hero)</a>
-                <a href="#" class="sidebar-link" data-section="social-proof"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>Prova Social</a>
-                <a href="#" class="sidebar-link" data-section="about"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>Sobre</a>
-                <a href="#" class="sidebar-link" data-section="services"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>Serviços/Produtos</a>
-                <a href="#" class="sidebar-link" data-section="testimonials"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>Depoimentos</a>
-                <a href="#" class="sidebar-link" data-section="faq"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>FAQ</a>
-                <a href="#" class="sidebar-link" data-section="cta"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>Chamada Final (CTA)</a>
-                <a href="#" class="sidebar-link" data-section="footer"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>Rodapé</a>
+                <a href="#" class="sidebar-link active" data-section="hero">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Início (Hero)
+                </a>
+                <a href="#" class="sidebar-link" data-section="social-proof">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    Prova Social
+                </a>
+                 <a href="#" class="sidebar-link" data-section="about">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Sobre
+                </a>
+                <a href="#" class="sidebar-link" data-section="services">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    Serviços/Produtos
+                </a>
+                <a href="#" class="sidebar-link" data-section="testimonials">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    Depoimentos
+                </a>
+                <a href="#" class="sidebar-link" data-section="faq">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    FAQ
+                </a>
+                <a href="#" class="sidebar-link" data-section="cta">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    Chamada Final (CTA)
+                </a>
+                <a href="#" class="sidebar-link" data-section="footer">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    Rodapé
+                </a>
             </nav>
         </aside>
 
+        <!-- Conteúdo Principal -->
         <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
-            <div id="section-hero" class="content-section active"><!-- Formulário Hero --></div>
-            <div id="section-social-proof" class="content-section"><!-- Formulário Prova Social --></div>
-            <div id="section-about" class="content-section"><!-- Formulário Sobre --></div>
-            <div id="section-services" class="content-section"><!-- Formulário Serviços --></div>
-            <div id="section-testimonials" class="content-section"><!-- Formulário Depoimentos --></div>
-            <div id="section-faq" class="content-section"><!-- Formulário FAQ --></div>
-            <div id="section-cta" class="content-section"><!-- Formulário CTA --></div>
-            <div id="section-footer" class="content-section"><!-- Formulário Rodapé --></div>
+            
+            <!-- Seção Hero -->
+            <div id="section-hero" class="content-section active">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção Inicial (Hero)</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="hero-title" class="block text-sm font-medium text-gray-700">Título Principal</label>
+                        <textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div>
+                        <label for="hero-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                        <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                    </div>
+                     <div>
+                        <label for="hero-cta1-text" class="block text-sm font-medium text-gray-700">Texto do Botão 1</label>
+                        <input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                     <div>
+                        <label for="hero-cta2-text" class="block text-sm font-medium text-gray-700">Texto do Botão 2</label>
+                        <input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label for="hero-image" class="block text-sm font-medium text-gray-700">URL da Imagem</label>
+                        <input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/imagem.png">
+                    </div>
+                    <button id="save-hero" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção Prova Social -->
+            <div id="section-social-proof" class="content-section">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Prova Social</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="social-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                        <input type="text" id="social-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div id="social-logos-container">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>
+                        <!-- Logos serão adicionados aqui via JS -->
+                    </div>
+                    <button id="add-social-logo" class="add-button">Adicionar Logo</button>
+                    <hr>
+                    <button id="save-social-proof" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção Sobre -->
+            <div id="section-about" class="content-section">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção Sobre</h2>
+                 <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="about-title" class="block text-sm font-medium text-gray-700">Título</label>
+                        <input type="text" id="about-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label for="about-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                        <textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Passo 1 -->
+                        <div class="border p-4 rounded-md">
+                             <h4 class="font-bold mb-2">Passo 1</h4>
+                             <label for="about-step1-title" class="block text-sm font-medium text-gray-700">Título do Passo 1</label>
+                             <input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                             <label for="about-step1-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                             <textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <!-- Passo 2 -->
+                        <div class="border p-4 rounded-md">
+                             <h4 class="font-bold mb-2">Passo 2</h4>
+                             <label for="about-step2-title" class="block text-sm font-medium text-gray-700">Título do Passo 2</label>
+                             <input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                             <label for="about-step2-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                             <textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <!-- Passo 3 -->
+                        <div class="border p-4 rounded-md">
+                             <h4 class="font-bold mb-2">Passo 3</h4>
+                             <label for="about-step3-title" class="block text-sm font-medium text-gray-700">Título do Passo 3</label>
+                             <input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                             <label for="about-step3-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                             <textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                    </div>
+                    <button id="save-about" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção Serviços -->
+            <div id="section-services" class="content-section">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Serviços/Produtos</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="services-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                        <input type="text" id="services-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="services-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                        <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                    </div>
+                    <div id="services-container">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>
+                         <!-- Serviços serão adicionados aqui via JS -->
+                    </div>
+                    <button id="add-service" class="add-button">Adicionar Item</button>
+                    <hr>
+                    <button id="save-services" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção Depoimentos -->
+            <div id="section-testimonials" class="content-section">
+                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Depoimentos</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="testimonials-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                        <input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="testimonials-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                        <textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                    </div>
+                    <div id="testimonials-container">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>
+                         <!-- Depoimentos serão adicionados aqui via JS -->
+                    </div>
+                    <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
+                    <hr>
+                    <button id="save-testimonials" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção FAQ -->
+            <div id="section-faq" class="content-section">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de FAQ</h2>
+                 <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="faq-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                        <input type="text" id="faq-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="faq-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                        <textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                    </div>
+                    <div id="faq-container">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>
+                         <!-- FAQs serão adicionados aqui via JS -->
+                    </div>
+                    <button id="add-faq" class="add-button">Adicionar Pergunta</button>
+                    <hr>
+                    <button id="save-faq" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+            
+            <!-- Seção CTA -->
+            <div id="section-cta" class="content-section">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Chamada Final (CTA)</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="cta-title" class="block text-sm font-medium text-gray-700">Título</label>
+                        <input type="text" id="cta-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="cta-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                        <textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                    </div>
+                    <div>
+                        <label for="cta-button-text" class="block text-sm font-medium text-gray-700">Texto do Botão</label>
+                        <input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <button id="save-cta" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção Rodapé -->
+            <div id="section-footer" class="content-section">
+                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Rodapé</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="footer-logo" class="block text-sm font-medium text-gray-700">Texto da Logo</label>
+                        <input type="text" id="footer-logo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                     <div>
+                        <label for="footer-description" class="block text-sm font-medium text-gray-700">Descrição Curta</label>
+                        <textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                    </div>
+                    <div>
+                        <label for="footer-contact-whatsapp" class="block text-sm font-medium text-gray-700">Nº de WhatsApp (com código do país, ex: 55329...)</label>
+                        <input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="footer-contact-email" class="block text-sm font-medium text-gray-700">Email de Contato</label>
+                        <input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="footer-contact-phone" class="block text-sm font-medium text-gray-700">Telefone de Contato</label>
+                        <input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                     <div>
+                        <label for="footer-contact-address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                        <input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="footer-copyright" class="block text-sm font-medium text-gray-700">Texto de Copyright</label>
+                        <input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <button id="save-footer" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
         </main>
     </div>
 
-    <div id="toast" class="fixed bottom-5 right-5 text-white py-2 px-4 rounded-lg shadow-md transition-opacity duration-300 opacity-0"></div>
+    <!-- Toast de Notificação -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition-opacity duration-300 opacity-0">
+        Alterações salvas com sucesso!
+    </div>
     
+    <!-- Scripts do Firebase -->
+    <script src="firebase-config.js"></script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
-        const firebaseApp = initializeApp(window.firebaseConfig);
-        const auth = getAuth(firebaseApp);
-        const db = getFirestore(firebaseApp);
-        const pageContentRef = doc(db, "landingPage", "content");
+        // Inicializa o Firebase
+        const app = initializeApp(window.firebaseConfig);
+        const db = getFirestore(app);
 
-        document.addEventListener('DOMContentLoaded', async function () {
-            try {
-                await signInAnonymously(auth);
-            } catch (error) {
-                console.error("Falha na autenticação anónima:", error);
-                showToast("Erro de autenticação. Verifique a consola.", true);
-                return;
-            }
+        // Referência para o documento que vamos usar para guardar todo o conteúdo
+        const contentRef = doc(db, "landingpage", "content");
 
+        document.addEventListener('DOMContentLoaded', function () {
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
-            
-            const globalStyles = `.save-button{background-color:#4f46e5;color:white;font-weight:600;padding:0.75rem 1.5rem;border-radius:0.5rem;transition:background-color .3s}.save-button:hover{background-color:#4338ca}.add-button{background-color:#10b981;color:white;font-weight:600;padding:0.5rem 1rem;border-radius:0.5rem;transition:background-color .3s}.add-button:hover{background-color:#059669}.remove-button{background-color:#ef4444;color:white;font-weight:600;padding:0.25rem .75rem;border-radius:0.5rem;transition:background-color .3s}.remove-button:hover{background-color:#dc2626}.sidebar-link{display:flex;align-items:center;padding:0.75rem 1rem;border-radius:0.5rem;transition:all .2s}.sidebar-link:hover{background-color:#374151}`;
+
+            const globalStyles = `
+                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s; }
+                .save-button:hover { background-color: #4338ca; }
+                .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: background-color 0.3s; }
+                .add-button:hover { background-color: #059669; }
+                .remove-button { background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem; transition: background-color 0.3s; }
+                .remove-button:hover { background-color: #dc2626; }
+                .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; transition: all 0.2s; }
+                .sidebar-link:hover { background-color: #374151; }
+            `;
             const styleSheet = document.createElement("style");
             styleSheet.innerText = globalStyles;
             document.head.appendChild(styleSheet);
-            
+
             sidebarLinks.forEach(link => {
                 link.addEventListener('click', e => {
                     e.preventDefault();
                     sidebarLinks.forEach(l => l.classList.remove('active'));
                     contentSections.forEach(s => s.classList.remove('active'));
                     link.classList.add('active');
-                    document.getElementById('section-' + link.dataset.section).classList.add('active');
+                    const sectionId = 'section-' + link.dataset.section;
+                    document.getElementById(sectionId).classList.add('active');
                 });
             });
-
-            let pageData = {};
-            const defaultData = {
-                hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem' },
-                socialProof: { title: 'Confiado por grandes empresas', logos: [{ src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' }] },
-                about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como funciona.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade.' }, step3: { title: '3. Análise', description: 'Monitoramos os resultados e otimizamos.' } },
-                services: { title: 'Nossos Produtos e Serviços', subtitle: 'Oferecemos uma gama de soluções para impulsionar seu crescimento.', items: [{ title: 'Produto Exemplo', description: 'Descrição detalhada do produto.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto', price: '99,90' }] },
-                testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [{ quote: 'A parceria foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' }] },
-                faq: { title: 'Perguntas Frequentes', subtitle: 'Encontre aqui as respostas para as perguntas mais comuns.', items: [{ question: 'Qual o diferencial dos seus serviços?', answer: 'Nossa abordagem é 100% personalizada para o seu negócio.' }] },
-                cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar Orçamento' },
-                footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para o seu sucesso.', whatsapp: '5511999998888', email: 'contato@suaempresa.com', phone: '(11) 9999-8888', address: 'Sua Rua, 123 - Cidade, Estado', copyright: `© ${new Date().getFullYear()} Sua Empresa. Todos os direitos reservados.` }
-            };
-
-            function showToast(message, isError = false) {
-                toast.textContent = message;
-                toast.className = `fixed bottom-5 right-5 text-white py-2 px-4 rounded-lg shadow-md transition-opacity duration-300 ${isError ? 'bg-red-500' : 'bg-green-500'}`;
+            
+            let pageData = {}; // Objeto para guardar os dados da página
+            
+            function showToast() {
                 toast.classList.remove('opacity-0');
                 setTimeout(() => { toast.classList.add('opacity-0'); }, 3000);
             }
             
             async function saveData() {
-                // Coleta todos os dados dos forms para o objeto pageData antes de salvar
-                collectAllFormData();
-
-                const saveButtons = document.querySelectorAll('.save-button');
-                saveButtons.forEach(btn => { btn.disabled = true; btn.classList.add('saving'); btn.textContent = 'A guardar...'; });
                 try {
-                    await setDoc(pageContentRef, pageData);
-                    showToast('Alterações guardadas com sucesso!');
+                    await setDoc(contentRef, pageData, { merge: true }); // Usamos merge:true para não sobrescrever campos não relacionados
+                    showToast();
                 } catch (error) {
-                    console.error("Erro ao guardar documento: ", error);
-                    showToast('Erro ao guardar. Tente novamente.', true);
-                } finally {
-                     saveButtons.forEach(btn => { btn.disabled = false; btn.classList.remove('saving'); btn.textContent = 'Salvar Alterações'; });
+                    console.error("Erro ao salvar dados no Firestore: ", error);
+                    alert("Ocorreu um erro ao salvar. Verifique a consola.");
                 }
             }
 
-            async function loadDataAndPopulateForms() {
-                try {
-                    const docSnap = await getDoc(pageContentRef);
-                    pageData = docSnap.exists() ? docSnap.data() : defaultData;
-                    if (!docSnap.exists()) {
-                        await setDoc(pageContentRef, pageData); // Guarda os dados padrão se for o primeiro acesso
-                    }
-                } catch (error) {
-                    console.error("Erro ao carregar dados:", error);
-                    pageData = defaultData; // Fallback para dados padrão
-                    showToast("Não foi possível carregar os dados. Usando valores padrão.", true);
+            async function loadData() {
+                const docSnap = await getDoc(contentRef);
+                if (docSnap.exists()) {
+                    pageData = docSnap.data();
+                } else {
+                    console.log("Nenhum documento encontrado! Usando dados padrão.");
+                    // Define dados iniciais se o documento não existir
+                     pageData = {
+                        hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer...', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
+                        socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ]},
+                        about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação.' }, step3: { title: '3. Análise', description: 'Monitoramos os resultados.' }},
+                        services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para o seu crescimento.', items: [] },
+                        testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: []},
+                        faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre as respostas aqui.', items: []},
+                        cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar Orçamento' },
+                        footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123', copyright: '© 2024 Sua Empresa.' }
+                    };
                 }
-                renderAllForms();
+                populateForms();
             }
 
-            function renderAllForms() {
-                // Gera o HTML para todos os formulários e adiciona os event listeners
-                document.getElementById('section-hero').innerHTML = getFormHTML('hero');
-                document.getElementById('save-hero').addEventListener('click', saveData);
-
-                document.getElementById('section-social-proof').innerHTML = getFormHTML('social-proof');
-                document.getElementById('save-social-proof').addEventListener('click', saveData);
-                document.getElementById('add-social-logo').addEventListener('click', () => { 
-                    pageData.socialProof.logos.push({ src: '', alt: '' });
-                    renderAllForms();
-                });
-
-                document.getElementById('section-about').innerHTML = getFormHTML('about');
-                document.getElementById('save-about').addEventListener('click', saveData);
-
-                document.getElementById('section-services').innerHTML = getFormHTML('services');
-                document.getElementById('save-services').addEventListener('click', saveData);
-                document.getElementById('add-service').addEventListener('click', () => { 
-                    pageData.services.items.push({ title: '', description: '', image: '', price: '' });
-                    renderAllForms();
-                });
-
-                document.getElementById('section-testimonials').innerHTML = getFormHTML('testimonials');
-                document.getElementById('save-testimonials').addEventListener('click', saveData);
-                document.getElementById('add-testimonial').addEventListener('click', () => { 
-                    pageData.testimonials.items.push({ quote: '', author: '', position: '', image: '' });
-                    renderAllForms();
-                });
-
-                document.getElementById('section-faq').innerHTML = getFormHTML('faq');
-                document.getElementById('save-faq').addEventListener('click', saveData);
-                document.getElementById('add-faq').addEventListener('click', () => { 
-                    pageData.faq.items.push({ question: '', answer: '' });
-                    renderAllForms();
-                });
-                
-                document.getElementById('section-cta').innerHTML = getFormHTML('cta');
-                document.getElementById('save-cta').addEventListener('click', saveData);
-
-                document.getElementById('section-footer').innerHTML = getFormHTML('footer');
-                document.getElementById('save-footer').addEventListener('click', saveData);
-
-                // Adiciona listeners para os botões de remover
-                document.querySelectorAll('.remove-item').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const { type, index } = e.currentTarget.dataset;
-                        pageData[type].items.splice(index, 1);
-                        renderAllForms();
-                    });
-                });
-                document.querySelectorAll('.remove-logo-item').forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const { index } = e.currentTarget.dataset;
-                        pageData.socialProof.logos.splice(index, 1);
-                        renderAllForms();
-                    });
-                });
+            function renderLogo(logo, index) {
+                const container = document.getElementById('social-logos-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-gray-700">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-alt" value="${logo.alt}"></div>`;
+                container.appendChild(div);
+            }
+            
+            function renderService(item, index) {
+                const container = document.getElementById('services-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Título do Serviço/Produto</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-description">${item.description}</textarea></div>`;
+                container.appendChild(div);
+            }
+            
+            function renderTestimonial(item, index) {
+                const container = document.getElementById('testimonials-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-gray-700">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-gray-700">Cargo/Empresa do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-image" value="${item.image}"></div>`;
+                container.appendChild(div);
             }
 
-            function getFormHTML(section) {
-                // Geradores de HTML para cada formulário para facilitar a re-renderização
-                switch(section) {
-                    case 'hero': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção Inicial (Hero)</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label for="hero-title" class="block text-sm font-medium text-gray-700">Título Principal</label><textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.hero.title}</textarea></div><div><label for="hero-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label><textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.hero.subtitle}</textarea></div><div><label for="hero-cta1-text" class="block text-sm font-medium text-gray-700">Texto do Botão 1</label><input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.hero.cta1Text}"></div><div><label for="hero-cta2-text" class="block text-sm font-medium text-gray-700">Texto do Botão 2</label><input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.hero.cta2Text}"></div><div><label for="hero-image" class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.hero.image}"></div><button id="save-hero" class="save-button">Salvar Alterações</button></div>`;
-                    case 'social-proof': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Prova Social</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label for="social-title" class="block text-sm font-medium text-gray-700">Título da Seção</label><input type="text" id="social-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.socialProof.title}"></div><div id="social-logos-container"><h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>${pageData.socialProof.logos.map((logo, index) => `<div class="border p-4 rounded-md mb-4 space-y-3 relative"><button class="remove-button absolute -top-2 -right-2 remove-logo-item" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-src" value="${logo.src}" data-index="${index}"></div><div><label class="block text-sm font-medium text-gray-700">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-alt" value="${logo.alt}" data-index="${index}"></div></div>`).join('')}</div><button id="add-social-logo" class="add-button">Adicionar Logo</button><hr><button id="save-social-proof" class="save-button">Salvar Alterações</button></div>`;
-                    case 'about': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção Sobre</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label for="about-title" class="block text-sm font-medium text-gray-700">Título</label><input type="text" id="about-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.about.title}"></div><div><label for="about-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label><textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.about.subtitle}</textarea></div><div class="grid grid-cols-1 md:grid-cols-3 gap-6"><div class="border p-4 rounded-md"><h4 class="font-bold mb-2">Passo 1</h4><label class="block text-sm font-medium text-gray-700">Título</label><input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.about.step1.title}"><label class="block text-sm font-medium text-gray-700 mt-2">Descrição</label><textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.about.step1.description}</textarea></div><div class="border p-4 rounded-md"><h4 class="font-bold mb-2">Passo 2</h4><label class="block text-sm font-medium text-gray-700">Título</label><input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.about.step2.title}"><label class="block text-sm font-medium text-gray-700 mt-2">Descrição</label><textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.about.step2.description}</textarea></div><div class="border p-4 rounded-md"><h4 class="font-bold mb-2">Passo 3</h4><label class="block text-sm font-medium text-gray-700">Título</label><input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.about.step3.title}"><label class="block text-sm font-medium text-gray-700 mt-2">Descrição</label><textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.about.step3.description}</textarea></div></div><button id="save-about" class="save-button">Salvar Alterações</button></div>`;
-                    case 'services': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Serviços/Produtos</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label class="block text-sm font-medium text-gray-700">Título da Seção</label><input type="text" id="services-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="${pageData.services.title}"></div><div><label class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label><textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">${pageData.services.subtitle}</textarea></div><div id="services-container"><h3 class="text-lg font-semibold text-gray-800 mb-2">Itens</h3>${pageData.services.items.map((item, index) => `<div class="border p-4 rounded-md mb-4 space-y-3 relative"><button class="remove-button absolute -top-2 -right-2 remove-item" data-type="services" data-index="${index}">X</button><div><label>Título</label><input type="text" class="mt-1 block w-full service-item-title" value="${item.title}" data-index="${index}"></div><div><label>URL da Imagem</label><input type="text" class="mt-1 block w-full service-item-image" value="${item.image}" data-index="${index}"></div><div><label>Preço</label><input type="text" class="mt-1 block w-full service-item-price" value="${item.price}" data-index="${index}"></div><div><label>Descrição</label><textarea rows="3" class="mt-1 block w-full service-item-description" data-index="${index}">${item.description}</textarea></div></div>`).join('')}</div><button id="add-service" class="add-button">Adicionar Item</button><hr><button id="save-services" class="save-button">Salvar Alterações</button></div>`;
-                    case 'testimonials': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Depoimentos</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label class="block text-sm font-medium text-gray-700">Título da Seção</label><input type="text" id="testimonials-title" class="mt-1 block w-full" value="${pageData.testimonials.title}"></div><div><label class="block text-sm font-medium text-gray-700">Subtítulo</label><textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full">${pageData.testimonials.subtitle}</textarea></div><div><h3 class="text-lg font-semibold text-gray-800 mb-2">Itens</h3>${pageData.testimonials.items.map((item, index) => `<div class="border p-4 rounded-md mb-4 space-y-3 relative"><button class="remove-button absolute -top-2 -right-2 remove-item" data-type="testimonials" data-index="${index}">X</button><div><label>Depoimento</label><textarea rows="4" class="mt-1 block w-full testimonial-item-quote" data-index="${index}">${item.quote}</textarea></div><div><label>Autor</label><input type="text" class="mt-1 block w-full testimonial-item-author" value="${item.author}" data-index="${index}"></div><div><label>Cargo</label><input type="text" class="mt-1 block w-full testimonial-item-position" value="${item.position}" data-index="${index}"></div><div><label>URL da Imagem</label><input type="text" class="mt-1 block w-full testimonial-item-image" value="${item.image}" data-index="${index}"></div></div>`).join('')}</div><button id="add-testimonial" class="add-button">Adicionar Item</button><hr><button id="save-testimonials" class="save-button">Salvar Alterações</button></div>`;
-                    case 'faq': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar FAQ</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label class="block text-sm font-medium text-gray-700">Título</label><input type="text" id="faq-title" class="mt-1 block w-full" value="${pageData.faq.title}"></div><div><label class="block text-sm font-medium text-gray-700">Subtítulo</label><textarea id="faq-subtitle" rows="2" class="mt-1 block w-full">${pageData.faq.subtitle}</textarea></div><div><h3 class="text-lg font-semibold text-gray-800 mb-2">Itens</h3>${pageData.faq.items.map((item, index) => `<div class="border p-4 rounded-md mb-4 space-y-3 relative"><button class="remove-button absolute -top-2 -right-2 remove-item" data-type="faq" data-index="${index}">X</button><div><label>Pergunta</label><input type="text" class="mt-1 block w-full faq-item-question" value="${item.question}" data-index="${index}"></div><div><label>Resposta</label><textarea rows="3" class="mt-1 block w-full faq-item-answer" data-index="${index}">${item.answer}</textarea></div></div>`).join('')}</div><button id="add-faq" class="add-button">Adicionar Item</button><hr><button id="save-faq" class="save-button">Salvar Alterações</button></div>`;
-                    case 'cta': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Chamada Final (CTA)</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label class="block text-sm font-medium text-gray-700">Título</label><input type="text" id="cta-title" class="mt-1 block w-full" value="${pageData.cta.title}"></div><div><label class="block text-sm font-medium text-gray-700">Subtítulo</label><textarea id="cta-subtitle" rows="2" class="mt-1 block w-full">${pageData.cta.subtitle}</textarea></div><div><label class="block text-sm font-medium text-gray-700">Texto do Botão</label><input type="text" id="cta-button-text" class="mt-1 block w-full" value="${pageData.cta.buttonText}"></div><button id="save-cta" class="save-button">Salvar Alterações</button></div>`;
-                    case 'footer': return `<h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Rodapé</h2><div class="bg-white p-8 rounded-lg shadow-md space-y-6"><div><label>Texto da Logo</label><input type="text" id="footer-logo" class="mt-1 block w-full" value="${pageData.footer.logo}"></div><div><label>Descrição Curta</label><textarea id="footer-description" rows="2" class="mt-1 block w-full">${pageData.footer.description}</textarea></div><div><label>Nº de WhatsApp</label><input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full" value="${pageData.footer.whatsapp}"></div><div><label>Email</label><input type="email" id="footer-contact-email" class="mt-1 block w-full" value="${pageData.footer.email}"></div><div><label>Telefone</label><input type="tel" id="footer-contact-phone" class="mt-1 block w-full" value="${pageData.footer.phone}"></div><div><label>Endereço</label><input type="text" id="footer-contact-address" class="mt-1 block w-full" value="${pageData.footer.address}"></div><div><label>Texto de Copyright</label><input type="text" id="footer-copyright" class="mt-1 block w-full" value="${pageData.footer.copyright}"></div><button id="save-footer" class="save-button">Salvar Alterações</button></div>`;
+            function renderFAQ(item, index) {
+                const container = document.getElementById('faq-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
+                container.appendChild(div);
+            }
+
+            function populateForms() {
+                if (!pageData) return;
+                // Hero
+                if(pageData.hero) {
+                    document.getElementById('hero-title').value = pageData.hero.title || '';
+                    document.getElementById('hero-subtitle').value = pageData.hero.subtitle || '';
+                    document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text || '';
+                    document.getElementById('hero-cta2-text').value = pageData.hero.cta2Text || '';
+                    document.getElementById('hero-image').value = pageData.hero.image || '';
+                }
+                // Social Proof
+                if(pageData.socialProof) {
+                    document.getElementById('social-title').value = pageData.socialProof.title || '';
+                    document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
+                    if(pageData.socialProof.logos) pageData.socialProof.logos.forEach(renderLogo);
+                }
+                // About
+                if(pageData.about) {
+                    document.getElementById('about-title').value = pageData.about.title || '';
+                    document.getElementById('about-subtitle').value = pageData.about.subtitle || '';
+                    document.getElementById('about-step1-title').value = pageData.about.step1?.title || '';
+                    document.getElementById('about-step1-desc').value = pageData.about.step1?.description || '';
+                    document.getElementById('about-step2-title').value = pageData.about.step2?.title || '';
+                    document.getElementById('about-step2-desc').value = pageData.about.step2?.description || '';
+                    document.getElementById('about-step3-title').value = pageData.about.step3?.title || '';
+                    document.getElementById('about-step3-desc').value = pageData.about.step3?.description || '';
+                }
+                // Services
+                if(pageData.services) {
+                    document.getElementById('services-title').value = pageData.services.title || '';
+                    document.getElementById('services-subtitle').value = pageData.services.subtitle || '';
+                    document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
+                    if(pageData.services.items) pageData.services.items.forEach(renderService);
+                }
+                // Testimonials
+                if(pageData.testimonials) {
+                    document.getElementById('testimonials-title').value = pageData.testimonials.title || '';
+                    document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle || '';
+                    document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
+                    if(pageData.testimonials.items) pageData.testimonials.items.forEach(renderTestimonial);
+                }
+                // FAQ
+                if(pageData.faq) {
+                    document.getElementById('faq-title').value = pageData.faq.title || '';
+                    document.getElementById('faq-subtitle').value = pageData.faq.subtitle || '';
+                    document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
+                    if(pageData.faq.items) pageData.faq.items.forEach(renderFAQ);
+                }
+                // CTA
+                if(pageData.cta) {
+                    document.getElementById('cta-title').value = pageData.cta.title || '';
+                    document.getElementById('cta-subtitle').value = pageData.cta.subtitle || '';
+                    document.getElementById('cta-button-text').value = pageData.cta.buttonText || '';
+                }
+                // Footer
+                if(pageData.footer) {
+                    document.getElementById('footer-logo').value = pageData.footer.logo || '';
+                    document.getElementById('footer-description').value = pageData.footer.description || '';
+                    document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp || '';
+                    document.getElementById('footer-contact-email').value = pageData.footer.email || '';
+                    document.getElementById('footer-contact-phone').value = pageData.footer.phone || '';
+                    document.getElementById('footer-contact-address').value = pageData.footer.address || '';
+                    document.getElementById('footer-copyright').value = pageData.footer.copyright || '';
                 }
             }
-
-            function collectAllFormData() {
-                // Coleta dados de campos simples
-                pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta2Text: document.getElementById('hero-cta2-text').value, image: document.getElementById('hero-image').value };
+            
+            document.getElementById('save-hero').addEventListener('click', () => {
+                pageData.hero = {
+                    title: document.getElementById('hero-title').value,
+                    subtitle: document.getElementById('hero-subtitle').value,
+                    cta1Text: document.getElementById('hero-cta1-text').value,
+                    cta2Text: document.getElementById('hero-cta2-text').value,
+                    image: document.getElementById('hero-image').value
+                };
+                saveData();
+            });
+            document.getElementById('save-social-proof').addEventListener('click', () => {
                 pageData.socialProof.title = document.getElementById('social-title').value;
-                pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } };
+                const newLogos = [];
+                document.querySelectorAll('#social-logos-container .border').forEach(div => {
+                    newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value, });
+                });
+                pageData.socialProof.logos = newLogos;
+                saveData();
+            });
+            document.getElementById('save-about').addEventListener('click', () => {
+                pageData.about = {
+                    title: document.getElementById('about-title').value,
+                    subtitle: document.getElementById('about-subtitle').value,
+                    step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value },
+                    step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
+                    step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
+                };
+                saveData();
+            });
+            document.getElementById('save-services').addEventListener('click', () => {
                 pageData.services.title = document.getElementById('services-title').value;
                 pageData.services.subtitle = document.getElementById('services-subtitle').value;
+                const newItems = [];
+                document.querySelectorAll('#services-container .border').forEach(div => {
+                    newItems.push({
+                        title: div.querySelector('.service-item-title').value,
+                        description: div.querySelector('.service-item-description').value,
+                        image: div.querySelector('.service-item-image').value,
+                        price: div.querySelector('.service-item-price').value,
+                    });
+                });
+                pageData.services.items = newItems;
+                saveData();
+            });
+            document.getElementById('save-testimonials').addEventListener('click', () => {
                 pageData.testimonials.title = document.getElementById('testimonials-title').value;
                 pageData.testimonials.subtitle = document.getElementById('testimonials-subtitle').value;
+                const newItems = [];
+                document.querySelectorAll('#testimonials-container .border').forEach(div => {
+                    newItems.push({
+                        quote: div.querySelector('.testimonial-item-quote').value,
+                        author: div.querySelector('.testimonial-item-author').value,
+                        position: div.querySelector('.testimonial-item-position').value,
+                        image: div.querySelector('.testimonial-item-image').value,
+                    });
+                });
+                pageData.testimonials.items = newItems;
+                saveData();
+            });
+            document.getElementById('save-faq').addEventListener('click', () => {
                 pageData.faq.title = document.getElementById('faq-title').value;
                 pageData.faq.subtitle = document.getElementById('faq-subtitle').value;
-                pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value };
-                pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, copyright: document.getElementById('footer-copyright').value };
+                const newItems = [];
+                document.querySelectorAll('#faq-container .border').forEach(div => {
+                    newItems.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value });
+                });
+                pageData.faq.items = newItems;
+                saveData();
+            });
+            document.getElementById('save-cta').addEventListener('click', () => {
+                pageData.cta = {
+                    title: document.getElementById('cta-title').value,
+                    subtitle: document.getElementById('cta-subtitle').value,
+                    buttonText: document.getElementById('cta-button-text').value
+                };
+                saveData();
+            });
+            document.getElementById('save-footer').addEventListener('click', () => {
+                pageData.footer = {
+                    logo: document.getElementById('footer-logo').value,
+                    description: document.getElementById('footer-description').value,
+                    whatsapp: document.getElementById('footer-contact-whatsapp').value,
+                    email: document.getElementById('footer-contact-email').value,
+                    phone: document.getElementById('footer-contact-phone').value,
+                    address: document.getElementById('footer-contact-address').value,
+                    copyright: document.getElementById('footer-copyright').value
+                };
+                saveData();
+            });
 
-                // Coleta dados de listas dinâmicas
-                pageData.socialProof.logos = Array.from(document.querySelectorAll('.social-logo-src')).map((input, i) => ({ src: input.value, alt: document.querySelectorAll('.social-logo-alt')[i].value }));
-                pageData.services.items = Array.from(document.querySelectorAll('.service-item-title')).map((input, i) => ({ title: input.value, image: document.querySelectorAll('.service-item-image')[i].value, price: document.querySelectorAll('.service-item-price')[i].value, description: document.querySelectorAll('.service-item-description')[i].value }));
-                pageData.testimonials.items = Array.from(document.querySelectorAll('.testimonial-item-quote')).map((input, i) => ({ quote: input.value, author: document.querySelectorAll('.testimonial-item-author')[i].value, position: document.querySelectorAll('.testimonial-item-position')[i].value, image: document.querySelectorAll('.testimonial-item-image')[i].value }));
-                pageData.faq.items = Array.from(document.querySelectorAll('.faq-item-question')).map((input, i) => ({ question: input.value, answer: document.querySelectorAll('.faq-item-answer')[i].value }));
-            }
+            document.getElementById('add-social-logo').addEventListener('click', () => { if(!pageData.socialProof.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
+            document.getElementById('add-service').addEventListener('click', () => { if(!pageData.services.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
+            document.getElementById('add-testimonial').addEventListener('click', () => { if(!pageData.testimonials.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
+            document.getElementById('add-faq').addEventListener('click', () => { if(!pageData.faq.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
+            
+            document.body.addEventListener('click', e => {
+                if (e.target.classList.contains('remove-logo') || e.target.classList.contains('remove-service') || e.target.classList.contains('remove-testimonial') || e.target.classList.contains('remove-faq')) {
+                    e.target.closest('.border').remove();
+                }
+            });
 
-            await loadDataAndPopulateForms();
+            loadData();
         });
     </script>
 </body>
 </html>
-
