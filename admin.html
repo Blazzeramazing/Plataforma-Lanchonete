@@ -20,11 +20,13 @@
     <!-- Camada de Autenticação -->
     <div id="auth-layer" class="fixed inset-0 bg-gray-100 z-50 flex items-center justify-center">
         <div id="auth-message" class="text-center p-8 bg-white rounded-lg shadow-md">
-            <!-- Mensagens de autenticação serão inseridas aqui -->
+            <!-- MELHORIA: Adiciona uma mensagem de carregamento inicial -->
+            <h2 class="text-xl font-bold mb-4">A verificar autenticação...</h2>
+            <p class="text-gray-600">Por favor, aguarde.</p>
         </div>
     </div>
 
-    <div id="main-content" class="flex h-screen bg-gray-200 opacity-0 transition-opacity duration-500">
+    <div id="main-content" class="hidden h-screen bg-gray-200 transition-opacity duration-500">
         <!-- Barra Lateral de Navegação -->
         <aside class="w-64 bg-gray-800 text-white flex flex-col">
             <div class="px-6 py-4 border-b border-gray-700">
@@ -326,7 +328,8 @@
                 if (user.emailVerified) {
                     // Utilizador autenticado e verificado
                     authLayer.style.display = 'none';
-                    mainContent.classList.remove('opacity-0');
+                    mainContent.classList.remove('hidden');
+                    mainContent.classList.add('flex'); // Torna o conteúdo principal visível
                     document.getElementById('user-email').textContent = user.email;
                     loadData(); // Carrega os dados do Firestore só depois de confirmar o acesso
                 } else {
@@ -347,7 +350,7 @@
             e.preventDefault();
             try {
                 await signOut(auth);
-                // O onAuthStateChanged irá detetar a saída e redirecionar
+                // O onAuthStateChanged irá detetar a saída e redirecionar para a página de login.
             } catch (error) {
                 console.error('Erro ao fazer logout:', error);
             }
@@ -632,4 +635,3 @@
     </script>
 </body>
 </html>
-

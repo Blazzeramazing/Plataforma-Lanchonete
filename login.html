@@ -163,7 +163,8 @@
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 if (userCredential.user.emailVerified) {
-                    window.location.href = './admin-firebase.html';
+                    // CORREÇÃO: Redireciona para admin.html, que é o nome do ficheiro no seu servidor.
+                    window.location.href = './admin.html';
                 } else {
                     showError('login-error', 'Por favor, verifique o seu email para ativar a sua conta antes de fazer login.');
                 }
@@ -196,3 +197,4 @@
     </script>
 </body>
 </html>
+
