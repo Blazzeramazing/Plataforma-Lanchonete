@@ -397,7 +397,6 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
-                    // Usar setDoc sem merge para garantir que o documento reflete exatamente o estado do objeto pageData
                     await setDoc(contentDocRef, pageData); 
                     showToast();
                 } catch (error) {
@@ -416,7 +415,7 @@
                     } else {
                         console.log("Nenhum documento encontrado. A criar com dados padrão.");
                         pageData = getDefaultData();
-                        await setDoc(contentDocRef, pageData); // Salva os dados padrão na primeira vez
+                        await setDoc(contentDocRef, pageData);
                     }
                 } catch (error) {
                     console.error("Erro ao carregar dados: ", error);
@@ -459,18 +458,15 @@
             }
 
             function populateForms() {
-                if (!pageData) pageData = getDefaultData(); // Garante que pageData nunca é nulo ou indefinido
-                // Hero
+                if (!pageData) pageData = getDefaultData();
                 document.getElementById('hero-title').value = pageData.hero?.title || '';
                 document.getElementById('hero-subtitle').value = pageData.hero?.subtitle || '';
                 document.getElementById('hero-cta1-text').value = pageData.hero?.cta1Text || '';
                 document.getElementById('hero-cta2-text').value = pageData.hero?.cta2Text || '';
                 document.getElementById('hero-image').value = pageData.hero?.image || '';
-                // Social Proof
                 document.getElementById('social-title').value = pageData.socialProof?.title || '';
                 document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
                 pageData.socialProof?.logos?.forEach(renderLogo);
-                // About
                 document.getElementById('about-title').value = pageData.about?.title || '';
                 document.getElementById('about-subtitle').value = pageData.about?.subtitle || '';
                 document.getElementById('about-step1-title').value = pageData.about?.step1?.title || '';
@@ -479,26 +475,21 @@
                 document.getElementById('about-step2-desc').value = pageData.about?.step2?.description || '';
                 document.getElementById('about-step3-title').value = pageData.about?.step3?.title || '';
                 document.getElementById('about-step3-desc').value = pageData.about?.step3?.description || '';
-                // Services
                 document.getElementById('services-title').value = pageData.services?.title || '';
                 document.getElementById('services-subtitle').value = pageData.services?.subtitle || '';
                 document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
                 pageData.services?.items?.forEach(renderService);
-                // Testimonials
                 document.getElementById('testimonials-title').value = pageData.testimonials?.title || '';
                 document.getElementById('testimonials-subtitle').value = pageData.testimonials?.subtitle || '';
                 document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
                 pageData.testimonials?.items?.forEach(renderTestimonial);
-                // FAQ
                 document.getElementById('faq-title').value = pageData.faq?.title || '';
                 document.getElementById('faq-subtitle').value = pageData.faq?.subtitle || '';
                 document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
                 pageData.faq?.items?.forEach(renderFAQ);
-                // CTA
                 document.getElementById('cta-title').value = pageData.cta?.title || '';
                 document.getElementById('cta-subtitle').value = pageData.cta?.subtitle || '';
                 document.getElementById('cta-button-text').value = pageData.cta?.buttonText || '';
-                // Footer
                 document.getElementById('footer-logo').value = pageData.footer?.logo || '';
                 document.getElementById('footer-description').value = pageData.footer?.description || '';
                 document.getElementById('footer-contact-whatsapp').value = pageData.footer?.whatsapp || '';
@@ -508,113 +499,112 @@
                 document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
             }
             
-            // --- Event Listeners para Salvar (Lógica Refatorada) ---
+            function updatePageDataFromForms() {
+                pageData.hero = {
+                    title: document.getElementById('hero-title').value,
+                    subtitle: document.getElementById('hero-subtitle').value,
+                    cta1Text: document.getElementById('hero-cta1-text').value,
+                    cta2Text: document.getElementById('hero-cta2-text').value,
+                    image: document.getElementById('hero-image').value
+                };
+
+                const newLogos = [];
+                document.querySelectorAll('#social-logos-container .border').forEach(div => {
+                    newLogos.push({ 
+                        src: div.querySelector('.social-logo-src').value, 
+                        alt: div.querySelector('.social-logo-alt').value 
+                    });
+                });
+                pageData.socialProof = {
+                    title: document.getElementById('social-title').value,
+                    logos: newLogos
+                };
+
+                pageData.about = {
+                    title: document.getElementById('about-title').value,
+                    subtitle: document.getElementById('about-subtitle').value,
+                    step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value },
+                    step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
+                    step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
+                };
+
+                const newServices = [];
+                document.querySelectorAll('#services-container .border').forEach(div => {
+                    newServices.push({
+                        title: div.querySelector('.service-item-title').value,
+                        description: div.querySelector('.service-item-description').value,
+                        image: div.querySelector('.service-item-image').value,
+                        price: div.querySelector('.service-item-price').value,
+                    });
+                });
+                pageData.services = {
+                    title: document.getElementById('services-title').value,
+                    subtitle: document.getElementById('services-subtitle').value,
+                    items: newServices
+                };
+
+                const newTestimonials = [];
+                document.querySelectorAll('#testimonials-container .border').forEach(div => {
+                    newTestimonials.push({
+                        quote: div.querySelector('.testimonial-item-quote').value,
+                        author: div.querySelector('.testimonial-item-author').value,
+                        position: div.querySelector('.testimonial-item-position').value,
+                        image: div.querySelector('.testimonial-item-image').value,
+                    });
+                });
+                pageData.testimonials = {
+                    title: document.getElementById('testimonials-title').value,
+                    subtitle: document.getElementById('testimonials-subtitle').value,
+                    items: newTestimonials
+                };
+
+                const newFaqs = [];
+                document.querySelectorAll('#faq-container .border').forEach(div => {
+                    newFaqs.push({ 
+                        question: div.querySelector('.faq-item-question').value, 
+                        answer: div.querySelector('.faq-item-answer').value 
+                    });
+                });
+                pageData.faq = {
+                    title: document.getElementById('faq-title').value,
+                    subtitle: document.getElementById('faq-subtitle').value,
+                    items: newFaqs
+                };
+
+                pageData.cta = {
+                    title: document.getElementById('cta-title').value,
+                    subtitle: document.getElementById('cta-subtitle').value,
+                    buttonText: document.getElementById('cta-button-text').value
+                };
+
+                pageData.footer = {
+                    logo: document.getElementById('footer-logo').value,
+                    description: document.getElementById('footer-description').value,
+                    whatsapp: document.getElementById('footer-contact-whatsapp').value,
+                    email: document.getElementById('footer-contact-email').value,
+                    phone: document.getElementById('footer-contact-phone').value,
+                    address: document.getElementById('footer-contact-address').value,
+                    copyright: document.getElementById('footer-copyright').value
+                };
+            }
+
             const setupSaveHandlers = () => {
-                document.getElementById('save-hero').addEventListener('click', () => {
-                    if (!pageData.hero) pageData.hero = {};
-                    pageData.hero.title = document.getElementById('hero-title').value;
-                    pageData.hero.subtitle = document.getElementById('hero-subtitle').value;
-                    pageData.hero.cta1Text = document.getElementById('hero-cta1-text').value;
-                    pageData.hero.cta2Text = document.getElementById('hero-cta2-text').value;
-                    pageData.hero.image = document.getElementById('hero-image').value;
-                    saveData();
-                });
-
-                document.getElementById('save-social-proof').addEventListener('click', () => {
-                    if (!pageData.socialProof) pageData.socialProof = { logos: [] };
-                    pageData.socialProof.title = document.getElementById('social-title').value;
-                    const newLogos = [];
-                    document.querySelectorAll('#social-logos-container .border').forEach(div => {
-                        newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value });
+                const allSaveButtons = document.querySelectorAll('.save-button');
+                allSaveButtons.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        updatePageDataFromForms();
+                        saveData();
                     });
-                    pageData.socialProof.logos = newLogos;
-                    saveData();
-                });
-
-                document.getElementById('save-about').addEventListener('click', () => {
-                    if (!pageData.about) pageData.about = {};
-                    pageData.about.title = document.getElementById('about-title').value;
-                    pageData.about.subtitle = document.getElementById('about-subtitle').value;
-                    pageData.about.step1 = { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value };
-                    pageData.about.step2 = { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value };
-                    pageData.about.step3 = { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value };
-                    saveData();
-                });
-
-                document.getElementById('save-services').addEventListener('click', () => {
-                    if (!pageData.services) pageData.services = { items: [] };
-                    pageData.services.title = document.getElementById('services-title').value;
-                    pageData.services.subtitle = document.getElementById('services-subtitle').value;
-                    const newItems = [];
-                    document.querySelectorAll('#services-container .border').forEach(div => {
-                        newItems.push({
-                            title: div.querySelector('.service-item-title').value,
-                            description: div.querySelector('.service-item-description').value,
-                            image: div.querySelector('.service-item-image').value,
-                            price: div.querySelector('.service-item-price').value,
-                        });
-                    });
-                    pageData.services.items = newItems;
-                    saveData();
-                });
-
-                document.getElementById('save-testimonials').addEventListener('click', () => {
-                    if (!pageData.testimonials) pageData.testimonials = { items: [] };
-                    pageData.testimonials.title = document.getElementById('testimonials-title').value;
-                    pageData.testimonials.subtitle = document.getElementById('testimonials-subtitle').value;
-                    const newItems = [];
-                    document.querySelectorAll('#testimonials-container .border').forEach(div => {
-                        newItems.push({
-                            quote: div.querySelector('.testimonial-item-quote').value,
-                            author: div.querySelector('.testimonial-item-author').value,
-                            position: div.querySelector('.testimonial-item-position').value,
-                            image: div.querySelector('.testimonial-item-image').value,
-                        });
-                    });
-                    pageData.testimonials.items = newItems;
-                    saveData();
-                });
-
-                document.getElementById('save-faq').addEventListener('click', () => {
-                    if (!pageData.faq) pageData.faq = { items: [] };
-                    pageData.faq.title = document.getElementById('faq-title').value;
-                    pageData.faq.subtitle = document.getElementById('faq-subtitle').value;
-                    const newItems = [];
-                    document.querySelectorAll('#faq-container .border').forEach(div => {
-                        newItems.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value });
-                    });
-                    pageData.faq.items = newItems;
-                    saveData();
-                });
-
-                document.getElementById('save-cta').addEventListener('click', () => {
-                    if (!pageData.cta) pageData.cta = {};
-                    pageData.cta.title = document.getElementById('cta-title').value;
-                    pageData.cta.subtitle = document.getElementById('cta-subtitle').value;
-                    pageData.cta.buttonText = document.getElementById('cta-button-text').value;
-                    saveData();
-                });
-
-                document.getElementById('save-footer').addEventListener('click', () => {
-                    if (!pageData.footer) pageData.footer = {};
-                    pageData.footer.logo = document.getElementById('footer-logo').value;
-                    pageData.footer.description = document.getElementById('footer-description').value;
-                    pageData.footer.whatsapp = document.getElementById('footer-contact-whatsapp').value;
-                    pageData.footer.email = document.getElementById('footer-contact-email').value;
-                    pageData.footer.phone = document.getElementById('footer-contact-phone').value;
-                    pageData.footer.address = document.getElementById('footer-contact-address').value;
-                    pageData.footer.copyright = document.getElementById('footer-copyright').value;
-                    saveData();
                 });
             };
 
             setupSaveHandlers();
             
-            // --- Event Listeners para Adicionar/Remover Itens ---
-            document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
-            document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
-            document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
-            document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
+            document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
+            document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
+            document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials?.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
+            document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
             
             document.body.addEventListener('click', e => {
                 if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
@@ -622,7 +612,6 @@
                 }
             });
 
-            // Função para retornar dados iniciais se o banco estiver vazio
             function getDefaultData() {
                 return {
                     hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
