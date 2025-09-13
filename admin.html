@@ -196,7 +196,7 @@
                     </div>
                     <div id="testimonials-container">
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>
-                         <!-- Depoimentos serão adicionados aqui via JS -->
+                          <!-- Depoimentos serão adicionados aqui via JS -->
                     </div>
                     <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
                     <hr>
@@ -218,7 +218,7 @@
                     </div>
                     <div id="faq-container">
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>
-                         <!-- FAQs serão adicionados aqui via JS -->
+                          <!-- FAQs serão adicionados aqui via JS -->
                     </div>
                     <button id="add-faq" class="add-button">Adicionar Pergunta</button>
                     <hr>
@@ -286,19 +286,39 @@
     </div>
 
     <!-- Toast de Notificação -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition-opacity duration-300 opacity-0">
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition-all duration-300 opacity-0 transform translate-y-4">
         Alterações salvas com sucesso!
     </div>
     
-    <script>
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- Configuração do Firebase ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
+          authDomain: "minhas-credenciais-firebase.firebaseapp.com",
+          projectId: "minhas-credenciais-firebase",
+          storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
+          messagingSenderId: "90146495031",
+          appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
+        };
+        
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const contentDocRef = doc(db, "landingPage", "content");
+
         document.addEventListener('DOMContentLoaded', function () {
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
 
             const globalStyles = `
-                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s; }
+                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s; cursor: pointer; }
                 .save-button:hover { background-color: #4338ca; }
+                .save-button:disabled { background-color: #a5b4fc; cursor: not-allowed; }
                 .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: background-color 0.3s; }
                 .add-button:hover { background-color: #059669; }
                 .remove-button { background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem; transition: background-color 0.3s; }
@@ -321,74 +341,43 @@
                 });
             });
             
-            let pageData = {
-                hero: {
-                    title: 'Transforme Sua Ideia em um Negócio de Sucesso',
-                    subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.',
-                    cta1Text: 'Conheça Nossos Serviços',
-                    cta2Text: 'Fale com um Especialista',
-                    image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível'
-                },
-                socialProof: {
-                    title: 'Confiado por grandes empresas',
-                    logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ]
-                },
-                about: {
-                    title: 'Um Processo Simples para Resultados Incríveis',
-                    subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.',
-                    step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' },
-                    step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' },
-                    step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' }
-                },
-                services: {
-                    title: 'Soluções Completas para Você',
-                    subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.',
-                    items: [
-                        { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1. Ideal para quem busca qualidade e inovação.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' },
-                        { title: 'Serviço Exemplo 2', description: 'Descrição completa do nosso serviço especializado 2. Transforme seu negócio conosco.', image: 'https://placehold.co/400x300/818CF8/1E1B4B?text=Serviço+2', price: '249,00' },
-                        { title: 'Produto Exemplo 3', description: 'Descrição detalhada do produto 3. Solução eficiente e com ótimo custo-benefício.', image: 'https://placehold.co/400x300/F87171/450A0A?text=Produto+3', price: '49,90' }
-                    ]
-                },
-                testimonials: {
-                    title: 'O que Nossos Clientes Dizem',
-                    subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa. Veja algumas de suas histórias.',
-                    items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ]
-                },
-                faq: {
-                    title: 'Perguntas Frequentes',
-                    subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas para as perguntas mais comuns.',
-                    items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ]
-                },
-                cta: {
-                    title: 'Pronto para Levar Seu Negócio para o Próximo Nível?',
-                    subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.',
-                    buttonText: 'Solicitar um Orçamento Gratuito'
-                },
-                footer: {
-                    logo: 'SuaLogo',
-                    description: 'Soluções inovadoras para impulsionar o seu sucesso.',
-                    whatsapp: '5532999998888',
-                    email: 'contato@suaempresa.com',
-                    phone: '(XX) XXXX-XXXX',
-                    address: 'Sua Rua, 123 - Cidade, Estado',
-                    copyright: '© 2024 Sua Empresa. Todos os direitos reservados.'
-                }
-            };
+            let pageData = {};
             
             function showToast() {
-                toast.classList.remove('opacity-0');
-                setTimeout(() => { toast.classList.add('opacity-0'); }, 3000);
+                toast.classList.remove('opacity-0', 'translate-y-4');
+                setTimeout(() => { 
+                    toast.classList.add('opacity-0', 'translate-y-4'); 
+                }, 3000);
             }
             
-            function saveData() {
-                localStorage.setItem('landingPageData', JSON.stringify(pageData));
-                showToast();
+            async function saveData() {
+                const saveButtons = document.querySelectorAll('.save-button');
+                saveButtons.forEach(btn => btn.disabled = true);
+                try {
+                    await setDoc(contentDocRef, pageData);
+                    showToast();
+                } catch (error) {
+                    console.error("Erro ao salvar dados: ", error);
+                    alert("Ocorreu um erro ao salvar. Verifique o console.");
+                } finally {
+                    saveButtons.forEach(btn => btn.disabled = false);
+                }
             }
 
-            function loadData() {
-                const savedData = localStorage.getItem('landingPageData');
-                if (savedData) {
-                    pageData = JSON.parse(savedData);
+            async function loadData() {
+                try {
+                    const docSnap = await getDoc(contentDocRef);
+                    if (docSnap.exists()) {
+                        pageData = docSnap.data();
+                    } else {
+                        // Se não existir, usa dados padrão para popular o formulário pela primeira vez
+                        console.log("Nenhum documento encontrado. Usando dados padrão.");
+                        pageData = getDefaultData();
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar dados: ", error);
+                    alert("Ocorreu um erro ao carregar os dados. Usando dados padrão.");
+                    pageData = getDefaultData();
                 }
                 populateForms();
             }
@@ -418,68 +407,71 @@
             }
 
             function renderFAQ(item, index) {
-                 const container = document.getElementById('faq-container');
-                 const div = document.createElement('div');
-                 div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                 div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
-                 container.appendChild(div);
+                const container = document.getElementById('faq-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
+                container.appendChild(div);
             }
 
             function populateForms() {
                 // Hero
-                document.getElementById('hero-title').value = pageData.hero.title;
-                document.getElementById('hero-subtitle').value = pageData.hero.subtitle;
-                document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text;
-                document.getElementById('hero-cta2-text').value = pageData.hero.cta2Text;
-                document.getElementById('hero-image').value = pageData.hero.image;
+                document.getElementById('hero-title').value = pageData.hero?.title || '';
+                document.getElementById('hero-subtitle').value = pageData.hero?.subtitle || '';
+                document.getElementById('hero-cta1-text').value = pageData.hero?.cta1Text || '';
+                document.getElementById('hero-cta2-text').value = pageData.hero?.cta2Text || '';
+                document.getElementById('hero-image').value = pageData.hero?.image || '';
                 // Social Proof
-                document.getElementById('social-title').value = pageData.socialProof.title;
+                document.getElementById('social-title').value = pageData.socialProof?.title || '';
                 document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
-                pageData.socialProof.logos.forEach(renderLogo);
+                pageData.socialProof?.logos?.forEach(renderLogo);
                 // About
-                document.getElementById('about-title').value = pageData.about.title;
-                document.getElementById('about-subtitle').value = pageData.about.subtitle;
-                document.getElementById('about-step1-title').value = pageData.about.step1.title;
-                document.getElementById('about-step1-desc').value = pageData.about.step1.description;
-                document.getElementById('about-step2-title').value = pageData.about.step2.title;
-                document.getElementById('about-step2-desc').value = pageData.about.step2.description;
-                document.getElementById('about-step3-title').value = pageData.about.step3.title;
-                document.getElementById('about-step3-desc').value = pageData.about.step3.description;
+                document.getElementById('about-title').value = pageData.about?.title || '';
+                document.getElementById('about-subtitle').value = pageData.about?.subtitle || '';
+                document.getElementById('about-step1-title').value = pageData.about?.step1?.title || '';
+                document.getElementById('about-step1-desc').value = pageData.about?.step1?.description || '';
+                document.getElementById('about-step2-title').value = pageData.about?.step2?.title || '';
+                document.getElementById('about-step2-desc').value = pageData.about?.step2?.description || '';
+                document.getElementById('about-step3-title').value = pageData.about?.step3?.title || '';
+                document.getElementById('about-step3-desc').value = pageData.about?.step3?.description || '';
                 // Services
-                document.getElementById('services-title').value = pageData.services.title;
-                document.getElementById('services-subtitle').value = pageData.services.subtitle;
+                document.getElementById('services-title').value = pageData.services?.title || '';
+                document.getElementById('services-subtitle').value = pageData.services?.subtitle || '';
                 document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
-                pageData.services.items.forEach(renderService);
+                pageData.services?.items?.forEach(renderService);
                 // Testimonials
-                document.getElementById('testimonials-title').value = pageData.testimonials.title;
-                document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle;
+                document.getElementById('testimonials-title').value = pageData.testimonials?.title || '';
+                document.getElementById('testimonials-subtitle').value = pageData.testimonials?.subtitle || '';
                 document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
-                pageData.testimonials.items.forEach(renderTestimonial);
+                pageData.testimonials?.items?.forEach(renderTestimonial);
                 // FAQ
-                document.getElementById('faq-title').value = pageData.faq.title;
-                document.getElementById('faq-subtitle').value = pageData.faq.subtitle;
+                document.getElementById('faq-title').value = pageData.faq?.title || '';
+                document.getElementById('faq-subtitle').value = pageData.faq?.subtitle || '';
                 document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
-                pageData.faq.items.forEach(renderFAQ);
+                pageData.faq?.items?.forEach(renderFAQ);
                 // CTA
-                document.getElementById('cta-title').value = pageData.cta.title;
-                document.getElementById('cta-subtitle').value = pageData.cta.subtitle;
-                document.getElementById('cta-button-text').value = pageData.cta.buttonText;
+                document.getElementById('cta-title').value = pageData.cta?.title || '';
+                document.getElementById('cta-subtitle').value = pageData.cta?.subtitle || '';
+                document.getElementById('cta-button-text').value = pageData.cta?.buttonText || '';
                 // Footer
-                document.getElementById('footer-logo').value = pageData.footer.logo;
-                document.getElementById('footer-description').value = pageData.footer.description;
-                document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp;
-                document.getElementById('footer-contact-email').value = pageData.footer.email;
-                document.getElementById('footer-contact-phone').value = pageData.footer.phone;
-                document.getElementById('footer-contact-address').value = pageData.footer.address;
-                document.getElementById('footer-copyright').value = pageData.footer.copyright;
+                document.getElementById('footer-logo').value = pageData.footer?.logo || '';
+                document.getElementById('footer-description').value = pageData.footer?.description || '';
+                document.getElementById('footer-contact-whatsapp').value = pageData.footer?.whatsapp || '';
+                document.getElementById('footer-contact-email').value = pageData.footer?.email || '';
+                document.getElementById('footer-contact-phone').value = pageData.footer?.phone || '';
+                document.getElementById('footer-contact-address').value = pageData.footer?.address || '';
+                document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
             }
             
+            // --- Event Listeners para Salvar ---
             document.getElementById('save-hero').addEventListener('click', () => {
-                pageData.hero.title = document.getElementById('hero-title').value;
-                pageData.hero.subtitle = document.getElementById('hero-subtitle').value;
-                pageData.hero.cta1Text = document.getElementById('hero-cta1-text').value;
-                pageData.hero.cta2Text = document.getElementById('hero-cta2-text').value;
-                pageData.hero.image = document.getElementById('hero-image').value;
+                pageData.hero = {
+                    title: document.getElementById('hero-title').value,
+                    subtitle: document.getElementById('hero-subtitle').value,
+                    cta1Text: document.getElementById('hero-cta1-text').value,
+                    cta2Text: document.getElementById('hero-cta2-text').value,
+                    image: document.getElementById('hero-image').value
+                };
                 saveData();
             });
             document.getElementById('save-social-proof').addEventListener('click', () => {
@@ -492,11 +484,13 @@
                 saveData();
             });
             document.getElementById('save-about').addEventListener('click', () => {
-                pageData.about.title = document.getElementById('about-title').value;
-                pageData.about.subtitle = document.getElementById('about-subtitle').value;
-                pageData.about.step1 = { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value };
-                pageData.about.step2 = { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value };
-                pageData.about.step3 = { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value };
+                pageData.about = {
+                    title: document.getElementById('about-title').value,
+                    subtitle: document.getElementById('about-subtitle').value,
+                    step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value },
+                    step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
+                    step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
+                };
                 saveData();
             });
             document.getElementById('save-services').addEventListener('click', () => {
@@ -540,36 +534,54 @@
                 saveData();
             });
             document.getElementById('save-cta').addEventListener('click', () => {
-                pageData.cta.title = document.getElementById('cta-title').value;
-                pageData.cta.subtitle = document.getElementById('cta-subtitle').value;
-                pageData.cta.buttonText = document.getElementById('cta-button-text').value;
+                pageData.cta = {
+                    title: document.getElementById('cta-title').value,
+                    subtitle: document.getElementById('cta-subtitle').value,
+                    buttonText: document.getElementById('cta-button-text').value
+                };
                 saveData();
             });
             document.getElementById('save-footer').addEventListener('click', () => {
-                pageData.footer.logo = document.getElementById('footer-logo').value;
-                pageData.footer.description = document.getElementById('footer-description').value;
-                pageData.footer.whatsapp = document.getElementById('footer-contact-whatsapp').value;
-                pageData.footer.email = document.getElementById('footer-contact-email').value;
-                pageData.footer.phone = document.getElementById('footer-contact-phone').value;
-                pageData.footer.address = document.getElementById('footer-contact-address').value;
-                pageData.footer.copyright = document.getElementById('footer-copyright').value;
+                pageData.footer = {
+                    logo: document.getElementById('footer-logo').value,
+                    description: document.getElementById('footer-description').value,
+                    whatsapp: document.getElementById('footer-contact-whatsapp').value,
+                    email: document.getElementById('footer-contact-email').value,
+                    phone: document.getElementById('footer-contact-phone').value,
+                    address: document.getElementById('footer-contact-address').value,
+                    copyright: document.getElementById('footer-copyright').value
+                };
                 saveData();
             });
-
+            
+            // --- Event Listeners para Adicionar/Remover Itens ---
             document.getElementById('add-social-logo').addEventListener('click', () => { renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
             document.getElementById('add-service').addEventListener('click', () => { renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
             document.getElementById('add-testimonial').addEventListener('click', () => { renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
             document.getElementById('add-faq').addEventListener('click', () => { renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
             
             document.body.addEventListener('click', e => {
-                if (e.target.classList.contains('remove-logo') || e.target.classList.contains('remove-service') || e.target.classList.contains('remove-testimonial') || e.target.classList.contains('remove-faq')) {
+                if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
                     e.target.closest('.border').remove();
                 }
             });
 
+            // Função para retornar dados iniciais se o banco estiver vazio
+            function getDefaultData() {
+                return {
+                    hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
+                    socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] },
+                    about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } },
+                    services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] },
+                    testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] },
+                    faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] },
+                    cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' },
+                    footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' }
+                };
+            }
+            
             loadData();
         });
     </script>
 </body>
 </html>
-
