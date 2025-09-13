@@ -20,7 +20,6 @@
     <!-- Camada de Autenticação -->
     <div id="auth-layer" class="fixed inset-0 bg-gray-100 z-50 flex items-center justify-center">
         <div id="auth-message" class="text-center p-8 bg-white rounded-lg shadow-md">
-            <!-- MELHORIA: Adiciona uma mensagem de carregamento inicial -->
             <h2 class="text-xl font-bold mb-4">A verificar autenticação...</h2>
             <p class="text-gray-600">Por favor, aguarde.</p>
         </div>
@@ -326,14 +325,12 @@
         onAuthStateChanged(auth, user => {
             if (user) {
                 if (user.emailVerified) {
-                    // Utilizador autenticado e verificado
                     authLayer.style.display = 'none';
                     mainContent.classList.remove('hidden');
-                    mainContent.classList.add('flex'); // Torna o conteúdo principal visível
+                    mainContent.classList.add('flex');
                     document.getElementById('user-email').textContent = user.email;
-                    loadData(); // Carrega os dados do Firestore só depois de confirmar o acesso
+                    loadData();
                 } else {
-                    // Utilizador autenticado mas email não verificado
                     authMessage.innerHTML = `
                         <h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2>
                         <p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p>
@@ -341,7 +338,6 @@
                     `;
                 }
             } else {
-                // Nenhum utilizador autenticado
                 window.location.href = './login.html';
             }
         });
@@ -350,16 +346,12 @@
             e.preventDefault();
             try {
                 await signOut(auth);
-                // O onAuthStateChanged irá detetar a saída e redirecionar para a página de login.
             } catch (error) {
                 console.error('Erro ao fazer logout:', error);
             }
         });
 
-
         document.addEventListener('DOMContentLoaded', function () {
-            // O restante do código do painel só executa se o utilizador estiver autenticado
-            
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
@@ -405,7 +397,8 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
-                    await setDoc(contentDocRef, pageData, { merge: true }); // Usar merge para não sobrescrever o objeto inteiro
+                    // Usar setDoc sem merge para garantir que o documento reflete exatamente o estado do objeto pageData
+                    await setDoc(contentDocRef, pageData); 
                     showToast();
                 } catch (error) {
                     console.error("Erro ao salvar dados: ", error);
@@ -421,12 +414,13 @@
                     if (docSnap.exists()) {
                         pageData = docSnap.data();
                     } else {
-                        console.log("Nenhum documento encontrado. Usando dados padrão.");
+                        console.log("Nenhum documento encontrado. A criar com dados padrão.");
                         pageData = getDefaultData();
+                        await setDoc(contentDocRef, pageData); // Salva os dados padrão na primeira vez
                     }
                 } catch (error) {
                     console.error("Erro ao carregar dados: ", error);
-                    alert("Ocorreu um erro ao carregar os dados. Usando dados padrão.");
+                    alert("Ocorreu um erro ao carregar os dados. A usar dados padrão.");
                     pageData = getDefaultData();
                 }
                 populateForms();
@@ -465,6 +459,7 @@
             }
 
             function populateForms() {
+                if (!pageData) pageData = getDefaultData(); // Garante que pageData nunca é nulo ou indefinido
                 // Hero
                 document.getElementById('hero-title').value = pageData.hero?.title || '';
                 document.getElementById('hero-subtitle').value = pageData.hero?.subtitle || '';
@@ -513,102 +508,113 @@
                 document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
             }
             
-            // --- Event Listeners para Salvar ---
-            document.getElementById('save-hero').addEventListener('click', () => {
-                pageData.hero = {
-                    title: document.getElementById('hero-title').value,
-                    subtitle: document.getElementById('hero-subtitle').value,
-                    cta1Text: document.getElementById('hero-cta1-text').value,
-                    cta2Text: document.getElementById('hero-cta2-text').value,
-                    image: document.getElementById('hero-image').value
-                };
-                saveData();
-            });
-            document.getElementById('save-social-proof').addEventListener('click', () => {
-                pageData.socialProof.title = document.getElementById('social-title').value;
-                const newLogos = [];
-                document.querySelectorAll('#social-logos-container .border').forEach(div => {
-                    newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value, });
+            // --- Event Listeners para Salvar (Lógica Refatorada) ---
+            const setupSaveHandlers = () => {
+                document.getElementById('save-hero').addEventListener('click', () => {
+                    if (!pageData.hero) pageData.hero = {};
+                    pageData.hero.title = document.getElementById('hero-title').value;
+                    pageData.hero.subtitle = document.getElementById('hero-subtitle').value;
+                    pageData.hero.cta1Text = document.getElementById('hero-cta1-text').value;
+                    pageData.hero.cta2Text = document.getElementById('hero-cta2-text').value;
+                    pageData.hero.image = document.getElementById('hero-image').value;
+                    saveData();
                 });
-                pageData.socialProof.logos = newLogos;
-                saveData();
-            });
-            document.getElementById('save-about').addEventListener('click', () => {
-                pageData.about = {
-                    title: document.getElementById('about-title').value,
-                    subtitle: document.getElementById('about-subtitle').value,
-                    step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value },
-                    step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
-                    step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
-                };
-                saveData();
-            });
-            document.getElementById('save-services').addEventListener('click', () => {
-                pageData.services.title = document.getElementById('services-title').value;
-                pageData.services.subtitle = document.getElementById('services-subtitle').value;
-                const newItems = [];
-                document.querySelectorAll('#services-container .border').forEach(div => {
-                    newItems.push({
-                        title: div.querySelector('.service-item-title').value,
-                        description: div.querySelector('.service-item-description').value,
-                        image: div.querySelector('.service-item-image').value,
-                        price: div.querySelector('.service-item-price').value,
+
+                document.getElementById('save-social-proof').addEventListener('click', () => {
+                    if (!pageData.socialProof) pageData.socialProof = { logos: [] };
+                    pageData.socialProof.title = document.getElementById('social-title').value;
+                    const newLogos = [];
+                    document.querySelectorAll('#social-logos-container .border').forEach(div => {
+                        newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value });
                     });
+                    pageData.socialProof.logos = newLogos;
+                    saveData();
                 });
-                pageData.services.items = newItems;
-                saveData();
-            });
-            document.getElementById('save-testimonials').addEventListener('click', () => {
-                pageData.testimonials.title = document.getElementById('testimonials-title').value;
-                pageData.testimonials.subtitle = document.getElementById('testimonials-subtitle').value;
-                const newItems = [];
-                document.querySelectorAll('#testimonials-container .border').forEach(div => {
-                    newItems.push({
-                        quote: div.querySelector('.testimonial-item-quote').value,
-                        author: div.querySelector('.testimonial-item-author').value,
-                        position: div.querySelector('.testimonial-item-position').value,
-                        image: div.querySelector('.testimonial-item-image').value,
+
+                document.getElementById('save-about').addEventListener('click', () => {
+                    if (!pageData.about) pageData.about = {};
+                    pageData.about.title = document.getElementById('about-title').value;
+                    pageData.about.subtitle = document.getElementById('about-subtitle').value;
+                    pageData.about.step1 = { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value };
+                    pageData.about.step2 = { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value };
+                    pageData.about.step3 = { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value };
+                    saveData();
+                });
+
+                document.getElementById('save-services').addEventListener('click', () => {
+                    if (!pageData.services) pageData.services = { items: [] };
+                    pageData.services.title = document.getElementById('services-title').value;
+                    pageData.services.subtitle = document.getElementById('services-subtitle').value;
+                    const newItems = [];
+                    document.querySelectorAll('#services-container .border').forEach(div => {
+                        newItems.push({
+                            title: div.querySelector('.service-item-title').value,
+                            description: div.querySelector('.service-item-description').value,
+                            image: div.querySelector('.service-item-image').value,
+                            price: div.querySelector('.service-item-price').value,
+                        });
                     });
+                    pageData.services.items = newItems;
+                    saveData();
                 });
-                pageData.testimonials.items = newItems;
-                saveData();
-            });
-            document.getElementById('save-faq').addEventListener('click', () => {
-                pageData.faq.title = document.getElementById('faq-title').value;
-                pageData.faq.subtitle = document.getElementById('faq-subtitle').value;
-                const newItems = [];
-                document.querySelectorAll('#faq-container .border').forEach(div => {
-                    newItems.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value });
+
+                document.getElementById('save-testimonials').addEventListener('click', () => {
+                    if (!pageData.testimonials) pageData.testimonials = { items: [] };
+                    pageData.testimonials.title = document.getElementById('testimonials-title').value;
+                    pageData.testimonials.subtitle = document.getElementById('testimonials-subtitle').value;
+                    const newItems = [];
+                    document.querySelectorAll('#testimonials-container .border').forEach(div => {
+                        newItems.push({
+                            quote: div.querySelector('.testimonial-item-quote').value,
+                            author: div.querySelector('.testimonial-item-author').value,
+                            position: div.querySelector('.testimonial-item-position').value,
+                            image: div.querySelector('.testimonial-item-image').value,
+                        });
+                    });
+                    pageData.testimonials.items = newItems;
+                    saveData();
                 });
-                pageData.faq.items = newItems;
-                saveData();
-            });
-            document.getElementById('save-cta').addEventListener('click', () => {
-                pageData.cta = {
-                    title: document.getElementById('cta-title').value,
-                    subtitle: document.getElementById('cta-subtitle').value,
-                    buttonText: document.getElementById('cta-button-text').value
-                };
-                saveData();
-            });
-            document.getElementById('save-footer').addEventListener('click', () => {
-                pageData.footer = {
-                    logo: document.getElementById('footer-logo').value,
-                    description: document.getElementById('footer-description').value,
-                    whatsapp: document.getElementById('footer-contact-whatsapp').value,
-                    email: document.getElementById('footer-contact-email').value,
-                    phone: document.getElementById('footer-contact-phone').value,
-                    address: document.getElementById('footer-contact-address').value,
-                    copyright: document.getElementById('footer-copyright').value
-                };
-                saveData();
-            });
+
+                document.getElementById('save-faq').addEventListener('click', () => {
+                    if (!pageData.faq) pageData.faq = { items: [] };
+                    pageData.faq.title = document.getElementById('faq-title').value;
+                    pageData.faq.subtitle = document.getElementById('faq-subtitle').value;
+                    const newItems = [];
+                    document.querySelectorAll('#faq-container .border').forEach(div => {
+                        newItems.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value });
+                    });
+                    pageData.faq.items = newItems;
+                    saveData();
+                });
+
+                document.getElementById('save-cta').addEventListener('click', () => {
+                    if (!pageData.cta) pageData.cta = {};
+                    pageData.cta.title = document.getElementById('cta-title').value;
+                    pageData.cta.subtitle = document.getElementById('cta-subtitle').value;
+                    pageData.cta.buttonText = document.getElementById('cta-button-text').value;
+                    saveData();
+                });
+
+                document.getElementById('save-footer').addEventListener('click', () => {
+                    if (!pageData.footer) pageData.footer = {};
+                    pageData.footer.logo = document.getElementById('footer-logo').value;
+                    pageData.footer.description = document.getElementById('footer-description').value;
+                    pageData.footer.whatsapp = document.getElementById('footer-contact-whatsapp').value;
+                    pageData.footer.email = document.getElementById('footer-contact-email').value;
+                    pageData.footer.phone = document.getElementById('footer-contact-phone').value;
+                    pageData.footer.address = document.getElementById('footer-contact-address').value;
+                    pageData.footer.copyright = document.getElementById('footer-copyright').value;
+                    saveData();
+                });
+            };
+
+            setupSaveHandlers();
             
             // --- Event Listeners para Adicionar/Remover Itens ---
-            document.getElementById('add-social-logo').addEventListener('click', () => { renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
-            document.getElementById('add-service').addEventListener('click', () => { renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
-            document.getElementById('add-testimonial').addEventListener('click', () => { renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
-            document.getElementById('add-faq').addEventListener('click', () => { renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
+            document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
+            document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
+            document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
+            document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
             
             document.body.addEventListener('click', e => {
                 if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
@@ -629,9 +635,8 @@
                     footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' }
                 };
             }
-            
-            // A chamada inicial para loadData() foi movida para a lógica de autenticação
         });
     </script>
 </body>
 </html>
+
