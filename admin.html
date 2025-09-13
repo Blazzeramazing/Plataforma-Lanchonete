@@ -9,29 +9,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .sidebar-link.active {
-            background-color: #4f46e5;
-            color: white;
-        }
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link.active { background-color: #4f46e5; color: white; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
     </style>
 </head>
 <body class="bg-gray-100">
 
-    <div class="flex h-screen bg-gray-200">
+    <!-- Camada de Autenticação -->
+    <div id="auth-layer" class="fixed inset-0 bg-gray-100 z-50 flex items-center justify-center">
+        <div id="auth-message" class="text-center p-8 bg-white rounded-lg shadow-md">
+            <!-- Mensagens de autenticação serão inseridas aqui -->
+        </div>
+    </div>
+
+    <div id="main-content" class="flex h-screen bg-gray-200 opacity-0 transition-opacity duration-500">
         <!-- Barra Lateral de Navegação -->
         <aside class="w-64 bg-gray-800 text-white flex flex-col">
             <div class="px-6 py-4 border-b border-gray-700">
                 <h1 class="text-2xl font-bold">Painel de Gestão</h1>
-                <p class="text-sm text-gray-400">Landing Page</p>
+                <p id="user-email" class="text-sm text-gray-400">Landing Page</p>
             </div>
             <nav class="flex-1 px-4 py-4 space-y-2">
                 <a href="#" class="sidebar-link active" data-section="hero">
@@ -67,6 +65,12 @@
                     Rodapé
                 </a>
             </nav>
+            <div class="mt-auto px-4 py-4 border-t border-gray-700">
+                <a href="#" id="logout-button" class="sidebar-link">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                    Sair
+                </a>
+            </div>
         </aside>
 
         <!-- Conteúdo Principal -->
@@ -293,6 +297,7 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // --- Configuração do Firebase ---
@@ -307,10 +312,51 @@
         
         // Inicializa o Firebase
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
         const contentDocRef = doc(db, "landingPage", "content");
 
+        // --- LÓGICA DE AUTENTICAÇÃO ---
+        const authLayer = document.getElementById('auth-layer');
+        const authMessage = document.getElementById('auth-message');
+        const mainContent = document.getElementById('main-content');
+
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                if (user.emailVerified) {
+                    // Utilizador autenticado e verificado
+                    authLayer.style.display = 'none';
+                    mainContent.classList.remove('opacity-0');
+                    document.getElementById('user-email').textContent = user.email;
+                    loadData(); // Carrega os dados do Firestore só depois de confirmar o acesso
+                } else {
+                    // Utilizador autenticado mas email não verificado
+                    authMessage.innerHTML = `
+                        <h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2>
+                        <p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p>
+                        <p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>
+                    `;
+                }
+            } else {
+                // Nenhum utilizador autenticado
+                window.location.href = './login.html';
+            }
+        });
+
+        document.getElementById('logout-button').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth);
+                // O onAuthStateChanged irá detetar a saída e redirecionar
+            } catch (error) {
+                console.error('Erro ao fazer logout:', error);
+            }
+        });
+
+
         document.addEventListener('DOMContentLoaded', function () {
+            // O restante do código do painel só executa se o utilizador estiver autenticado
+            
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
@@ -331,14 +377,16 @@
             document.head.appendChild(styleSheet);
 
             sidebarLinks.forEach(link => {
-                link.addEventListener('click', e => {
-                    e.preventDefault();
-                    sidebarLinks.forEach(l => l.classList.remove('active'));
-                    contentSections.forEach(s => s.classList.remove('active'));
-                    link.classList.add('active');
-                    const sectionId = 'section-' + link.dataset.section;
-                    document.getElementById(sectionId).classList.add('active');
-                });
+                if(link.id !== 'logout-button') {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        sidebarLinks.forEach(l => l.classList.remove('active'));
+                        contentSections.forEach(s => s.classList.remove('active'));
+                        link.classList.add('active');
+                        const sectionId = 'section-' + link.dataset.section;
+                        document.getElementById(sectionId).classList.add('active');
+                    });
+                }
             });
             
             let pageData = {};
@@ -354,7 +402,7 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
-                    await setDoc(contentDocRef, pageData);
+                    await setDoc(contentDocRef, pageData, { merge: true }); // Usar merge para não sobrescrever o objeto inteiro
                     showToast();
                 } catch (error) {
                     console.error("Erro ao salvar dados: ", error);
@@ -370,7 +418,6 @@
                     if (docSnap.exists()) {
                         pageData = docSnap.data();
                     } else {
-                        // Se não existir, usa dados padrão para popular o formulário pela primeira vez
                         console.log("Nenhum documento encontrado. Usando dados padrão.");
                         pageData = getDefaultData();
                     }
@@ -580,8 +627,9 @@
                 };
             }
             
-            loadData();
+            // A chamada inicial para loadData() foi movida para a lógica de autenticação
         });
     </script>
 </body>
 </html>
+
