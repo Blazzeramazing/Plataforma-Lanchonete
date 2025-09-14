@@ -7,142 +7,75 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* --- Estilos da Nova UI --- */
-
-        /* Animação para a entrada suave do conteúdo */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .content-section.active {
-            display: block;
-            animation: fadeInUp 0.5s ease-out forwards;
-        }
-
-        /* Estilo do link ativo na barra lateral */
-        .sidebar-link.active { 
-            background-color: #4f46e5; /* indigo-600 */
-            color: white; 
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-        }
-        .sidebar-link.active svg {
-            color: white;
-        }
-        
-        /* Efeito de hover geral para links da barra lateral */
-        .sidebar-link {
-            transition: all 0.2s ease-in-out;
-        }
-        .sidebar-link:hover:not(.active) {
-            background-color: #374151; /* gray-700 */
-            color: white;
-            transform: translateX(4px);
-        }
-
-        /* Estilo dos cards de conteúdo */
-        .content-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 0.75rem; /* rounded-xl */
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            transition: all 0.3s ease-in-out;
-        }
-        .content-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        /* Estilos base para inputs */
-        .form-input {
-            border-radius: 0.5rem;
-            border-color: #d1d5db; /* border-gray-300 */
-            transition: all 0.2s ease-in-out;
-            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-        }
-        .form-input:focus {
-            --tw-ring-color: #818cf8; /* indigo-400 */
-            border-color: #6366f1; /* indigo-500 */
-            box-shadow: 0 0 0 2px var(--tw-ring-color);
-        }
-
-        /* --- Configurações Iniciais --- */
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link.active { background-color: #4f46e5; color: white; }
         .content-section { display: none; }
+        .content-section.active { display: block; }
+        /* Adicionado para transição suave no menu mobile */
         aside { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
-<body class="bg-slate-100">
+<body class="bg-gray-100">
 
     <!-- Camada de Autenticação -->
-    <div id="auth-layer" class="fixed inset-0 bg-slate-100 z-50 flex items-center justify-center">
-        <div id="auth-message" class="text-center p-8 bg-white rounded-lg shadow-xl">
-            <h2 class="text-xl font-bold mb-4 text-slate-800">A verificar autenticação...</h2>
-            <p class="text-slate-600">Por favor, aguarde.</p>
+    <div id="auth-layer" class="fixed inset-0 bg-gray-100 z-50 flex items-center justify-center">
+        <div id="auth-message" class="text-center p-8 bg-white rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">A verificar autenticação...</h2>
+            <p class="text-gray-600">Por favor, aguarde.</p>
         </div>
     </div>
 
     <div id="main-content" class="hidden relative min-h-screen lg:flex">
         <!-- Barra Lateral de Navegação -->
-        <aside id="sidebar" class="w-64 bg-slate-900 text-slate-300 flex-col fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0 flex shadow-lg">
-            <div class="px-6 py-5 border-b border-slate-700/50">
-                <h1 class="text-2xl font-bold text-white">Painel de Gestão</h1>
-                <p id="user-email" class="text-sm text-indigo-400 truncate">Landing Page</p>
+        <!-- Ajustes para responsividade: `fixed` em telas pequenas, `lg:relative` em telas grandes -->
+        <aside id="sidebar" class="w-64 bg-gray-800 text-white flex-col fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0 flex">
+            <div class="px-6 py-4 border-b border-gray-700">
+                <h1 class="text-2xl font-bold">Painel de Gestão</h1>
+                <p id="user-email" class="text-sm text-gray-400">Landing Page</p>
             </div>
             <nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
-                <a href="#" class="sidebar-link active flex items-center p-3 rounded-lg" data-section="hero">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <a href="#" class="sidebar-link active" data-section="hero">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     Início (Hero)
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="style">
-                     <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                <a href="#" class="sidebar-link" data-section="style">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
                     Estilo
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="social-proof">
-                     <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <a href="#" class="sidebar-link" data-section="social-proof">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Prova Social
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="about">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                 <a href="#" class="sidebar-link" data-section="about">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Sobre
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="services">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    Serviços
+                <a href="#" class="sidebar-link" data-section="services">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    Serviços/Produtos
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="testimonials">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                <a href="#" class="sidebar-link" data-section="testimonials">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                     Depoimentos
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="faq">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <a href="#" class="sidebar-link" data-section="faq">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     FAQ
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="cta">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
-                    Chamada Final
+                <a href="#" class="sidebar-link" data-section="cta">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    Chamada Final (CTA)
                 </a>
-                <a href="#" class="sidebar-link flex items-center p-3 rounded-lg" data-section="footer">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                <a href="#" class="sidebar-link" data-section="footer">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                     Rodapé
                 </a>
             </nav>
-            <div class="mt-auto px-4 py-4 border-t border-slate-700/50">
-                <a href="#" id="logout-button" class="sidebar-link flex items-center p-3 rounded-lg">
-                    <svg class="w-5 h-5 mr-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            <div class="mt-auto px-4 py-4 border-t border-gray-700">
+                <a href="#" id="logout-button" class="sidebar-link">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                     Sair
                 </a>
             </div>
@@ -153,41 +86,39 @@
 
         <div class="flex-1 flex flex-col">
             <!-- Header Mobile -->
-            <header class="lg:hidden bg-white/80 backdrop-blur-sm border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-20">
-                <h1 class="text-xl font-bold text-slate-800">Painel</h1>
-                <button id="mobile-menu-button" class="text-slate-600">
+            <header class="lg:hidden bg-gray-800 text-white p-4 flex justify-between items-center sticky top-0 z-20">
+                <h1 class="text-xl font-bold">Painel</h1>
+                <button id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </header>
             
             <!-- Conteúdo Principal -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+            <main class="flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto bg-gray-200">
                 
                 <!-- Seção Hero -->
                 <div id="section-hero" class="content-section active">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Seção Inicial (Hero)</h2>
-                    <div class="content-card space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção Inicial (Hero)</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="hero-title" class="block text-sm font-medium text-slate-700 mb-1">Título Principal</label>
-                            <textarea id="hero-title" rows="2" class="form-input block w-full"></textarea>
+                            <label for="hero-title" class="block text-sm font-medium text-gray-700">Título Principal</label>
+                            <textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         </div>
                         <div>
-                            <label for="hero-subtitle" class="block text-sm font-medium text-slate-700 mb-1">Subtítulo</label>
-                            <textarea id="hero-subtitle" rows="3" class="form-input block w-full"></textarea>
+                            <label for="hero-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="hero-cta1-text" class="block text-sm font-medium text-slate-700 mb-1">Texto do Botão 1 (Principal)</label>
-                                <input type="text" id="hero-cta1-text" class="form-input block w-full">
-                            </div>
-                            <div>
-                                <label for="hero-cta2-text" class="block text-sm font-medium text-slate-700 mb-1">Texto do Botão 2 (Secundário)</label>
-                                <input type="text" id="hero-cta2-text" class="form-input block w-full">
-                            </div>
+                         <div>
+                            <label for="hero-cta1-text" class="block text-sm font-medium text-gray-700">Texto do Botão 1</label>
+                            <input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                         <div>
+                            <label for="hero-cta2-text" class="block text-sm font-medium text-gray-700">Texto do Botão 2</label>
+                            <input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                         <div>
-                            <label for="hero-image" class="block text-sm font-medium text-slate-700 mb-1">URL da Imagem Principal</label>
-                            <input type="text" id="hero-image" class="form-input block w-full" placeholder="https://exemplo.com/imagem.png">
+                            <label for="hero-image" class="block text-sm font-medium text-gray-700">URL da Imagem</label>
+                            <input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/imagem.png">
                         </div>
                         <button id="save-hero" class="save-button">Salvar Alterações</button>
                     </div>
@@ -195,22 +126,21 @@
 
                 <!-- Seção de Estilo -->
                 <div id="section-style" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Customização Visual</h2>
-                    <div class="content-card space-y-6">
-                        <div class="grid md:grid-cols-2 gap-6 items-center">
-                            <div>
-                                <label for="style-bg-color" class="block text-sm font-medium text-slate-700 mb-1">Cor de Fundo da Página</label>
-                                <input type="color" id="style-bg-color" class="mt-1 h-12 block w-full rounded-lg border-slate-300 shadow-sm">
-                            </div>
-                             <div>
-                                <label for="style-text-color" class="block text-sm font-medium text-slate-700 mb-1">Cor Principal do Texto</label>
-                                <input type="color" id="style-text-color" class="mt-1 h-12 block w-full rounded-lg border-slate-300 shadow-sm">
-                            </div>
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Customização Visual (Estilo)</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="style-bg-color" class="block text-sm font-medium text-gray-700">Cor de Fundo da Página</label>
+                            <input type="color" id="style-bg-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="style-bg-image" class="block text-sm font-medium text-slate-700 mb-1">URL da Imagem de Fundo</label>
-                            <input type="text" id="style-bg-image" class="form-input block w-full" placeholder="https://exemplo.com/fundo.jpg">
-                            <p class="mt-2 text-sm text-slate-500">Deixe em branco para usar a cor sólida. A imagem tem prioridade.</p>
+                            <label for="style-bg-image" class="block text-sm font-medium text-gray-700">URL da Imagem de Fundo</label>
+                            <input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/fundo.jpg">
+                            <p class="mt-2 text-sm text-gray-500">Deixe em branco para usar a cor de fundo sólida. A imagem tem prioridade sobre a cor.</p>
+                        </div>
+                        <div>
+                            <label for="style-text-color" class="block text-sm font-medium text-gray-700">Cor Principal do Texto</label>
+                            <input type="color" id="style-text-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
+                             <p class="mt-2 text-sm text-gray-500">Esta cor será aplicada a todo o corpo do texto da página.</p>
                         </div>
                         <button id="save-style" class="save-button">Salvar Alterações de Estilo</button>
                     </div>
@@ -218,60 +148,58 @@
 
                 <!-- Seção Prova Social -->
                 <div id="section-social-proof" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Prova Social</h2>
-                    <div class="content-card space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de Prova Social</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="social-title" class="block text-sm font-medium text-slate-700 mb-1">Título da Seção (Ex: "Confiado por...")</label>
-                            <input type="text" id="social-title" class="form-input block w-full">
+                            <label for="social-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="social-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                         <div id="social-logos-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Logos de Clientes/Parceiros</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>
                             <!-- Logos serão adicionados aqui via JS -->
                         </div>
-                        <div class="flex justify-end">
-                             <button id="add-social-logo" class="add-button">Adicionar Logo</button>
-                        </div>
-                        <hr class="border-slate-200">
+                        <button id="add-social-logo" class="add-button">Adicionar Logo</button>
+                        <hr>
                         <button id="save-social-proof" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
 
                 <!-- Seção Sobre -->
                 <div id="section-about" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Seção Sobre</h2>
-                    <div class="content-card space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção Sobre</h2>
+                     <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="about-title" class="block text-sm font-medium text-slate-700 mb-1">Título</label>
-                            <input type="text" id="about-title" class="form-input block w-full">
+                            <label for="about-title" class="block text-sm font-medium text-gray-700">Título</label>
+                            <input type="text" id="about-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
                         <div>
-                            <label for="about-subtitle" class="block text-sm font-medium text-slate-700 mb-1">Subtítulo</label>
-                            <textarea id="about-subtitle" rows="2" class="form-input block w-full"></textarea>
+                            <label for="about-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Passo 1 -->
-                            <div class="border border-slate-200 p-4 rounded-lg space-y-2">
-                                <h4 class="font-bold text-slate-700">Passo 1</h4>
-                                <label for="about-step1-title" class="block text-xs font-medium text-slate-600">Título</label>
-                                <input type="text" id="about-step1-title" class="form-input block w-full text-sm">
-                                <label for="about-step1-desc" class="block text-xs font-medium text-slate-600 mt-2">Descrição</label>
-                                <textarea id="about-step1-desc" rows="3" class="form-input block w-full text-sm"></textarea>
+                            <div class="border p-4 rounded-md">
+                                 <h4 class="font-bold mb-2">Passo 1</h4>
+                                 <label for="about-step1-title" class="block text-sm font-medium text-gray-700">Título do Passo 1</label>
+                                 <input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                 <label for="about-step1-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                                 <textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                             </div>
                             <!-- Passo 2 -->
-                            <div class="border border-slate-200 p-4 rounded-lg space-y-2">
-                                <h4 class="font-bold text-slate-700">Passo 2</h4>
-                                <label for="about-step2-title" class="block text-xs font-medium text-slate-600">Título</label>
-                                <input type="text" id="about-step2-title" class="form-input block w-full text-sm">
-                                <label for="about-step2-desc" class="block text-xs font-medium text-slate-600 mt-2">Descrição</label>
-                                <textarea id="about-step2-desc" rows="3" class="form-input block w-full text-sm"></textarea>
+                            <div class="border p-4 rounded-md">
+                                 <h4 class="font-bold mb-2">Passo 2</h4>
+                                 <label for="about-step2-title" class="block text-sm font-medium text-gray-700">Título do Passo 2</label>
+                                 <input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                 <label for="about-step2-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                                 <textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                             </div>
                             <!-- Passo 3 -->
-                            <div class="border border-slate-200 p-4 rounded-lg space-y-2">
-                                <h4 class="font-bold text-slate-700">Passo 3</h4>
-                                <label for="about-step3-title" class="block text-xs font-medium text-slate-600">Título</label>
-                                <input type="text" id="about-step3-title" class="form-input block w-full text-sm">
-                                <label for="about-step3-desc" class="block text-xs font-medium text-slate-600 mt-2">Descrição</label>
-                                <textarea id="about-step3-desc" rows="3" class="form-input block w-full text-sm"></textarea>
+                            <div class="border p-4 rounded-md">
+                                 <h4 class="font-bold mb-2">Passo 3</h4>
+                                 <label for="about-step3-title" class="block text-sm font-medium text-gray-700">Título do Passo 3</label>
+                                 <input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                 <label for="about-step3-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                                 <textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                             </div>
                         </div>
                         <button id="save-about" class="save-button">Salvar Alterações</button>
@@ -280,91 +208,85 @@
 
                 <!-- Seção Serviços -->
                 <div id="section-services" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Serviços / Produtos</h2>
-                    <div class="content-card space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de Serviços/Produtos</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="services-title" class="block text-sm font-medium text-slate-700 mb-1">Título da Seção</label>
-                            <input type="text" id="services-title" class="form-input block w-full">
+                            <label for="services-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="services-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="services-subtitle" class="block text-sm font-medium text-slate-700 mb-1">Subtítulo da Seção</label>
-                            <textarea id="services-subtitle" rows="2" class="form-input block w-full"></textarea>
+                            <label for="services-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                         </div>
                         <div id="services-container">
-                             <h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Itens de Serviço/Produto</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>
                              <!-- Serviços serão adicionados aqui via JS -->
                         </div>
-                         <div class="flex justify-end">
-                            <button id="add-service" class="add-button">Adicionar Item</button>
-                        </div>
-                        <hr class="border-slate-200">
+                        <button id="add-service" class="add-button">Adicionar Item</button>
+                        <hr>
                         <button id="save-services" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
 
                 <!-- Seção Depoimentos -->
                 <div id="section-testimonials" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Depoimentos</h2>
-                    <div class="content-card space-y-6">
+                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de Depoimentos</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="testimonials-title" class="block text-sm font-medium text-slate-700 mb-1">Título da Seção</label>
-                            <input type="text" id="testimonials-title" class="form-input block w-full">
+                            <label for="testimonials-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="testimonials-subtitle" class="block text-sm font-medium text-slate-700 mb-1">Subtítulo da Seção</label>
-                            <textarea id="testimonials-subtitle" rows="2" class="form-input block w-full"></textarea>
+                            <label for="testimonials-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                         </div>
                         <div id="testimonials-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Depoimentos de Clientes</h3>
-                            <!-- Depoimentos serão adicionados aqui via JS -->
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>
+                              <!-- Depoimentos serão adicionados aqui via JS -->
                         </div>
-                        <div class="flex justify-end">
-                           <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
-                        </div>
-                        <hr class="border-slate-200">
+                        <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
+                        <hr>
                         <button id="save-testimonials" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
 
                 <!-- Seção FAQ -->
                 <div id="section-faq" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Perguntas Frequentes (FAQ)</h2>
-                    <div class="content-card space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de FAQ</h2>
+                     <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="faq-title" class="block text-sm font-medium text-slate-700 mb-1">Título da Seção</label>
-                            <input type="text" id="faq-title" class="form-input block w-full">
+                            <label for="faq-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="faq-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="faq-subtitle" class="block text-sm font-medium text-slate-700 mb-1">Subtítulo da Seção</label>
-                            <textarea id="faq-subtitle" rows="2" class="form-input block w-full"></textarea>
+                            <label for="faq-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                         </div>
                         <div id="faq-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Perguntas e Respostas</h3>
-                            <!-- FAQs serão adicionados aqui via JS -->
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>
+                              <!-- FAQs serão adicionados aqui via JS -->
                         </div>
-                        <div class="flex justify-end">
-                            <button id="add-faq" class="add-button">Adicionar Pergunta</button>
-                        </div>
-                        <hr class="border-slate-200">
+                        <button id="add-faq" class="add-button">Adicionar Pergunta</button>
+                        <hr>
                         <button id="save-faq" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
                 
                 <!-- Seção CTA -->
                 <div id="section-cta" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Chamada Final (CTA)</h2>
-                    <div class="content-card space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Chamada Final (CTA)</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
                         <div>
-                            <label for="cta-title" class="block text-sm font-medium text-slate-700 mb-1">Título</label>
-                            <input type="text" id="cta-title" class="form-input block w-full">
+                            <label for="cta-title" class="block text-sm font-medium text-gray-700">Título</label>
+                            <input type="text" id="cta-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="cta-subtitle" class="block text-sm font-medium text-slate-700 mb-1">Subtítulo</label>
-                            <textarea id="cta-subtitle" rows="2" class="form-input block w-full"></textarea>
+                            <label for="cta-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                         </div>
                         <div>
-                            <label for="cta-button-text" class="block text-sm font-medium text-slate-700 mb-1">Texto do Botão</label>
-                            <input type="text" id="cta-button-text" class="form-input block w-full">
+                            <label for="cta-button-text" class="block text-sm font-medium text-gray-700">Texto do Botão</label>
+                            <input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <button id="save-cta" class="save-button">Salvar Alterações</button>
                     </div>
@@ -372,43 +294,39 @@
 
                 <!-- Seção Rodapé -->
                 <div id="section-footer" class="content-section">
-                    <h2 class="text-3xl font-bold mb-6 text-slate-800">Informações do Rodapé</h2>
-                    <div class="content-card space-y-6">
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="footer-logo" class="block text-sm font-medium text-slate-700 mb-1">Texto da Logo</label>
-                                <input type="text" id="footer-logo" class="form-input block w-full">
-                            </div>
-                             <div>
-                                <label for="footer-favicon" class="block text-sm font-medium text-slate-700 mb-1">URL do Favicon</label>
-                                <input type="text" id="footer-favicon" class="form-input block w-full" placeholder="https://exemplo.com/favicon.ico">
-                            </div>
+                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Rodapé</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="footer-logo" class="block text-sm font-medium text-gray-700">Texto da Logo</label>
+                            <input type="text" id="footer-logo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                         <div>
+                            <label for="footer-description" class="block text-sm font-medium text-gray-700">Descrição Curta</label>
+                            <textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
                         </div>
                         <div>
-                            <label for="footer-description" class="block text-sm font-medium text-slate-700 mb-1">Descrição Curta da Empresa</label>
-                            <textarea id="footer-description" rows="2" class="form-input block w-full"></textarea>
-                        </div>
-                         <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-700 mb-1">Nº de WhatsApp (com DDI)</label>
-                                <input type="tel" id="footer-contact-whatsapp" class="form-input block w-full" placeholder="5532999998888">
-                            </div>
-                            <div>
-                                <label for="footer-contact-phone" class="block text-sm font-medium text-slate-700 mb-1">Telefone de Contato</label>
-                                <input type="tel" id="footer-contact-phone" class="form-input block w-full">
-                            </div>
+                            <label for="footer-contact-whatsapp" class="block text-sm font-medium text-gray-700">Nº de WhatsApp (com código do país, ex: 55329...)</label>
+                            <input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="footer-contact-email" class="block text-sm font-medium text-slate-700 mb-1">Email de Contato</label>
-                            <input type="email" id="footer-contact-email" class="form-input block w-full">
+                            <label for="footer-contact-email" class="block text-sm font-medium text-gray-700">Email de Contato</label>
+                            <input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="footer-contact-address" class="block text-sm font-medium text-slate-700 mb-1">Endereço</label>
-                            <input type="text" id="footer-contact-address" class="form-input block w-full">
+                            <label for="footer-contact-phone" class="block text-sm font-medium text-gray-700">Telefone de Contato</label>
+                            <input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                         <div>
+                            <label for="footer-contact-address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                            <input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="footer-copyright" class="block text-sm font-medium text-slate-700 mb-1">Texto de Copyright</label>
-                            <input type="text" id="footer-copyright" class="form-input block w-full">
+                            <label for="footer-favicon" class="block text-sm font-medium text-gray-700">URL do Favicon</label>
+                            <input type="text" id="footer-favicon" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="https://exemplo.com/favicon.ico">
+                        </div>
+                        <div>
+                            <label for="footer-copyright" class="block text-sm font-medium text-gray-700">Texto de Copyright</label>
+                            <input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <button id="save-footer" class="save-button">Salvar Alterações</button>
                     </div>
@@ -419,7 +337,7 @@
     </div>
 
     <!-- Toast de Notificação -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-5 rounded-lg shadow-xl transition-all duration-300 opacity-0 transform translate-y-4">
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-md transition-all duration-300 opacity-0 transform translate-y-4">
         Alterações salvas com sucesso!
     </div>
     
@@ -447,6 +365,7 @@
 
         // --- INÍCIO DA LÓGICA DO PAINEL ---
         const main = () => {
+            // Elementos da UI
             const authLayer = document.getElementById('auth-layer');
             const authMessage = document.getElementById('auth-message');
             const mainContent = document.getElementById('main-content');
@@ -454,18 +373,21 @@
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
             
+            // Elementos para menu mobile
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
 
             const globalStyles = `
-                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: all 0.2s ease-in-out; cursor: pointer; width: 100%; text-align: center; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
-                .save-button:hover { background-color: #4338ca; transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
-                .save-button:disabled { background-color: #a5b4fc; cursor: not-allowed; transform: none; box-shadow: none; }
-                .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: all 0.2s ease-in-out; }
-                .add-button:hover { background-color: #059669; transform: scale(1.05); }
-                .remove-button { background-color: #ef4444; color: white; font-weight: bold; width: 1.75rem; height: 1.75rem; border-radius: 9999px; transition: all 0.2s ease-in-out; display: flex; align-items: center; justify-content: center; line-height: 1; }
-                .remove-button:hover { background-color: #dc2626; transform: rotate(90deg) scale(1.1); }
+                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s; cursor: pointer; width: 100%; sm:width: auto; }
+                .save-button:hover { background-color: #4338ca; }
+                .save-button:disabled { background-color: #a5b4fc; cursor: not-allowed; }
+                .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: background-color 0.3s; }
+                .add-button:hover { background-color: #059669; }
+                .remove-button { background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem; transition: background-color 0.3s; }
+                .remove-button:hover { background-color: #dc2626; }
+                .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; transition: all 0.2s; white-space: nowrap; }
+                .sidebar-link:hover { background-color: #374151; }
             `;
             const styleSheet = document.createElement("style");
             styleSheet.innerText = globalStyles;
@@ -496,7 +418,10 @@
             };
 
             const populateForms = () => {
+                console.log("Populando formulários com os dados carregados.");
                 if (!pageData) pageData = getDefaultData();
+
+                // Garante que os objetos aninhados existam
                 pageData.hero = pageData.hero || {};
                 pageData.style = pageData.style || {};
                 pageData.socialProof = pageData.socialProof || { logos: [] };
@@ -506,17 +431,25 @@
                 pageData.faq = pageData.faq || { items: [] };
                 pageData.cta = pageData.cta || {};
                 pageData.footer = pageData.footer || {};
+
+                // Seção Hero
                 document.getElementById('hero-title').value = pageData.hero.title || '';
                 document.getElementById('hero-subtitle').value = pageData.hero.subtitle || '';
                 document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text || '';
                 document.getElementById('hero-cta2-text').value = pageData.hero.cta2Text || '';
                 document.getElementById('hero-image').value = pageData.hero.image || '';
-                document.getElementById('style-bg-color').value = pageData.style.backgroundColor || '#F1F5F9';
+
+                // Seção Estilo
+                document.getElementById('style-bg-color').value = pageData.style.backgroundColor || '#F9FAFB';
                 document.getElementById('style-bg-image').value = pageData.style.backgroundImage || '';
-                document.getElementById('style-text-color').value = pageData.style.textColor || '#1E293B';
+                document.getElementById('style-text-color').value = pageData.style.textColor || '#1F2937';
+
+                // Seção Prova Social
                 document.getElementById('social-title').value = pageData.socialProof.title || '';
-                document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Logos de Clientes/Parceiros</h3>';
+                document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
                 pageData.socialProof.logos?.forEach(renderLogo);
+                
+                // Seção Sobre
                 document.getElementById('about-title').value = pageData.about.title || '';
                 document.getElementById('about-subtitle').value = pageData.about.subtitle || '';
                 document.getElementById('about-step1-title').value = pageData.about.step1?.title || '';
@@ -525,21 +458,31 @@
                 document.getElementById('about-step2-desc').value = pageData.about.step2?.description || '';
                 document.getElementById('about-step3-title').value = pageData.about.step3?.title || '';
                 document.getElementById('about-step3-desc').value = pageData.about.step3?.description || '';
+
+                // Seção Serviços
                 document.getElementById('services-title').value = pageData.services.title || '';
                 document.getElementById('services-subtitle').value = pageData.services.subtitle || '';
-                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Itens de Serviço/Produto</h3>';
+                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
                 pageData.services.items?.forEach(renderService);
+                
+                // Seção Depoimentos
                 document.getElementById('testimonials-title').value = pageData.testimonials.title || '';
                 document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle || '';
-                document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Depoimentos de Clientes</h3>';
+                document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
                 pageData.testimonials.items?.forEach(renderTestimonial);
+
+                // Seção FAQ
                 document.getElementById('faq-title').value = pageData.faq.title || '';
                 document.getElementById('faq-subtitle').value = pageData.faq.subtitle || '';
-                document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2 border-b pb-2">Perguntas e Respostas</h3>';
+                document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
                 pageData.faq.items?.forEach(renderFAQ);
+
+                // Seção CTA
                 document.getElementById('cta-title').value = pageData.cta.title || '';
                 document.getElementById('cta-subtitle').value = pageData.cta.subtitle || '';
                 document.getElementById('cta-button-text').value = pageData.cta.buttonText || '';
+
+                // Seção Rodapé
                 document.getElementById('footer-logo').value = pageData.footer.logo || '';
                 document.getElementById('footer-description').value = pageData.footer.description || '';
                 document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp || '';
@@ -551,17 +494,20 @@
             };
             
             const loadData = async () => {
+                console.log("Tentando carregar dados do Firestore...");
                 try {
                     const docSnap = await getDoc(contentDocRef);
                     if (docSnap.exists()) {
+                        console.log("Documento encontrado. Dados:", docSnap.data());
                         pageData = docSnap.data();
                     } else {
+                        console.log("Nenhum documento encontrado! Criando com dados padrão.");
                         pageData = getDefaultData();
                         await setDoc(contentDocRef, pageData);
                     }
                 } catch (error) {
-                    console.error("Erro ao carregar dados: ", error);
-                    showToast("Erro ao carregar os dados.", true);
+                    console.error("Erro ao carregar dados do Firestore: ", error);
+                    showToast("Ocorreu um erro ao carregar os dados. Usando dados padrão.", true);
                     pageData = getDefaultData();
                 }
                 populateForms();
@@ -570,32 +516,32 @@
             const renderLogo = (logo, index) => {
                 const container = document.getElementById('social-logos-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-200 p-4 rounded-lg mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-3 -right-3 remove-logo" data-index="${index}">×</button><div><label class="block text-sm font-medium text-slate-700">URL da Imagem</label><input type="text" class="form-input mt-1 block w-full social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-slate-700">Texto Alternativo (alt)</label><input type="text" class="form-input mt-1 block w-full social-logo-alt" value="${logo.alt}"></div>`;
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-gray-700">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-alt" value="${logo.alt}"></div>`;
                 container.appendChild(div);
             };
             
             const renderService = (item, index) => {
                 const container = document.getElementById('services-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-200 p-4 rounded-lg mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-3 -right-3 remove-service" data-index="${index}">×</button><div><label class="block text-sm font-medium text-slate-700">Título</label><input type="text" class="form-input mt-1 block w-full service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-slate-700">URL da Imagem</label><input type="text" class="form-input mt-1 block w-full service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-slate-700">Preço (Ex: 99,90)</label><input type="text" class="form-input mt-1 block w-full service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-700">Descrição</label><textarea rows="3" class="form-input mt-1 block w-full service-item-description">${item.description}</textarea></div>`;
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Título do Serviço/Produto</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-description">${item.description}</textarea></div>`;
                 container.appendChild(div);
             };
             
             const renderTestimonial = (item, index) => {
                 const container = document.getElementById('testimonials-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-200 p-4 rounded-lg mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-3 -right-3 remove-testimonial" data-index="${index}">×</button><div><label class="block text-sm font-medium text-slate-700">Depoimento</label><textarea rows="4" class="form-input mt-1 block w-full testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-slate-700">Nome do Autor</label><input type="text" class="form-input mt-1 block w-full testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-slate-700">Cargo/Empresa</label><input type="text" class="form-input mt-1 block w-full testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-slate-700">URL da Imagem do Autor</label><input type="text" class="form-input mt-1 block w-full testimonial-item-image" value="${item.image}"></div>`;
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-gray-700">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-gray-700">Cargo/Empresa do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-image" value="${item.image}"></div>`;
                 container.appendChild(div);
             };
 
             const renderFAQ = (item, index) => {
                 const container = document.getElementById('faq-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-200 p-4 rounded-lg mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-3 -right-3 remove-faq" data-index="${index}">×</button><div><label class="block text-sm font-medium text-slate-700">Pergunta</label><input type="text" class="form-input mt-1 block w-full faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-slate-700">Resposta</label><textarea rows="3" class="form-input mt-1 block w-full faq-item-answer">${item.answer}</textarea></div>`;
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
                 container.appendChild(div);
             };
             
@@ -609,7 +555,7 @@
             const updateCtaData = () => { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value }; };
             const updateFooterData = () => { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, favicon: document.getElementById('footer-favicon').value, copyright: document.getElementById('footer-copyright').value }; };
 
-            const getDefaultData = () => { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, style: { backgroundColor: '#F1F5F9', backgroundImage: '', textColor: '#1E293B' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clentes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; };
+            const getDefaultData = () => { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clentes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; };
             
             const toggleSidebar = () => {
                 sidebar.classList.toggle('-translate-x-full');
@@ -617,10 +563,15 @@
             };
 
             const initializeAppUI = (user) => {
+                console.log("Utilizador válido. Inicializando UI...");
+
                 authLayer.style.display = 'none';
                 mainContent.classList.remove('hidden');
+                // Alterado para 'flex' em telas grandes, 'block' em pequenas
                 mainContent.classList.add('lg:flex'); 
                 document.getElementById('user-email').textContent = user.email;
+
+                // Lógica do menu mobile
                 mobileMenuButton.addEventListener('click', toggleSidebar);
                 overlay.addEventListener('click', toggleSidebar);
 
@@ -633,6 +584,8 @@
                             link.classList.add('active');
                             const sectionId = 'section-' + link.dataset.section;
                             document.getElementById(sectionId).classList.add('active');
+
+                            // Fecha o menu mobile ao clicar em um link
                             if (window.innerWidth < 1024) {
                                 toggleSidebar();
                             }
@@ -661,7 +614,7 @@
                 document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
                 
                 document.body.addEventListener('click', e => {
-                    if (e.target.matches('.remove-button')) {
+                    if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
                         e.target.closest('.border').remove();
                     }
                 });
@@ -670,11 +623,14 @@
             };
 
             onAuthStateChanged(auth, user => {
+                console.log("Estado de autenticação alterado.");
                 if (user && user.emailVerified) {
                     initializeAppUI(user);
                 } else if (user && !user.emailVerified) {
-                    authMessage.innerHTML = `<h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2><p class="text-slate-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p><p class="text-slate-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>`;
+                    console.log("Utilizador autenticado mas email não verificado.");
+                    authMessage.innerHTML = `<h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2><p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p><p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>`;
                 } else {
+                    console.log("Nenhum utilizador autenticado. A redirecionar para o login.");
                     window.location.href = './login.html';
                 }
             });
