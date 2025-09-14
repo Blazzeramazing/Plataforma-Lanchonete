@@ -304,11 +304,15 @@
                 /* Botões: Mantém as cores de texto originais para contraste com o fundo do botão. */
                 .bg-indigo-600, .bg-green-500 { color: white !important; }
                 .bg-gray-200 { color: #1f2937 !important; }
-                #cta-button { color: #4f46e5 !important; }
 
                 /* Seções com Fundo Escuro: Força o texto branco para garantir a legibilidade. */
                 #contato *, footer *, .service-card-overlay * {
                     color: white !important;
+                }
+
+                /* EXCEÇÃO PARA O BOTÃO CTA: Garante que o texto do botão CTA seja legível sobre seu fundo branco, mesmo dentro da seção #contato. */
+                #cta-button { 
+                    color: #4f46e5 !important; 
                 }
 
                 /* Links e Texto Secundário no Rodapé: Usa cores específicas mais suaves. */
@@ -335,8 +339,13 @@
                      color: #4B5563 !important; /* Cor de 'text-gray-600' */
                 }
                  #testimonials-container .text-sm {
-                    color: #6B7280 !important; /* Cor de 'text-gray-500' */
+                     color: #6B7280 !important; /* Cor de 'text-gray-500' */
                  }
+                
+                /* Modal de Contato: Garante que o texto seja sempre escuro para contraste com o fundo branco do modal. */
+                #contact-modal h3 { color: #1F2937 !important; } /* text-gray-900 */
+                #contact-modal p { color: #4B5563 !important; } /* text-gray-600 */
+                #contact-modal label { color: #374151 !important; } /* text-gray-700 */
             `;
             dynamicStyleEl.innerHTML = cssString;
 
@@ -390,8 +399,8 @@
                             <img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg">
                             <div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div>
                             <div class="service-card-overlay">
-                                <p class="text-gray-200 mb-4">${item.description}</p>
-                                ${item.price ? `<p class="text-2xl font-extrabold text-white mb-6">R$ ${item.price}</p>` : ''}
+                                <p class="text-white font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>
+                                ${item.price ? `<p class="text-2xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}
                                 <button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button>
                             </div>
                         </div>`;
@@ -458,8 +467,8 @@
                      renderContent(doc.data());
                 }
                 else { 
-                    console.log("Documento não encontrado! Renderizando com dados padrão."); 
-                    renderContent(defaultData); 
+                     console.log("Documento não encontrado! Renderizando com dados padrão."); 
+                     renderContent(defaultData); 
                 }
             }, (error) => { 
                 console.error("Erro ao buscar dados:", error); 
