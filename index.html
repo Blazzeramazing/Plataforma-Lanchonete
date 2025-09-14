@@ -290,7 +290,7 @@
             // 2. Lógica da Cor do Texto
             let cssString = `
                 /* 1. REGRA GERAL: Define a cor base para o texto da página com alta prioridade. */
-                body {
+                h1, h2, h3, p, #social-title {
                     color: ${styles.textColor} !important;
                 }
 
@@ -312,7 +312,7 @@
                 }
 
                 /* Links e Texto Secundário no Rodapé: Usa cores específicas mais suaves. */
-                footer a, footer .text-gray-400, footer p {
+                footer a, footer .text-gray-400, footer p, footer li {
                     color: #9ca3af !important; /* Cor de 'text-gray-400' */
                 }
                 footer a:hover {
@@ -331,9 +331,12 @@
                 .service-card h3, .faq-toggle span, #testimonials-container .font-semibold {
                     color: #1F2937 !important; /* Cor de 'text-gray-900' */
                 }
-                #testimonials-container p, .faq-content p {
-                    color: #4B5563 !important; /* Cor de 'text-gray-600' */
+                #testimonials-container p, .faq-content p, .service-card p {
+                     color: #4B5563 !important; /* Cor de 'text-gray-600' */
                 }
+                 #testimonials-container .text-sm {
+                    color: #6B7280 !important; /* Cor de 'text-gray-500' */
+                 }
             `;
             dynamicStyleEl.innerHTML = cssString;
 
