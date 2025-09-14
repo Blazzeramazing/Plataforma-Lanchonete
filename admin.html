@@ -37,6 +37,10 @@
                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     Início (Hero)
                 </a>
+                <a href="#" class="sidebar-link" data-section="style">
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path></svg>
+                    Estilo
+                </a>
                 <a href="#" class="sidebar-link" data-section="social-proof">
                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Prova Social
@@ -102,6 +106,28 @@
                         <input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/imagem.png">
                     </div>
                     <button id="save-hero" class="save-button">Salvar Alterações</button>
+                </div>
+            </div>
+
+            <!-- Seção de Estilo -->
+            <div id="section-style" class="content-section">
+                <h2 class="text-3xl font-bold mb-6 text-gray-800">Customização Visual (Estilo)</h2>
+                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
+                    <div>
+                        <label for="style-bg-color" class="block text-sm font-medium text-gray-700">Cor de Fundo da Página</label>
+                        <input type="color" id="style-bg-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
+                    </div>
+                    <div>
+                        <label for="style-bg-image" class="block text-sm font-medium text-gray-700">URL da Imagem de Fundo</label>
+                        <input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/fundo.jpg">
+                        <p class="mt-2 text-sm text-gray-500">Deixe em branco para usar a cor de fundo sólida. A imagem tem prioridade sobre a cor.</p>
+                    </div>
+                    <div>
+                        <label for="style-text-color" class="block text-sm font-medium text-gray-700">Cor Principal do Texto</label>
+                        <input type="color" id="style-text-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
+                         <p class="mt-2 text-sm text-gray-500">Esta cor será aplicada a todo o corpo do texto da página.</p>
+                    </div>
+                    <button id="save-style" class="save-button">Salvar Alterações de Estilo</button>
                 </div>
             </div>
 
@@ -179,7 +205,7 @@
                     </div>
                     <div id="services-container">
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>
-                         <!-- Serviços serão adicionados aqui via JS -->
+                          <!-- Serviços serão adicionados aqui via JS -->
                     </div>
                     <button id="add-service" class="add-button">Adicionar Item</button>
                     <hr>
@@ -301,18 +327,18 @@
     
     <!-- Firebase SDKs -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- Configuração do Firebase ---
         const firebaseConfig = {
-          apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
-          authDomain: "minhas-credenciais-firebase.firebaseapp.com",
-          projectId: "minhas-credenciais-firebase",
-          storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
-          messagingSenderId: "90146495031",
-          appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
+            apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
+            authDomain: "minhas-credenciais-firebase.firebaseapp.com",
+            projectId: "minhas-credenciais-firebase",
+            storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
+            messagingSenderId: "90146495031",
+            appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
         };
         
         // Inicializa o Firebase
@@ -321,7 +347,7 @@
         const db = getFirestore(app);
         const contentDocRef = doc(db, "landingPage", "content");
 
-        // --- INÍCIO DA CORREÇÃO ---
+        // --- INÍCIO DA LÓGICA DO PAINEL ---
         const main = () => {
             // Elementos da UI
             const authLayer = document.getElementById('auth-layer');
@@ -348,7 +374,8 @@
             
             let pageData = {};
             
-            const showToast = () => {
+            const showToast = (message = "Alterações salvas com sucesso!") => {
+                toast.textContent = message;
                 toast.classList.remove('opacity-0', 'translate-y-4');
                 setTimeout(() => { 
                     toast.classList.add('opacity-0', 'translate-y-4'); 
@@ -359,11 +386,13 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
-                    await setDoc(contentDocRef, pageData); 
+                    // Usar updateDoc para mesclar e não sobrescrever campos não relacionados
+                    await setDoc(contentDocRef, pageData, { merge: true }); 
                     showToast();
                 } catch (error) {
                     console.error("Erro ao salvar dados: ", error);
-                    alert("Ocorreu um erro ao salvar. Verifique o console.");
+                    // Usar uma notificação mais amigável que alert
+                    showToast("Ocorreu um erro ao salvar. Verifique o console.", true);
                 } finally {
                     saveButtons.forEach(btn => btn.disabled = false);
                 }
@@ -372,45 +401,77 @@
             const populateForms = () => {
                 console.log("Populando formulários com os dados carregados.");
                 if (!pageData) pageData = getDefaultData();
-                document.getElementById('hero-title').value = pageData.hero?.title || '';
-                document.getElementById('hero-subtitle').value = pageData.hero?.subtitle || '';
-                document.getElementById('hero-cta1-text').value = pageData.hero?.cta1Text || '';
-                document.getElementById('hero-cta2-text').value = pageData.hero?.cta2Text || '';
-                document.getElementById('hero-image').value = pageData.hero?.image || '';
-                document.getElementById('social-title').value = pageData.socialProof?.title || '';
+
+                // Garante que os objetos aninhados existam
+                pageData.hero = pageData.hero || {};
+                pageData.style = pageData.style || {};
+                pageData.socialProof = pageData.socialProof || { logos: [] };
+                pageData.about = pageData.about || { step1:{}, step2:{}, step3:{} };
+                pageData.services = pageData.services || { items: [] };
+                pageData.testimonials = pageData.testimonials || { items: [] };
+                pageData.faq = pageData.faq || { items: [] };
+                pageData.cta = pageData.cta || {};
+                pageData.footer = pageData.footer || {};
+
+                // Seção Hero
+                document.getElementById('hero-title').value = pageData.hero.title || '';
+                document.getElementById('hero-subtitle').value = pageData.hero.subtitle || '';
+                document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text || '';
+                document.getElementById('hero-cta2-text').value = pageData.hero.cta2Text || '';
+                document.getElementById('hero-image').value = pageData.hero.image || '';
+
+                // Seção Estilo
+                document.getElementById('style-bg-color').value = pageData.style.backgroundColor || '#F9FAFB';
+                document.getElementById('style-bg-image').value = pageData.style.backgroundImage || '';
+                document.getElementById('style-text-color').value = pageData.style.textColor || '#1F2937';
+
+                // Seção Prova Social
+                document.getElementById('social-title').value = pageData.socialProof.title || '';
                 document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>';
-                pageData.socialProof?.logos?.forEach(renderLogo);
-                document.getElementById('about-title').value = pageData.about?.title || '';
-                document.getElementById('about-subtitle').value = pageData.about?.subtitle || '';
-                document.getElementById('about-step1-title').value = pageData.about?.step1?.title || '';
-                document.getElementById('about-step1-desc').value = pageData.about?.step1?.description || '';
-                document.getElementById('about-step2-title').value = pageData.about?.step2?.title || '';
-                document.getElementById('about-step2-desc').value = pageData.about?.step2?.description || '';
-                document.getElementById('about-step3-title').value = pageData.about?.step3?.title || '';
-                document.getElementById('about-step3-desc').value = pageData.about?.step3?.description || '';
-                document.getElementById('services-title').value = pageData.services?.title || '';
-                document.getElementById('services-subtitle').value = pageData.services?.subtitle || '';
+                pageData.socialProof.logos?.forEach(renderLogo);
+                
+                // Seção Sobre
+                document.getElementById('about-title').value = pageData.about.title || '';
+                document.getElementById('about-subtitle').value = pageData.about.subtitle || '';
+                document.getElementById('about-step1-title').value = pageData.about.step1?.title || '';
+                document.getElementById('about-step1-desc').value = pageData.about.step1?.description || '';
+                document.getElementById('about-step2-title').value = pageData.about.step2?.title || '';
+                document.getElementById('about-step2-desc').value = pageData.about.step2?.description || '';
+                document.getElementById('about-step3-title').value = pageData.about.step3?.title || '';
+                document.getElementById('about-step3-desc').value = pageData.about.step3?.description || '';
+
+                // Seção Serviços
+                document.getElementById('services-title').value = pageData.services.title || '';
+                document.getElementById('services-subtitle').value = pageData.services.subtitle || '';
                 document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>';
-                pageData.services?.items?.forEach(renderService);
-                document.getElementById('testimonials-title').value = pageData.testimonials?.title || '';
-                document.getElementById('testimonials-subtitle').value = pageData.testimonials?.subtitle || '';
+                pageData.services.items?.forEach(renderService);
+                
+                // Seção Depoimentos
+                document.getElementById('testimonials-title').value = pageData.testimonials.title || '';
+                document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle || '';
                 document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>';
-                pageData.testimonials?.items?.forEach(renderTestimonial);
-                document.getElementById('faq-title').value = pageData.faq?.title || '';
-                document.getElementById('faq-subtitle').value = pageData.faq?.subtitle || '';
+                pageData.testimonials.items?.forEach(renderTestimonial);
+
+                // Seção FAQ
+                document.getElementById('faq-title').value = pageData.faq.title || '';
+                document.getElementById('faq-subtitle').value = pageData.faq.subtitle || '';
                 document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>';
-                pageData.faq?.items?.forEach(renderFAQ);
-                document.getElementById('cta-title').value = pageData.cta?.title || '';
-                document.getElementById('cta-subtitle').value = pageData.cta?.subtitle || '';
-                document.getElementById('cta-button-text').value = pageData.cta?.buttonText || '';
-                document.getElementById('footer-logo').value = pageData.footer?.logo || '';
-                document.getElementById('footer-description').value = pageData.footer?.description || '';
-                document.getElementById('footer-contact-whatsapp').value = pageData.footer?.whatsapp || '';
-                document.getElementById('footer-contact-email').value = pageData.footer?.email || '';
-                document.getElementById('footer-contact-phone').value = pageData.footer?.phone || '';
-                document.getElementById('footer-contact-address').value = pageData.footer?.address || '';
-                document.getElementById('footer-favicon').value = pageData.footer?.favicon || '';
-                document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
+                pageData.faq.items?.forEach(renderFAQ);
+
+                // Seção CTA
+                document.getElementById('cta-title').value = pageData.cta.title || '';
+                document.getElementById('cta-subtitle').value = pageData.cta.subtitle || '';
+                document.getElementById('cta-button-text').value = pageData.cta.buttonText || '';
+
+                // Seção Rodapé
+                document.getElementById('footer-logo').value = pageData.footer.logo || '';
+                document.getElementById('footer-description').value = pageData.footer.description || '';
+                document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp || '';
+                document.getElementById('footer-contact-email').value = pageData.footer.email || '';
+                document.getElementById('footer-contact-phone').value = pageData.footer.phone || '';
+                document.getElementById('footer-contact-address').value = pageData.footer.address || '';
+                document.getElementById('footer-favicon').value = pageData.footer.favicon || '';
+                document.getElementById('footer-copyright').value = pageData.footer.copyright || '';
             };
             
             const loadData = async () => {
@@ -427,7 +488,7 @@
                     }
                 } catch (error) {
                     console.error("Erro ao carregar dados do Firestore: ", error);
-                    alert("Ocorreu um erro ao carregar os dados. Usando dados padrão.");
+                    showToast("Ocorreu um erro ao carregar os dados. Usando dados padrão.", true);
                     pageData = getDefaultData();
                 }
                 populateForms();
@@ -466,6 +527,7 @@
             };
             
             const updateHeroData = () => { pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta2Text: document.getElementById('hero-cta2-text').value, image: document.getElementById('hero-image').value }; };
+            const updateStyleData = () => { pageData.style = { backgroundColor: document.getElementById('style-bg-color').value, backgroundImage: document.getElementById('style-bg-image').value, textColor: document.getElementById('style-text-color').value }; };
             const updateSocialProofData = () => { const newLogos = []; document.querySelectorAll('#social-logos-container .border').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; };
             const updateAboutData = () => { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; };
             const updateServicesData = () => { const newServices = []; document.querySelectorAll('#services-container .border').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices }; };
@@ -474,18 +536,16 @@
             const updateCtaData = () => { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value }; };
             const updateFooterData = () => { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, favicon: document.getElementById('footer-favicon').value, copyright: document.getElementById('footer-copyright').value }; };
 
-            const getDefaultData = () => { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clentes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; };
+            const getDefaultData = () => { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clentes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; };
             
             const initializeAppUI = (user) => {
                 console.log("Utilizador válido. Inicializando UI...");
 
-                // Mostra a UI principal
                 authLayer.style.display = 'none';
                 mainContent.classList.remove('hidden');
                 mainContent.classList.add('flex');
                 document.getElementById('user-email').textContent = user.email;
 
-                // Configura todos os listeners da UI
                 sidebarLinks.forEach(link => {
                     if(link.id !== 'logout-button') {
                         link.addEventListener('click', e => {
@@ -505,6 +565,7 @@
                 });
                 
                 document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
+                document.getElementById('save-style').addEventListener('click', () => { updateStyleData(); saveData(); });
                 document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
                 document.getElementById('save-about').addEventListener('click', () => { updateAboutData(); saveData(); });
                 document.getElementById('save-services').addEventListener('click', () => { updateServicesData(); saveData(); });
@@ -527,7 +588,6 @@
                 loadData();
             };
 
-            // Ponto de entrada principal
             onAuthStateChanged(auth, user => {
                 console.log("Estado de autenticação alterado.");
                 if (user && user.emailVerified) {
@@ -542,7 +602,6 @@
             });
         };
 
-        // Garante que o script principal só é executado quando a página está pronta.
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', main);
         } else {
@@ -551,3 +610,4 @@
     </script>
 </body>
 </html>
+

@@ -11,7 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.5s, color 0.5s;
+        }
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         
         /* Estilos do Carrossel de Serviços */
@@ -31,12 +34,22 @@
 
         /* Estilos do Modal de Contato */
         #contact-modal { transition: opacity 0.3s ease-in-out; }
+        .form-error-message {
+            display: none;
+            background-color: #fef2f2;
+            color: #991b1b;
+            padding: 0.75rem 1rem;
+            border: 1px solid #fecaca;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
     <!-- Cabeçalho e Navegação -->
-    <header id="home" class="bg-white shadow-sm sticky top-0 z-50">
+    <header id="home" class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-gray-900" id="nav-logo">SuaLogo</a>
             <div class="hidden lg:flex items-center space-x-8">
@@ -61,7 +74,7 @@
 
     <main>
         <!-- Seções da página (Hero, Sobre, etc.) -->
-        <section class="bg-white">
+        <section class="bg-white/80 backdrop-blur-sm">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left">
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight" id="hero-title"></h1>
@@ -76,13 +89,13 @@
                 </div>
             </div>
         </section>
-        <section class="py-16 bg-gray-50">
+        <section class="py-16 bg-gray-50/80 backdrop-blur-sm">
             <div class="container mx-auto px-6 text-center">
                 <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider" id="social-title"></h3>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
-        <section id="sobre" class="py-24 bg-white">
+        <section id="sobre" class="py-24 bg-white/80 backdrop-blur-sm">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="about-title"></h2>
@@ -113,7 +126,7 @@
                 </div>
             </div>
         </section>
-        <section id="servicos" class="py-24 bg-gray-50">
+        <section id="servicos" class="py-24 bg-gray-50/80 backdrop-blur-sm">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="services-title"></h2>
@@ -126,7 +139,7 @@
                 </div>
             </div>
         </section>
-        <section id="depoimentos" class="py-24 bg-white">
+        <section id="depoimentos" class="py-24 bg-white/80 backdrop-blur-sm">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="testimonials-title"></h2>
@@ -135,7 +148,7 @@
                 <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container"></div>
             </div>
         </section>
-        <section id="faq" class="py-24 bg-gray-50">
+        <section id="faq" class="py-24 bg-gray-50/80 backdrop-blur-sm">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="faq-title"></h2>
@@ -193,6 +206,7 @@
             </button>
             <h3 class="text-2xl font-bold mb-2 text-gray-900">Fale Conosco</h3>
             <p class="text-gray-600 mb-6">Preencha seus dados para enviar uma mensagem via WhatsApp.</p>
+            <div id="form-error" class="form-error-message"></div>
             <form id="contact-form">
                 <div class="mb-4">
                     <label for="contact-name" class="block text-sm font-medium text-gray-700">Nome</label>
@@ -214,17 +228,19 @@
 
     <!-- Firebase SDKs -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // --- Configuração do Firebase ---
         const firebaseConfig = {
-          apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
-          authDomain: "minhas-credenciais-firebase.firebaseapp.com",
-          projectId: "minhas-credenciais-firebase",
-          storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
-          messagingSenderId: "90146495031",
-          appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
+            apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
+            authDomain: "minhas-credenciais-firebase.firebaseapp.com",
+            projectId: "minhas-credenciais-firebase",
+            storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
+            messagingSenderId: "90146495031",
+            appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
         };
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         
@@ -233,6 +249,7 @@
 
         const defaultData = {
             hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta2Text: '...', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
+            style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937' },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
             services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
@@ -246,12 +263,31 @@
             pageDataStore = pageData || defaultData;
             const data = pageDataStore;
 
+            // Aplica estilos globais
+            if (data.style) {
+                const body = document.body;
+                body.style.color = data.style.textColor || defaultData.style.textColor;
+                
+                if (data.style.backgroundImage) {
+                    body.style.backgroundImage = `url('${data.style.backgroundImage}')`;
+                    body.style.backgroundSize = 'cover';
+                    body.style.backgroundPosition = 'center';
+                    body.style.backgroundAttachment = 'fixed';
+                    body.style.backgroundColor = ''; // Limpa a cor para a imagem ter prioridade
+                } else {
+                    body.style.backgroundImage = 'none';
+                    body.style.backgroundColor = data.style.backgroundColor || defaultData.style.backgroundColor;
+                }
+            }
+
+            // Meta tags
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
             if (data.footer?.favicon) {
                 document.getElementById('favicon-link').href = data.footer.favicon;
             }
 
+            // Seção Hero
             document.getElementById('hero-title').textContent = data.hero?.title || '';
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
             document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
@@ -259,10 +295,12 @@
             document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
             document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
             
+            // Navegação
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
             document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
 
+            // Seção Prova Social
             document.getElementById('social-title').textContent = data.socialProof?.title || '';
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
@@ -270,6 +308,7 @@
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition-opacity duration-500 hover:opacity-75">`;
             });
 
+            // Seção Sobre
             document.getElementById('about-title').textContent = data.about?.title || '';
             document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
             document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
@@ -279,6 +318,7 @@
             document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
             document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
             
+            // Seção Serviços
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
             const servicesItems = data.services?.items || [];
@@ -299,13 +339,14 @@
                 track.innerHTML = '<p class="text-center w-full text-gray-500">Nenhum serviço cadastrado no momento.</p>';
             }
 
+            // Seção Depoimentos
             document.getElementById('testimonials-title').textContent = data.testimonials?.title || '';
             document.getElementById('testimonials-subtitle').textContent = data.testimonials?.subtitle || '';
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
             (data.testimonials?.items || []).forEach(item => {
                 testimonialsContainer.innerHTML += `
-                    <div class="bg-gray-50 p-8 rounded-lg">
+                    <div class="bg-gray-50/80 p-8 rounded-lg">
                         <p class="text-gray-600">"${item.quote}"</p>
                         <div class="mt-6 flex items-center">
                             <img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200">
@@ -317,13 +358,14 @@
                     </div>`;
             });
 
+            // Seção FAQ
             document.getElementById('faq-title').textContent = data.faq?.title || '';
             document.getElementById('faq-subtitle').textContent = data.faq?.subtitle || '';
             const faqContainer = document.getElementById('faq-container');
             faqContainer.innerHTML = '';
             (data.faq?.items || []).forEach(item => {
                 faqContainer.innerHTML += `
-                    <div class="bg-white rounded-lg shadow-sm">
+                    <div class="bg-white/80 rounded-lg shadow-sm">
                         <button class="faq-toggle w-full text-left p-6 flex justify-between items-center">
                             <span class="text-lg font-semibold text-gray-800">${item.question}</span>
                             <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -332,10 +374,12 @@
                     </div>`;
             });
 
+            // Seção CTA
             document.getElementById('cta-title').textContent = data.cta?.title || '';
             document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
             document.getElementById('cta-button').textContent = data.cta?.buttonText || '';
             
+            // Seção Rodapé
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
             document.getElementById('footer-email').textContent = `Email: ${data.footer?.email || ''}`;
@@ -345,18 +389,29 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderContent(defaultData);
+            renderContent(defaultData); // Renderiza com dados padrão para evitar tela em branco
             const contentDocRef = doc(db, "landingPage", "content");
-            onSnapshot(contentDocRef, (doc) => {
-                if (doc.exists()) renderContent(doc.data());
-                else { console.log("Documento não encontrado!"); renderContent(defaultData); }
-            }, (error) => { console.error("Erro:", error); renderContent(defaultData); });
             
+            onSnapshot(contentDocRef, (doc) => {
+                if (doc.exists()) {
+                     renderContent(doc.data());
+                }
+                else { 
+                    console.log("Documento não encontrado! Renderizando com dados padrão."); 
+                    renderContent(defaultData); 
+                }
+            }, (error) => { 
+                console.error("Erro ao buscar dados:", error); 
+                renderContent(defaultData); 
+            });
+            
+            // Lógica do Menu Mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
+            // Lógica do FAQ (Acordeão)
             document.getElementById('faq-container').addEventListener('click', (e) => {
                 const toggle = e.target.closest('.faq-toggle');
                 if (!toggle) return;
@@ -373,6 +428,7 @@
                 }
             });
 
+            // Lógica do Carrossel de Serviços
             const track = document.getElementById('service-carousel-track'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
             if(track && prevBtn && nextBtn){
                 const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 16 : 300; }
@@ -380,10 +436,16 @@
                 prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
             }
 
-            // --- LÓGICA DO MODAL DE CONTATO ---
+            // Lógica do Modal de Contato
             const modal = document.getElementById('contact-modal');
             const closeModalButton = document.getElementById('close-modal-button');
             const contactForm = document.getElementById('contact-form');
+            const formError = document.getElementById('form-error');
+
+            const showFormError = (message) => {
+                formError.textContent = message;
+                formError.style.display = 'block';
+            };
 
             const openModal = (service) => {
                 currentServiceTitle = service;
@@ -392,6 +454,7 @@
             const closeModal = () => {
                 modal.classList.add('hidden');
                 contactForm.reset();
+                formError.style.display = 'none';
             };
 
             document.body.addEventListener('click', (e) => {
@@ -411,7 +474,7 @@
                 const phone = document.getElementById('contact-phone').value;
                 
                 if (!pageDataStore || !pageDataStore.footer?.whatsapp) {
-                    alert("Número de WhatsApp não configurado.");
+                    showFormError("Número de WhatsApp não configurado. Não é possível enviar a mensagem.");
                     return;
                 }
 
