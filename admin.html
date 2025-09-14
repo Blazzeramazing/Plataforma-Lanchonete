@@ -317,41 +317,14 @@
         const db = getFirestore(app);
         const contentDocRef = doc(db, "landingPage", "content");
 
-        // --- LÓGICA DE AUTENTICAÇÃO ---
-        const authLayer = document.getElementById('auth-layer');
-        const authMessage = document.getElementById('auth-message');
-        const mainContent = document.getElementById('main-content');
-
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                if (user.emailVerified) {
-                    authLayer.style.display = 'none';
-                    mainContent.classList.remove('hidden');
-                    mainContent.classList.add('flex');
-                    document.getElementById('user-email').textContent = user.email;
-                    loadData();
-                } else {
-                    authMessage.innerHTML = `
-                        <h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2>
-                        <p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p>
-                        <p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>
-                    `;
-                }
-            } else {
-                window.location.href = './login.html';
-            }
-        });
-
-        document.getElementById('logout-button').addEventListener('click', async (e) => {
-            e.preventDefault();
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error('Erro ao fazer logout:', error);
-            }
-        });
-
+        // --- INÍCIO DA CORREÇÃO ---
+        // Toda a lógica agora está dentro deste listener para garantir que a página esteja pronta.
         document.addEventListener('DOMContentLoaded', function () {
+            
+            // Elementos da UI
+            const authLayer = document.getElementById('auth-layer');
+            const authMessage = document.getElementById('auth-message');
+            const mainContent = document.getElementById('main-content');
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
@@ -383,6 +356,15 @@
                     });
                 }
             });
+
+            document.getElementById('logout-button').addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                } catch (error) {
+                    console.error('Erro ao fazer logout:', error);
+                }
+            });
             
             let pageData = {};
             
@@ -397,8 +379,6 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
-                    // Usamos a opção { merge: true } para garantir que apenas os campos fornecidos sejam atualizados.
-                    // No entanto, como lemos todos os dados primeiro, o setDoc simples também funciona com a nossa nova lógica.
                     await setDoc(contentDocRef, pageData); 
                     showToast();
                 } catch (error) {
@@ -501,9 +481,6 @@
                 document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
             }
             
-            // --- INÍCIO DA CORREÇÃO ---
-            
-            // 1. Funções específicas para atualizar cada seção do objeto pageData
             function updateHeroData() {
                 pageData.hero = {
                     title: document.getElementById('hero-title').value,
@@ -607,7 +584,7 @@
                 };
             }
 
-            // 2. Listeners específicos para cada botão de salvar
+            // Listeners para os botões de salvar
             document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
             document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
             document.getElementById('save-about').addEventListener('click', () => { updateAboutData(); saveData(); });
@@ -616,14 +593,14 @@
             document.getElementById('save-faq').addEventListener('click', () => { updateFaqData(); saveData(); });
             document.getElementById('save-cta').addEventListener('click', () => { updateCtaData(); saveData(); });
             document.getElementById('save-footer').addEventListener('click', () => { updateFooterData(); saveData(); });
-
-            // --- FIM DA CORREÇÃO ---
             
+            // Listeners para os botões de adicionar
             document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
             document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
             document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials?.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
             document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
             
+            // Listener para os botões de remover (delegação de evento)
             document.body.addEventListener('click', e => {
                 if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
                     e.target.closest('.border').remove();
@@ -642,7 +619,30 @@
                     footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' }
                 };
             }
+
+            // Lógica de Autenticação - executada por último para iniciar o processo
+            onAuthStateChanged(auth, user => {
+                if (user) {
+                    if (user.emailVerified) {
+                        authLayer.style.display = 'none';
+                        mainContent.classList.remove('hidden');
+                        mainContent.classList.add('flex');
+                        document.getElementById('user-email').textContent = user.email;
+                        loadData(); // Agora esta chamada é segura
+                    } else {
+                        authMessage.innerHTML = `
+                            <h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2>
+                            <p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p>
+                            <p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>
+                        `;
+                    }
+                } else {
+                    window.location.href = './login.html';
+                }
+            });
+
         });
     </script>
 </body>
 </html>
+
