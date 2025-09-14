@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF--8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Sua Empresa | A Solução Ideal para o Seu Negócio</title>
     <meta name="description" id="page-description" content="Oferecemos soluções inovadoras para impulsionar o seu sucesso. Conheça nossos serviços e transforme seus resultados.">
+    <!-- O link do Favicon será inserido aqui -->
+    <link id="favicon-link" rel="icon" type="image/x-icon" href="">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -290,16 +292,19 @@
             testimonials: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
             faq: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
             cta: { title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...' },
-            footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '' }
+            footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
         function renderContent(pageData) {
             // Garante que pageData não é nulo. Se for, usa os dados padrão.
             const data = pageData || defaultData;
 
-            // Meta Tags (SEO)
+            // Meta Tags (SEO) e Favicon
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
+            if (data.footer?.favicon) {
+                document.getElementById('favicon-link').href = data.footer.favicon;
+            }
 
             // Hero
             document.getElementById('hero-title').textContent = data.hero?.title || '';
