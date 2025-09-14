@@ -13,6 +13,8 @@
         .sidebar-link.active { background-color: #4f46e5; color: white; }
         .content-section { display: none; }
         .content-section.active { display: block; }
+        /* Adicionado para transição suave no menu mobile */
+        aside { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -25,14 +27,15 @@
         </div>
     </div>
 
-    <div id="main-content" class="hidden h-screen bg-gray-200 transition-opacity duration-500">
+    <div id="main-content" class="hidden relative min-h-screen lg:flex">
         <!-- Barra Lateral de Navegação -->
-        <aside class="w-64 bg-gray-800 text-white flex flex-col">
+        <!-- Ajustes para responsividade: `fixed` em telas pequenas, `lg:relative` em telas grandes -->
+        <aside id="sidebar" class="w-64 bg-gray-800 text-white flex-col fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0 flex">
             <div class="px-6 py-4 border-b border-gray-700">
                 <h1 class="text-2xl font-bold">Painel de Gestão</h1>
                 <p id="user-email" class="text-sm text-gray-400">Landing Page</p>
             </div>
-            <nav class="flex-1 px-4 py-4 space-y-2">
+            <nav class="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
                 <a href="#" class="sidebar-link active" data-section="hero">
                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     Início (Hero)
@@ -78,246 +81,259 @@
             </div>
         </aside>
 
-        <!-- Conteúdo Principal -->
-        <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+        <!-- Overlay para o menu mobile -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
+
+        <div class="flex-1 flex flex-col">
+            <!-- Header Mobile -->
+            <header class="lg:hidden bg-gray-800 text-white p-4 flex justify-between items-center sticky top-0 z-20">
+                <h1 class="text-xl font-bold">Painel</h1>
+                <button id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </header>
             
-            <!-- Seção Hero -->
-            <div id="section-hero" class="content-section active">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção Inicial (Hero)</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="hero-title" class="block text-sm font-medium text-gray-700">Título Principal</label>
-                        <textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                    </div>
-                    <div>
-                        <label for="hero-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
-                        <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                    </div>
-                     <div>
-                        <label for="hero-cta1-text" class="block text-sm font-medium text-gray-700">Texto do Botão 1</label>
-                        <input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-                     <div>
-                        <label for="hero-cta2-text" class="block text-sm font-medium text-gray-700">Texto do Botão 2</label>
-                        <input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-                    <div>
-                        <label for="hero-image" class="block text-sm font-medium text-gray-700">URL da Imagem</label>
-                        <input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/imagem.png">
-                    </div>
-                    <button id="save-hero" class="save-button">Salvar Alterações</button>
-                </div>
-            </div>
-
-            <!-- Seção de Estilo -->
-            <div id="section-style" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Customização Visual (Estilo)</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="style-bg-color" class="block text-sm font-medium text-gray-700">Cor de Fundo da Página</label>
-                        <input type="color" id="style-bg-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <div>
-                        <label for="style-bg-image" class="block text-sm font-medium text-gray-700">URL da Imagem de Fundo</label>
-                        <input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/fundo.jpg">
-                        <p class="mt-2 text-sm text-gray-500">Deixe em branco para usar a cor de fundo sólida. A imagem tem prioridade sobre a cor.</p>
-                    </div>
-                    <div>
-                        <label for="style-text-color" class="block text-sm font-medium text-gray-700">Cor Principal do Texto</label>
-                        <input type="color" id="style-text-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
-                         <p class="mt-2 text-sm text-gray-500">Esta cor será aplicada a todo o corpo do texto da página.</p>
-                    </div>
-                    <button id="save-style" class="save-button">Salvar Alterações de Estilo</button>
-                </div>
-            </div>
-
-            <!-- Seção Prova Social -->
-            <div id="section-social-proof" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Prova Social</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="social-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
-                        <input type="text" id="social-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-                    <div id="social-logos-container">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>
-                        <!-- Logos serão adicionados aqui via JS -->
-                    </div>
-                    <button id="add-social-logo" class="add-button">Adicionar Logo</button>
-                    <hr>
-                    <button id="save-social-proof" class="save-button">Salvar Alterações</button>
-                </div>
-            </div>
-
-            <!-- Seção Sobre -->
-            <div id="section-about" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção Sobre</h2>
-                 <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="about-title" class="block text-sm font-medium text-gray-700">Título</label>
-                        <input type="text" id="about-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                    </div>
-                    <div>
-                        <label for="about-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
-                        <textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Passo 1 -->
-                        <div class="border p-4 rounded-md">
-                             <h4 class="font-bold mb-2">Passo 1</h4>
-                             <label for="about-step1-title" class="block text-sm font-medium text-gray-700">Título do Passo 1</label>
-                             <input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                             <label for="about-step1-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
-                             <textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+            <!-- Conteúdo Principal -->
+            <main class="flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto bg-gray-200">
+                
+                <!-- Seção Hero -->
+                <div id="section-hero" class="content-section active">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção Inicial (Hero)</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="hero-title" class="block text-sm font-medium text-gray-700">Título Principal</label>
+                            <textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         </div>
-                        <!-- Passo 2 -->
-                        <div class="border p-4 rounded-md">
-                             <h4 class="font-bold mb-2">Passo 2</h4>
-                             <label for="about-step2-title" class="block text-sm font-medium text-gray-700">Título do Passo 2</label>
-                             <input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                             <label for="about-step2-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
-                             <textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        <div>
+                            <label for="hero-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
                         </div>
-                        <!-- Passo 3 -->
-                        <div class="border p-4 rounded-md">
-                             <h4 class="font-bold mb-2">Passo 3</h4>
-                             <label for="about-step3-title" class="block text-sm font-medium text-gray-700">Título do Passo 3</label>
-                             <input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                             <label for="about-step3-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
-                             <textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                         <div>
+                            <label for="hero-cta1-text" class="block text-sm font-medium text-gray-700">Texto do Botão 1</label>
+                            <input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
+                         <div>
+                            <label for="hero-cta2-text" class="block text-sm font-medium text-gray-700">Texto do Botão 2</label>
+                            <input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="hero-image" class="block text-sm font-medium text-gray-700">URL da Imagem</label>
+                            <input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/imagem.png">
+                        </div>
+                        <button id="save-hero" class="save-button">Salvar Alterações</button>
                     </div>
-                    <button id="save-about" class="save-button">Salvar Alterações</button>
                 </div>
-            </div>
 
-            <!-- Seção Serviços -->
-            <div id="section-services" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Serviços/Produtos</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="services-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
-                        <input type="text" id="services-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <!-- Seção de Estilo -->
+                <div id="section-style" class="content-section">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Customização Visual (Estilo)</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="style-bg-color" class="block text-sm font-medium text-gray-700">Cor de Fundo da Página</label>
+                            <input type="color" id="style-bg-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="style-bg-image" class="block text-sm font-medium text-gray-700">URL da Imagem de Fundo</label>
+                            <input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/fundo.jpg">
+                            <p class="mt-2 text-sm text-gray-500">Deixe em branco para usar a cor de fundo sólida. A imagem tem prioridade sobre a cor.</p>
+                        </div>
+                        <div>
+                            <label for="style-text-color" class="block text-sm font-medium text-gray-700">Cor Principal do Texto</label>
+                            <input type="color" id="style-text-color" class="mt-1 h-10 block w-full rounded-md border-gray-300 shadow-sm">
+                             <p class="mt-2 text-sm text-gray-500">Esta cor será aplicada a todo o corpo do texto da página.</p>
+                        </div>
+                        <button id="save-style" class="save-button">Salvar Alterações de Estilo</button>
                     </div>
-                    <div>
-                        <label for="services-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
-                        <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
-                    </div>
-                    <div id="services-container">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>
-                          <!-- Serviços serão adicionados aqui via JS -->
-                    </div>
-                    <button id="add-service" class="add-button">Adicionar Item</button>
-                    <hr>
-                    <button id="save-services" class="save-button">Salvar Alterações</button>
                 </div>
-            </div>
 
-            <!-- Seção Depoimentos -->
-            <div id="section-testimonials" class="content-section">
-                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de Depoimentos</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="testimonials-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
-                        <input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <!-- Seção Prova Social -->
+                <div id="section-social-proof" class="content-section">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de Prova Social</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="social-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="social-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div id="social-logos-container">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Logos das Empresas</h3>
+                            <!-- Logos serão adicionados aqui via JS -->
+                        </div>
+                        <button id="add-social-logo" class="add-button">Adicionar Logo</button>
+                        <hr>
+                        <button id="save-social-proof" class="save-button">Salvar Alterações</button>
                     </div>
-                    <div>
-                        <label for="testimonials-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
-                        <textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
-                    </div>
-                    <div id="testimonials-container">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>
-                          <!-- Depoimentos serão adicionados aqui via JS -->
-                    </div>
-                    <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
-                    <hr>
-                    <button id="save-testimonials" class="save-button">Salvar Alterações</button>
                 </div>
-            </div>
 
-            <!-- Seção FAQ -->
-            <div id="section-faq" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Seção de FAQ</h2>
-                 <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="faq-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
-                        <input type="text" id="faq-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <!-- Seção Sobre -->
+                <div id="section-about" class="content-section">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção Sobre</h2>
+                     <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="about-title" class="block text-sm font-medium text-gray-700">Título</label>
+                            <input type="text" id="about-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label for="about-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <!-- Passo 1 -->
+                            <div class="border p-4 rounded-md">
+                                 <h4 class="font-bold mb-2">Passo 1</h4>
+                                 <label for="about-step1-title" class="block text-sm font-medium text-gray-700">Título do Passo 1</label>
+                                 <input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                 <label for="about-step1-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                                 <textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                            </div>
+                            <!-- Passo 2 -->
+                            <div class="border p-4 rounded-md">
+                                 <h4 class="font-bold mb-2">Passo 2</h4>
+                                 <label for="about-step2-title" class="block text-sm font-medium text-gray-700">Título do Passo 2</label>
+                                 <input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                 <label for="about-step2-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                                 <textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                            </div>
+                            <!-- Passo 3 -->
+                            <div class="border p-4 rounded-md">
+                                 <h4 class="font-bold mb-2">Passo 3</h4>
+                                 <label for="about-step3-title" class="block text-sm font-medium text-gray-700">Título do Passo 3</label>
+                                 <input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                 <label for="about-step3-desc" class="block text-sm font-medium text-gray-700 mt-2">Descrição</label>
+                                 <textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                            </div>
+                        </div>
+                        <button id="save-about" class="save-button">Salvar Alterações</button>
                     </div>
-                    <div>
-                        <label for="faq-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
-                        <textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
-                    </div>
-                    <div id="faq-container">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>
-                          <!-- FAQs serão adicionados aqui via JS -->
-                    </div>
-                    <button id="add-faq" class="add-button">Adicionar Pergunta</button>
-                    <hr>
-                    <button id="save-faq" class="save-button">Salvar Alterações</button>
                 </div>
-            </div>
-            
-            <!-- Seção CTA -->
-            <div id="section-cta" class="content-section">
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Chamada Final (CTA)</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="cta-title" class="block text-sm font-medium text-gray-700">Título</label>
-                        <input type="text" id="cta-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <div>
-                        <label for="cta-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
-                        <textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
-                    </div>
-                    <div>
-                        <label for="cta-button-text" class="block text-sm font-medium text-gray-700">Texto do Botão</label>
-                        <input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <button id="save-cta" class="save-button">Salvar Alterações</button>
-                </div>
-            </div>
 
-            <!-- Seção Rodapé -->
-            <div id="section-footer" class="content-section">
-                 <h2 class="text-3xl font-bold mb-6 text-gray-800">Editar Rodapé</h2>
-                <div class="bg-white p-8 rounded-lg shadow-md space-y-6">
-                    <div>
-                        <label for="footer-logo" class="block text-sm font-medium text-gray-700">Texto da Logo</label>
-                        <input type="text" id="footer-logo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                <!-- Seção Serviços -->
+                <div id="section-services" class="content-section">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de Serviços/Produtos</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="services-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="services-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="services-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <div id="services-container">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Itens de Serviço/Produto</h3>
+                             <!-- Serviços serão adicionados aqui via JS -->
+                        </div>
+                        <button id="add-service" class="add-button">Adicionar Item</button>
+                        <hr>
+                        <button id="save-services" class="save-button">Salvar Alterações</button>
                     </div>
-                     <div>
-                        <label for="footer-description" class="block text-sm font-medium text-gray-700">Descrição Curta</label>
-                        <textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
-                    </div>
-                    <div>
-                        <label for="footer-contact-whatsapp" class="block text-sm font-medium text-gray-700">Nº de WhatsApp (com código do país, ex: 55329...)</label>
-                        <input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <div>
-                        <label for="footer-contact-email" class="block text-sm font-medium text-gray-700">Email de Contato</label>
-                        <input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <div>
-                        <label for="footer-contact-phone" class="block text-sm font-medium text-gray-700">Telefone de Contato</label>
-                        <input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                     <div>
-                        <label for="footer-contact-address" class="block text-sm font-medium text-gray-700">Endereço</label>
-                        <input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <div>
-                        <label for="footer-favicon" class="block text-sm font-medium text-gray-700">URL do Favicon</label>
-                        <input type="text" id="footer-favicon" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="https://exemplo.com/favicon.ico">
-                    </div>
-                    <div>
-                        <label for="footer-copyright" class="block text-sm font-medium text-gray-700">Texto de Copyright</label>
-                        <input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                    </div>
-                    <button id="save-footer" class="save-button">Salvar Alterações</button>
                 </div>
-            </div>
 
-        </main>
+                <!-- Seção Depoimentos -->
+                <div id="section-testimonials" class="content-section">
+                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de Depoimentos</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="testimonials-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="testimonials-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <div id="testimonials-container">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Depoimentos</h3>
+                              <!-- Depoimentos serão adicionados aqui via JS -->
+                        </div>
+                        <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
+                        <hr>
+                        <button id="save-testimonials" class="save-button">Salvar Alterações</button>
+                    </div>
+                </div>
+
+                <!-- Seção FAQ -->
+                <div id="section-faq" class="content-section">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Seção de FAQ</h2>
+                     <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="faq-title" class="block text-sm font-medium text-gray-700">Título da Seção</label>
+                            <input type="text" id="faq-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="faq-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo da Seção</label>
+                            <textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <div id="faq-container">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Perguntas e Respostas</h3>
+                              <!-- FAQs serão adicionados aqui via JS -->
+                        </div>
+                        <button id="add-faq" class="add-button">Adicionar Pergunta</button>
+                        <hr>
+                        <button id="save-faq" class="save-button">Salvar Alterações</button>
+                    </div>
+                </div>
+                
+                <!-- Seção CTA -->
+                <div id="section-cta" class="content-section">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Chamada Final (CTA)</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="cta-title" class="block text-sm font-medium text-gray-700">Título</label>
+                            <input type="text" id="cta-title" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="cta-subtitle" class="block text-sm font-medium text-gray-700">Subtítulo</label>
+                            <textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <div>
+                            <label for="cta-button-text" class="block text-sm font-medium text-gray-700">Texto do Botão</label>
+                            <input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <button id="save-cta" class="save-button">Salvar Alterações</button>
+                    </div>
+                </div>
+
+                <!-- Seção Rodapé -->
+                <div id="section-footer" class="content-section">
+                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-gray-800">Editar Rodapé</h2>
+                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-md space-y-6">
+                        <div>
+                            <label for="footer-logo" class="block text-sm font-medium text-gray-700">Texto da Logo</label>
+                            <input type="text" id="footer-logo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                         <div>
+                            <label for="footer-description" class="block text-sm font-medium text-gray-700">Descrição Curta</label>
+                            <textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"></textarea>
+                        </div>
+                        <div>
+                            <label for="footer-contact-whatsapp" class="block text-sm font-medium text-gray-700">Nº de WhatsApp (com código do país, ex: 55329...)</label>
+                            <input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="footer-contact-email" class="block text-sm font-medium text-gray-700">Email de Contato</label>
+                            <input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="footer-contact-phone" class="block text-sm font-medium text-gray-700">Telefone de Contato</label>
+                            <input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                         <div>
+                            <label for="footer-contact-address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                            <input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <div>
+                            <label for="footer-favicon" class="block text-sm font-medium text-gray-700">URL do Favicon</label>
+                            <input type="text" id="footer-favicon" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="https://exemplo.com/favicon.ico">
+                        </div>
+                        <div>
+                            <label for="footer-copyright" class="block text-sm font-medium text-gray-700">Texto de Copyright</label>
+                            <input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                        </div>
+                        <button id="save-footer" class="save-button">Salvar Alterações</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
     </div>
 
     <!-- Toast de Notificação -->
@@ -356,16 +372,21 @@
             const sidebarLinks = document.querySelectorAll('.sidebar-link');
             const contentSections = document.querySelectorAll('.content-section');
             const toast = document.getElementById('toast');
+            
+            // Elementos para menu mobile
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
 
             const globalStyles = `
-                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s; cursor: pointer; }
+                .save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; transition: background-color 0.3s; cursor: pointer; width: 100%; sm:width: auto; }
                 .save-button:hover { background-color: #4338ca; }
                 .save-button:disabled { background-color: #a5b4fc; cursor: not-allowed; }
                 .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; transition: background-color 0.3s; }
                 .add-button:hover { background-color: #059669; }
                 .remove-button { background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem; transition: background-color 0.3s; }
                 .remove-button:hover { background-color: #dc2626; }
-                .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; transition: all 0.2s; }
+                .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; transition: all 0.2s; white-space: nowrap; }
                 .sidebar-link:hover { background-color: #374151; }
             `;
             const styleSheet = document.createElement("style");
@@ -386,12 +407,10 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
-                    // Usar updateDoc para mesclar e não sobrescrever campos não relacionados
                     await setDoc(contentDocRef, pageData, { merge: true }); 
                     showToast();
                 } catch (error) {
                     console.error("Erro ao salvar dados: ", error);
-                    // Usar uma notificação mais amigável que alert
                     showToast("Ocorreu um erro ao salvar. Verifique o console.", true);
                 } finally {
                     saveButtons.forEach(btn => btn.disabled = false);
@@ -538,13 +557,23 @@
 
             const getDefaultData = () => { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clentes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; };
             
+            const toggleSidebar = () => {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            };
+
             const initializeAppUI = (user) => {
                 console.log("Utilizador válido. Inicializando UI...");
 
                 authLayer.style.display = 'none';
                 mainContent.classList.remove('hidden');
-                mainContent.classList.add('flex');
+                // Alterado para 'flex' em telas grandes, 'block' em pequenas
+                mainContent.classList.add('lg:flex'); 
                 document.getElementById('user-email').textContent = user.email;
+
+                // Lógica do menu mobile
+                mobileMenuButton.addEventListener('click', toggleSidebar);
+                overlay.addEventListener('click', toggleSidebar);
 
                 sidebarLinks.forEach(link => {
                     if(link.id !== 'logout-button') {
@@ -555,6 +584,11 @@
                             link.classList.add('active');
                             const sectionId = 'section-' + link.dataset.section;
                             document.getElementById(sectionId).classList.add('active');
+
+                            // Fecha o menu mobile ao clicar em um link
+                            if (window.innerWidth < 1024) {
+                                toggleSidebar();
+                            }
                         });
                     }
                 });
@@ -610,4 +644,3 @@
     </script>
 </body>
 </html>
-
