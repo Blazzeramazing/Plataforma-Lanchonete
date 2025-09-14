@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="scroll-smooth">
 <head>
-    <meta charset="UTF--8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Sua Empresa | A Solução Ideal para o Seu Negócio</title>
     <meta name="description" id="page-description" content="Oferecemos soluções inovadoras para impulsionar o seu sucesso. Conheça nossos serviços e transforme seus resultados.">
-    <!-- O link do Favicon será inserido aqui -->
     <link id="favicon-link" rel="icon" type="image/x-icon" href="">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,70 +14,23 @@
         body { font-family: 'Inter', sans-serif; }
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         
-        /* Estilos para o Carrossel de Serviços */
+        /* Estilos do Carrossel de Serviços */
         .service-carousel-container { position: relative; }
-        .service-carousel-track {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch; /* Suaviza a rolagem no iOS */
-            scrollbar-width: none; /* Oculta a barra de rolagem no Firefox */
-        }
-        .service-carousel-track::-webkit-scrollbar { display: none; /* Oculta a barra de rolagem no Chrome/Safari */ }
-        .service-card {
-            scroll-snap-align: start;
-            flex: 0 0 90%; /* Em telas pequenas, mostra 90% do card */
-            margin-right: 1rem;
-            position: relative;
-            overflow: hidden; /* Garante que a sobreposição não vaze */
-        }
-        @media (min-width: 768px) {
-            .service-card { flex-basis: 45%; } /* 2 cards por tela */
-        }
-        @media (min-width: 1024px) {
-            .service-card { flex-basis: 31%; } /* 3 cards por tela */
-        }
-        .service-card-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-            padding: 1rem;
-            text-align: center;
-        }
-        .service-card:hover .service-card-overlay {
-            opacity: 1;
-        }
-        .carousel-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 9999px;
-            width: 3rem;
-            height: 3rem;
-            display: none; /* Escondido por padrão, mostrado apenas se houver scroll */
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
-            z-index: 10;
-        }
-        @media (min-width: 1024px) {
-           .carousel-btn { display: flex; }
-        }
+        .service-carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .service-carousel-track::-webkit-scrollbar { display: none; }
+        .service-card { scroll-snap-align: start; flex: 0 0 90%; margin-right: 1rem; position: relative; overflow: hidden; }
+        @media (min-width: 768px) { .service-card { flex-basis: 45%; } }
+        @media (min-width: 1024px) { .service-card { flex-basis: 31%; } }
+        .service-card-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease-in-out; padding: 1rem; text-align: center; }
+        .service-card:hover .service-card-overlay { opacity: 1; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.8); border-radius: 9999px; width: 3rem; height: 3rem; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; z-index: 10; }
+        @media (min-width: 1024px) { .carousel-btn { display: flex; } }
         .carousel-btn:hover { background-color: white; }
         .carousel-btn#prevBtn { left: -1.5rem; }
         .carousel-btn#nextBtn { right: -1.5rem; }
+
+        /* Estilos do Modal de Contato */
+        #contact-modal { transition: opacity 0.3s ease-in-out; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -98,7 +50,6 @@
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
-        <!-- Menu Mobile -->
         <div id="mobile-menu" class="hidden lg:hidden px-6 pt-2 pb-4 space-y-2">
             <a href="#sobre" class="block text-gray-600 hover:text-indigo-600">Sobre</a>
             <a href="#servicos" class="block text-gray-600 hover:text-indigo-600">Serviços</a>
@@ -109,7 +60,7 @@
     </header>
 
     <main>
-        <!-- Seção Hero -->
+        <!-- Seções da página (Hero, Sobre, etc.) -->
         <section class="bg-white">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
                 <div class="text-center lg:text-left">
@@ -125,18 +76,12 @@
                 </div>
             </div>
         </section>
-
-        <!-- Seção de Prova Social -->
         <section class="py-16 bg-gray-50">
             <div class="container mx-auto px-6 text-center">
                 <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider" id="social-title"></h3>
-                <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container">
-                    <!-- Logos Inseridos via JS -->
-                </div>
+                <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
-
-        <!-- Seção Sobre / Como Funciona -->
         <section id="sobre" class="py-24 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
@@ -144,7 +89,6 @@
                     <p class="mt-4 text-lg text-gray-600" id="about-subtitle"></p>
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-12 text-center">
-                    <!-- Passo 1 -->
                     <div class="flex flex-col items-center" id="about-step1">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
@@ -152,7 +96,6 @@
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step1-title"></h3>
                         <p class="mt-2 text-gray-600" id="about-step1-desc"></p>
                     </div>
-                    <!-- Passo 2 -->
                     <div class="flex flex-col items-center" id="about-step2">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
@@ -160,7 +103,6 @@
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step2-title"></h3>
                         <p class="mt-2 text-gray-600" id="about-step2-desc"></p>
                     </div>
-                    <!-- Passo 3 -->
                     <div class="flex flex-col items-center" id="about-step3">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
@@ -171,8 +113,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Seção de Serviços/Recursos -->
         <section id="servicos" class="py-24 bg-gray-50">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
@@ -180,51 +120,35 @@
                     <p class="mt-4 text-lg text-gray-600" id="services-subtitle"></p>
                 </div>
                 <div class="mt-16 service-carousel-container">
-                    <div id="service-carousel-track" class="service-carousel-track">
-                        <!-- Serviços/Produtos inseridos via JS -->
-                    </div>
-                    <button id="prevBtn" class="carousel-btn">
-                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    </button>
-                    <button id="nextBtn" class="carousel-btn">
-                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                    </button>
+                    <div id="service-carousel-track" class="service-carousel-track"></div>
+                    <button id="prevBtn" class="carousel-btn"><svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                    <button id="nextBtn" class="carousel-btn"><svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
                 </div>
             </div>
         </section>
-
-        <!-- Seção de Depoimentos -->
         <section id="depoimentos" class="py-24 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="testimonials-title"></h2>
                     <p class="mt-4 text-lg text-gray-600" id="testimonials-subtitle"></p>
                 </div>
-                <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container">
-                    <!-- Depoimentos inseridos via JS -->
-                </div>
+                <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container"></div>
             </div>
         </section>
-
-        <!-- Seção de FAQ -->
         <section id="faq" class="py-24 bg-gray-50">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="faq-title"></h2>
                     <p class="mt-4 text-lg text-gray-600" id="faq-subtitle"></p>
                 </div>
-                <div class="mt-12 space-y-4" id="faq-container">
-                    <!-- FAQs inseridos via JS -->
-                </div>
+                <div class="mt-12 space-y-4" id="faq-container"></div>
             </div>
         </section>
-
-        <!-- Seção Final de CTA -->
         <section id="contato" class="bg-indigo-700 text-white">
             <div class="container mx-auto px-6 py-20 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold" id="cta-title"></h2>
                 <p class="mt-4 text-lg text-indigo-200 max-w-2xl mx-auto" id="cta-subtitle"></p>
-                <a href="#" class="mt-8 inline-block bg-white text-indigo-700 font-bold px-10 py-4 rounded-lg hover:bg-indigo-50 transition-colors duration-300 text-lg" id="cta-button"></a>
+                <button class="mt-8 inline-block bg-white text-indigo-700 font-bold px-10 py-4 rounded-lg hover:bg-indigo-50 transition-colors duration-300 text-lg open-modal-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></button>
             </div>
         </section>
     </main>
@@ -233,12 +157,10 @@
     <footer class="bg-gray-900 text-white">
         <div class="container mx-auto px-6 py-12">
             <div class="grid md:grid-cols-3 gap-8">
-                <!-- Coluna 1: Sobre -->
                 <div>
                     <h3 class="text-xl font-bold" id="footer-logo"></h3>
                     <p class="mt-4 text-gray-400" id="footer-description"></p>
                 </div>
-                <!-- Coluna 2: Links -->
                 <div>
                     <h4 class="text-lg font-semibold uppercase">Links Úteis</h4>
                     <ul class="mt-4 space-y-2">
@@ -248,7 +170,6 @@
                         <li><a href="#contato" class="text-gray-400 hover:text-white">Contato</a></li>
                     </ul>
                 </div>
-                <!-- Coluna 3: Contato -->
                 <div>
                     <h4 class="text-lg font-semibold uppercase">Contato</h4>
                     <ul class="mt-4 space-y-2 text-gray-400">
@@ -263,13 +184,39 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Modal de Contato -->
+    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md relative">
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="text-2xl font-bold mb-2 text-gray-900">Fale Conosco</h3>
+            <p class="text-gray-600 mb-6">Preencha seus dados para enviar uma mensagem via WhatsApp.</p>
+            <form id="contact-form">
+                <div class="mb-4">
+                    <label for="contact-name" class="block text-sm font-medium text-gray-700">Nome</label>
+                    <input type="text" id="contact-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label for="contact-email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="contact-email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div class="mb-6">
+                    <label for="contact-phone" class="block text-sm font-medium text-gray-700">Telefone (com DDD)</label>
+                    <input type="tel" id="contact-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ex: 32999998888">
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">Enviar Mensagem no WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
 
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // --- Configuração do Firebase ---
         const firebaseConfig = {
           apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
           authDomain: "minhas-credenciais-firebase.firebaseapp.com",
@@ -278,12 +225,12 @@
           messagingSenderId: "90146495031",
           appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
         };
-
-        // Inicializa o Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        
+        let pageDataStore = null;
+        let currentServiceTitle = '';
 
-        // --- LÓGICA PARA POPULAR A PÁGINA ---
         const defaultData = {
             hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta2Text: '...', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
             socialProof: { title: 'Carregando...', logos: [] },
@@ -296,17 +243,15 @@
         };
 
         function renderContent(pageData) {
-            // Garante que pageData não é nulo. Se for, usa os dados padrão.
-            const data = pageData || defaultData;
+            pageDataStore = pageData || defaultData;
+            const data = pageDataStore;
 
-            // Meta Tags (SEO) e Favicon
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
             if (data.footer?.favicon) {
                 document.getElementById('favicon-link').href = data.footer.favicon;
             }
 
-            // Hero
             document.getElementById('hero-title').textContent = data.hero?.title || '';
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
             document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
@@ -314,21 +259,17 @@
             document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
             document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
             
-            // Nav
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
             document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
 
-            // Social Proof
             document.getElementById('social-title').textContent = data.socialProof?.title || '';
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
-            // VERIFICAÇÃO: Garante que logos é um array antes de usar o forEach
             (data.socialProof?.logos || []).forEach(logo => {
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition-opacity duration-500 hover:opacity-75">`;
             });
 
-            // About
             document.getElementById('about-title').textContent = data.about?.title || '';
             document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
             document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
@@ -338,42 +279,30 @@
             document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
             document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
             
-            // Services Carousel
-            document.getElementById('services-title').textContent = data.services?.title || '';
-            document.getElementById('services-subtitle').textContent = data.services?.subtitle || '';
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
-            // VERIFICAÇÃO: Garante que items é um array
             const servicesItems = data.services?.items || [];
             if(servicesItems.length > 0) {
-                const whatsappNumber = data.footer?.whatsapp || '';
                 servicesItems.forEach(item => {
-                    const message = encodeURIComponent(`Olá, tenho interesse no produto/serviço: ${item.title}`);
-                    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
                     track.innerHTML += `
                         <div class="service-card rounded-lg shadow-lg bg-white">
                             <img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg">
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold text-gray-900">${item.title}</h3>
-                            </div>
+                            <div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div>
                             <div class="service-card-overlay">
                                 <p class="text-gray-200 mb-4">${item.description}</p>
                                 ${item.price ? `<p class="text-2xl font-extrabold text-white mb-6">R$ ${item.price}</p>` : ''}
-                                <a href="${whatsappLink}" target="_blank" class="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Tenho Interesse!</a>
+                                <button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button>
                             </div>
-                        </div>
-                    `;
+                        </div>`;
                 });
             } else {
                 track.innerHTML = '<p class="text-center w-full text-gray-500">Nenhum serviço cadastrado no momento.</p>';
             }
 
-            // Testimonials
             document.getElementById('testimonials-title').textContent = data.testimonials?.title || '';
             document.getElementById('testimonials-subtitle').textContent = data.testimonials?.subtitle || '';
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
-            // VERIFICAÇÃO: Garante que items é um array
             (data.testimonials?.items || []).forEach(item => {
                 testimonialsContainer.innerHTML += `
                     <div class="bg-gray-50 p-8 rounded-lg">
@@ -385,16 +314,13 @@
                                 <p class="text-sm text-gray-500">${item.position}</p>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
 
-            // FAQ
             document.getElementById('faq-title').textContent = data.faq?.title || '';
             document.getElementById('faq-subtitle').textContent = data.faq?.subtitle || '';
             const faqContainer = document.getElementById('faq-container');
             faqContainer.innerHTML = '';
-            // VERIFICAÇÃO: Garante que items é um array
             (data.faq?.items || []).forEach(item => {
                 faqContainer.innerHTML += `
                     <div class="bg-white rounded-lg shadow-sm">
@@ -402,24 +328,14 @@
                             <span class="text-lg font-semibold text-gray-800">${item.question}</span>
                             <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </button>
-                        <div class="faq-content px-6 pb-4">
-                            <p class="text-gray-600">${item.answer}</p>
-                        </div>
-                    </div>
-                `;
+                        <div class="faq-content px-6 pb-4"><p class="text-gray-600">${item.answer}</p></div>
+                    </div>`;
             });
 
-            // CTA
             document.getElementById('cta-title').textContent = data.cta?.title || '';
             document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
             document.getElementById('cta-button').textContent = data.cta?.buttonText || '';
-            const ctaButtonHref = data.footer?.whatsapp ? `https://wa.me/${data.footer.whatsapp}?text=${encodeURIComponent('Olá, gostaria de solicitar um orçamento.')}` : '#contato';
-            document.getElementById('cta-button').href = ctaButtonHref;
-            if (ctaButtonHref !== '#contato') {
-                document.getElementById('cta-button').target = '_blank';
-            }
             
-            // Footer
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
             document.getElementById('footer-email').textContent = `Email: ${data.footer?.email || ''}`;
@@ -429,79 +345,89 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // Renderiza com dados padrão para evitar página em branco
             renderContent(defaultData);
-
-            // Escuta por atualizações em tempo real do Firestore
             const contentDocRef = doc(db, "landingPage", "content");
             onSnapshot(contentDocRef, (doc) => {
-                if (doc.exists()) {
-                    const liveData = doc.data();
-                    renderContent(liveData);
-                } else {
-                    console.log("Documento de conteúdo não encontrado! Mostrando dados padrão.");
-                    renderContent(defaultData); // Mostra dados padrão se o documento não existir
-                }
-            }, (error) => {
-                console.error("Erro ao escutar o documento:", error);
-                renderContent(defaultData);
-            });
-
-            // --- LÓGICA DE INTERAÇÃO (MENUS, FAQ, CARROSSEL) ---
+                if (doc.exists()) renderContent(doc.data());
+                else { console.log("Documento não encontrado!"); renderContent(defaultData); }
+            }, (error) => { console.error("Erro:", error); renderContent(defaultData); });
             
-            // Menu Mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-            });
-            document.querySelectorAll('#mobile-menu a').forEach(link => {
-                link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
-            });
+            mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+            document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-            // Acordeão do FAQ
             document.getElementById('faq-container').addEventListener('click', (e) => {
                 const toggle = e.target.closest('.faq-toggle');
                 if (!toggle) return;
-
                 const content = toggle.nextElementSibling;
                 const icon = toggle.querySelector('.faq-icon');
-                
                 const isOpening = !content.style.maxHeight;
-
-                // Fecha todos os outros antes de potencialmente abrir o atual
                 document.querySelectorAll('.faq-content').forEach(c => {
                     c.style.maxHeight = null;
                     c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
                 });
-
                 if (isOpening) {
                     content.style.maxHeight = content.scrollHeight + "px";
                     icon.style.transform = 'rotate(180deg)';
                 }
             });
 
-            // Carrossel de Serviços
-            const track = document.getElementById('service-carousel-track');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
+            const track = document.getElementById('service-carousel-track'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
             if(track && prevBtn && nextBtn){
-                const scrollStep = () => {
-                   const firstCard = track.querySelector('.service-card');
-                   return firstCard ? firstCard.offsetWidth + 16 : 300; // 16px de margem
+                const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 16 : 300; }
+                nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollStep(), behavior: 'smooth' }));
+                prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
+            }
+
+            // --- LÓGICA DO MODAL DE CONTATO ---
+            const modal = document.getElementById('contact-modal');
+            const closeModalButton = document.getElementById('close-modal-button');
+            const contactForm = document.getElementById('contact-form');
+
+            const openModal = (service) => {
+                currentServiceTitle = service;
+                modal.classList.remove('hidden');
+            };
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                contactForm.reset();
+            };
+
+            document.body.addEventListener('click', (e) => {
+                if (e.target.matches('.open-modal-button')) {
+                    const serviceTitle = e.target.dataset.serviceTitle;
+                    openModal(serviceTitle);
+                }
+            });
+
+            closeModalButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('contact-name').value;
+                const email = document.getElementById('contact-email').value;
+                const phone = document.getElementById('contact-phone').value;
+                
+                if (!pageDataStore || !pageDataStore.footer?.whatsapp) {
+                    alert("Número de WhatsApp não configurado.");
+                    return;
                 }
 
-                nextBtn.addEventListener('click', () => {
-                    track.scrollBy({ left: scrollStep(), behavior: 'smooth' });
-                });
+                let message = `Olá, meu nome é ${name}.\n\n`;
+                message += `Tenho interesse em: *${currentServiceTitle}*.\n\n`;
+                message += `Meus dados de contato são:\n`;
+                message += `*Email:* ${email}\n`;
+                message += `*Telefone:* ${phone}`;
 
-                prevBtn.addEventListener('click', () => {
-                    track.scrollBy({ left: -scrollStep(), behavior: 'smooth' });
-                });
-            }
+                const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
+                
+                window.open(whatsappUrl, '_blank');
+                closeModal();
+            });
         });
     </script>
 </body>
 </html>
+
