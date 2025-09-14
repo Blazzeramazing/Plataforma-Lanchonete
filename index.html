@@ -44,13 +44,32 @@
             margin-bottom: 1rem;
             text-align: center;
         }
+        /* Spinner de Carregamento */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
     <style id="dynamic-styles"></style>
 </head>
 <body>
 
-    <!-- Cabeçalho e Navegação -->
-    <header id="home" class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50">
+    <!-- Tela de Carregamento -->
+    <div id="loading-overlay" class="fixed inset-0 bg-gray-100 z-50 flex flex-col items-center justify-center">
+        <div class="loader"></div>
+        <p class="mt-4 text-gray-600">A carregar...</p>
+    </div>
+
+    <!-- Cabeçalho e Navegação (inicialmente escondido) -->
+    <header id="home" class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50 hidden">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-gray-900" id="nav-logo">SuaLogo</a>
             <div class="hidden lg:flex items-center space-x-8">
@@ -73,7 +92,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="hidden">
         <!-- Seções da página (Hero, Sobre, etc.) -->
         <section class="bg-white/80 backdrop-blur-sm">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
@@ -459,20 +478,32 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderContent(defaultData); // Renderiza com dados padrão para evitar tela em branco
             const contentDocRef = doc(db, "landingPage", "content");
+            let isInitialLoad = true;
             
+            const loadingOverlay = document.getElementById('loading-overlay');
+            const header = document.querySelector('header');
+            const main = document.querySelector('main');
+
             onSnapshot(contentDocRef, (doc) => {
-                if (doc.exists()) {
-                     renderContent(doc.data());
-                }
-                else { 
-                     console.log("Documento não encontrado! Renderizando com dados padrão."); 
-                     renderContent(defaultData); 
+                const data = doc.exists() ? doc.data() : defaultData;
+                renderContent(data);
+
+                if (isInitialLoad) {
+                    loadingOverlay.classList.add('hidden');
+                    header.classList.remove('hidden');
+                    main.classList.remove('hidden');
+                    isInitialLoad = false;
                 }
             }, (error) => { 
                 console.error("Erro ao buscar dados:", error); 
                 renderContent(defaultData); 
+                if (isInitialLoad) {
+                    loadingOverlay.classList.add('hidden');
+                    header.classList.remove('hidden');
+                    main.classList.remove('hidden');
+                    isInitialLoad = false;
+                }
             });
             
             // Lógica do Menu Mobile
