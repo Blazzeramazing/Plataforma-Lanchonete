@@ -279,37 +279,60 @@
             } else {
                 document.body.style.backgroundImage = 'none';
                 document.body.style.backgroundColor = styles.backgroundColor;
-                // Torna as secções transparentes para mostrar a cor de fundo do body
                 allSections.forEach(sec => {
-                    if (sec.id !== 'contato') { // Exclui a secção CTA que tem cor própria
+                    if (sec.id !== 'contato') { 
                         sec.style.backgroundColor = 'transparent';
-                        sec.classList.remove('backdrop-blur-sm'); // Remove o blur se não houver imagem
+                        sec.classList.remove('backdrop-blur-sm');
                     }
                 });
             }
 
             // 2. Lógica da Cor do Texto
             let cssString = `
+                /* 1. REGRA GERAL: Define a cor base para o texto da página com alta prioridade. */
                 body {
-                    color: ${styles.textColor};
+                    color: ${styles.textColor} !important;
                 }
-                /* Redefine elementos comuns para herdar a cor do body */
-                h1, h2, h3, h4, h5, h6, p, li, .text-gray-900, .text-gray-800, .text-gray-700, .text-gray-600, .text-gray-500 {
-                    color: inherit;
+
+                /* --- 2. EXCEÇÕES para manter contraste e design --- */
+
+                /* Cabeçalho: Mantém as cores originais para os links e o logo. */
+                header a, header button, #nav-logo, #mobile-menu a {
+                    color: initial;
                 }
-                /* EXCEÇÕES: Manter cores para contraste e design específico */
-                header a, header button, #nav-logo {
-                    color: initial; /* Permite que as classes Tailwind do header funcionem */
+                
+                /* Botões: Mantém as cores de texto originais para contraste com o fundo do botão. */
+                .bg-indigo-600, .bg-green-500 { color: white !important; }
+                .bg-gray-200 { color: #1f2937 !important; }
+                #cta-button { color: #4f46e5 !important; }
+
+                /* Seções com Fundo Escuro: Força o texto branco para garantir a legibilidade. */
+                #contato *, footer *, .service-card-overlay * {
+                    color: white !important;
                 }
-                #contato, #contato *, footer, footer *, .service-card-overlay * {
-                    color: white; /* Textos em fundos escuros devem ser brancos */
+
+                /* Links e Texto Secundário no Rodapé: Usa cores específicas mais suaves. */
+                footer a, footer .text-gray-400, footer p {
+                    color: #9ca3af !important; /* Cor de 'text-gray-400' */
                 }
-                footer a, footer .text-gray-400, #contato .text-indigo-200 {
-                    color: initial; /* Permite que classes de cor mais clara funcionem no footer/CTA */
+                footer a:hover {
+                    color: white !important;
                 }
-                 /* Garante que os títulos e textos dentro de cartões com fundo próprio mantenham o contraste */
-                .service-card h3, .faq-toggle span, #testimonials-container .font-semibold, #testimonials-container .text-sm, #testimonials-container p {
-                     color: initial;
+                footer h3, footer h4 { /* Títulos do Rodapé */
+                    color: white !important;
+                }
+
+                /* Ícones na seção "Sobre": Mantém a cor original. */
+                #sobre .bg-indigo-100 {
+                    color: #4f46e5 !important;
+                }
+
+                /* Texto Dentro de Cards: Reverte para as cores escuras originais para contraste com o fundo claro dos cards. */
+                .service-card h3, .faq-toggle span, #testimonials-container .font-semibold {
+                    color: #1F2937 !important; /* Cor de 'text-gray-900' */
+                }
+                #testimonials-container p, .faq-content p {
+                    color: #4B5563 !important; /* Cor de 'text-gray-600' */
                 }
             `;
             dynamicStyleEl.innerHTML = cssString;
