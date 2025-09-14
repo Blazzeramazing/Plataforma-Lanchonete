@@ -318,9 +318,7 @@
         const contentDocRef = doc(db, "landingPage", "content");
 
         // --- INÍCIO DA CORREÇÃO ---
-        // Toda a lógica agora está dentro deste listener para garantir que a página esteja pronta.
-        document.addEventListener('DOMContentLoaded', function () {
-            
+        const main = () => {
             // Elementos da UI
             const authLayer = document.getElementById('auth-layer');
             const authMessage = document.getElementById('auth-message');
@@ -346,14 +344,14 @@
             
             let pageData = {};
             
-            function showToast() {
+            const showToast = () => {
                 toast.classList.remove('opacity-0', 'translate-y-4');
                 setTimeout(() => { 
                     toast.classList.add('opacity-0', 'translate-y-4'); 
                 }, 3000);
-            }
+            };
             
-            async function saveData() {
+            const saveData = async () => {
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
@@ -365,61 +363,9 @@
                 } finally {
                     saveButtons.forEach(btn => btn.disabled = false);
                 }
-            }
+            };
 
-            async function loadData() {
-                console.log("Tentando carregar dados do Firestore...");
-                try {
-                    const docSnap = await getDoc(contentDocRef);
-                    if (docSnap.exists()) {
-                        console.log("Documento encontrado. Dados:", docSnap.data());
-                        pageData = docSnap.data();
-                    } else {
-                        console.log("Nenhum documento encontrado! Criando com dados padrão.");
-                        pageData = getDefaultData();
-                        await setDoc(contentDocRef, pageData);
-                    }
-                } catch (error) {
-                    console.error("Erro ao carregar dados do Firestore: ", error);
-                    alert("Ocorreu um erro ao carregar os dados. Usando dados padrão.");
-                    pageData = getDefaultData();
-                }
-                populateForms();
-            }
-
-            function renderLogo(logo, index) {
-                const container = document.getElementById('social-logos-container');
-                const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-gray-700">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-alt" value="${logo.alt}"></div>`;
-                container.appendChild(div);
-            }
-            
-            function renderService(item, index) {
-                const container = document.getElementById('services-container');
-                const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Título do Serviço/Produto</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-description">${item.description}</textarea></div>`;
-                container.appendChild(div);
-            }
-            
-            function renderTestimonial(item, index) {
-                const container = document.getElementById('testimonials-container');
-                const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-gray-700">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-gray-700">Cargo/Empresa do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-image" value="${item.image}"></div>`;
-                container.appendChild(div);
-            }
-
-            function renderFAQ(item, index) {
-                const container = document.getElementById('faq-container');
-                const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
-                container.appendChild(div);
-            }
-
-            function populateForms() {
+            const populateForms = () => {
                 console.log("Populando formulários com os dados carregados.");
                 if (!pageData) pageData = getDefaultData();
                 document.getElementById('hero-title').value = pageData.hero?.title || '';
@@ -460,23 +406,99 @@
                 document.getElementById('footer-contact-phone').value = pageData.footer?.phone || '';
                 document.getElementById('footer-contact-address').value = pageData.footer?.address || '';
                 document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
-            }
+            };
             
-            function updateHeroData() { pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta2Text: document.getElementById('hero-cta2-text').value, image: document.getElementById('hero-image').value }; }
-            function updateSocialProofData() { const newLogos = []; document.querySelectorAll('#social-logos-container .border').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; }
-            function updateAboutData() { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; }
-            function updateServicesData() { const newServices = []; document.querySelectorAll('#services-container .border').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices }; }
-            function updateTestimonialsData() { const newTestimonials = []; document.querySelectorAll('#testimonials-container .border').forEach(div => { newTestimonials.push({ quote: div.querySelector('.testimonial-item-quote').value, author: div.querySelector('.testimonial-item-author').value, position: div.querySelector('.testimonial-item-position').value, image: div.querySelector('.testimonial-item-image').value, }); }); pageData.testimonials = { title: document.getElementById('testimonials-title').value, subtitle: document.getElementById('testimonials-subtitle').value, items: newTestimonials }; }
-            function updateFaqData() { const newFaqs = []; document.querySelectorAll('#faq-container .border').forEach(div => { newFaqs.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value }); }); pageData.faq = { title: document.getElementById('faq-title').value, subtitle: document.getElementById('faq-subtitle').value, items: newFaqs }; }
-            function updateCtaData() { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value }; }
-            function updateFooterData() { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, copyright: document.getElementById('footer-copyright').value }; }
+            const loadData = async () => {
+                console.log("Tentando carregar dados do Firestore...");
+                try {
+                    const docSnap = await getDoc(contentDocRef);
+                    if (docSnap.exists()) {
+                        console.log("Documento encontrado. Dados:", docSnap.data());
+                        pageData = docSnap.data();
+                    } else {
+                        console.log("Nenhum documento encontrado! Criando com dados padrão.");
+                        pageData = getDefaultData();
+                        await setDoc(contentDocRef, pageData);
+                    }
+                } catch (error) {
+                    console.error("Erro ao carregar dados do Firestore: ", error);
+                    alert("Ocorreu um erro ao carregar os dados. Usando dados padrão.");
+                    pageData = getDefaultData();
+                }
+                populateForms();
+            };
 
-            function getDefaultData() { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; }
+            const renderLogo = (logo, index) => {
+                const container = document.getElementById('social-logos-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-gray-700">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm social-logo-alt" value="${logo.alt}"></div>`;
+                container.appendChild(div);
+            };
             
-            function initializeApp() {
-                console.log("DOM totalmente carregado. Inicializando a aplicação.");
+            const renderService = (item, index) => {
+                const container = document.getElementById('services-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Título do Serviço/Produto</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-gray-700">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm service-item-description">${item.description}</textarea></div>`;
+                container.appendChild(div);
+            };
+            
+            const renderTestimonial = (item, index) => {
+                const container = document.getElementById('testimonials-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-gray-700">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-gray-700">Cargo/Empresa do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-gray-700">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm testimonial-item-image" value="${item.image}"></div>`;
+                container.appendChild(div);
+            };
+
+            const renderFAQ = (item, index) => {
+                const container = document.getElementById('faq-container');
+                const div = document.createElement('div');
+                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-gray-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-gray-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
+                container.appendChild(div);
+            };
+            
+            const updateHeroData = () => { pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta2Text: document.getElementById('hero-cta2-text').value, image: document.getElementById('hero-image').value }; };
+            const updateSocialProofData = () => { const newLogos = []; document.querySelectorAll('#social-logos-container .border').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; };
+            const updateAboutData = () => { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; };
+            const updateServicesData = () => { const newServices = []; document.querySelectorAll('#services-container .border').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices }; };
+            const updateTestimonialsData = () => { const newTestimonials = []; document.querySelectorAll('#testimonials-container .border').forEach(div => { newTestimonials.push({ quote: div.querySelector('.testimonial-item-quote').value, author: div.querySelector('.testimonial-item-author').value, position: div.querySelector('.testimonial-item-position').value, image: div.querySelector('.testimonial-item-image').value, }); }); pageData.testimonials = { title: document.getElementById('testimonials-title').value, subtitle: document.getElementById('testimonials-subtitle').value, items: newTestimonials }; };
+            const updateFaqData = () => { const newFaqs = []; document.querySelectorAll('#faq-container .border').forEach(div => { newFaqs.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value }); }); pageData.faq = { title: document.getElementById('faq-title').value, subtitle: document.getElementById('faq-subtitle').value, items: newFaqs }; };
+            const updateCtaData = () => { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value }; };
+            const updateFooterData = () => { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, copyright: document.getElementById('footer-copyright').value }; };
+
+            const getDefaultData = () => { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; };
+            
+            const initializeAppUI = (user) => {
+                console.log("Utilizador válido. Inicializando UI...");
+
+                // Mostra a UI principal
+                authLayer.style.display = 'none';
+                mainContent.classList.remove('hidden');
+                mainContent.classList.add('flex');
+                document.getElementById('user-email').textContent = user.email;
 
                 // Configura todos os listeners da UI
+                sidebarLinks.forEach(link => {
+                    if(link.id !== 'logout-button') {
+                        link.addEventListener('click', e => {
+                            e.preventDefault();
+                            sidebarLinks.forEach(l => l.classList.remove('active'));
+                            contentSections.forEach(s => s.classList.remove('active'));
+                            link.classList.add('active');
+                            const sectionId = 'section-' + link.dataset.section;
+                            document.getElementById(sectionId).classList.add('active');
+                        });
+                    }
+                });
+                
+                document.getElementById('logout-button').addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try { await signOut(auth); } catch (error) { console.error('Erro ao fazer logout:', error); }
+                });
+                
                 document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
                 document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
                 document.getElementById('save-about').addEventListener('click', () => { updateAboutData(); saveData(); });
@@ -496,32 +518,31 @@
                         e.target.closest('.border').remove();
                     }
                 });
+                
+                loadData();
+            };
 
-                // Inicia o processo de autenticação
-                onAuthStateChanged(auth, user => {
-                    console.log("Estado de autenticação alterado.");
-                    if (user) {
-                        if (user.emailVerified) {
-                            console.log("Utilizador autenticado e verificado:", user.email);
-                            authLayer.style.display = 'none';
-                            mainContent.classList.remove('hidden');
-                            mainContent.classList.add('flex');
-                            document.getElementById('user-email').textContent = user.email;
-                            loadData();
-                        } else {
-                            console.log("Utilizador autenticado mas email não verificado.");
-                            authMessage.innerHTML = `<h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2><p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p><p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>`;
-                        }
-                    } else {
-                        console.log("Nenhum utilizador autenticado. A redirecionar para o login.");
-                        window.location.href = './login.html';
-                    }
-                });
-            }
+            // Ponto de entrada principal
+            onAuthStateChanged(auth, user => {
+                console.log("Estado de autenticação alterado.");
+                if (user && user.emailVerified) {
+                    initializeAppUI(user);
+                } else if (user && !user.emailVerified) {
+                    console.log("Utilizador autenticado mas email não verificado.");
+                    authMessage.innerHTML = `<h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2><p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p><p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>`;
+                } else {
+                    console.log("Nenhum utilizador autenticado. A redirecionar para o login.");
+                    window.location.href = './login.html';
+                }
+            });
+        };
 
-            // Inicia tudo
-            initializeApp();
-        });
+        // Garante que o script principal só é executado quando a página está pronta.
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', main);
+        } else {
+            main();
+        }
     </script>
 </body>
 </html>
