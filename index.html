@@ -268,7 +268,6 @@
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         // --- Configuração do Firebase ---
-        // Suas credenciais do Firebase preenchidas automaticamente aqui.
         const firebaseConfig = {
           apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
           authDomain: "minhas-credenciais-firebase.firebaseapp.com",
@@ -295,49 +294,55 @@
         };
 
         function renderContent(pageData) {
+            // Garante que pageData não é nulo. Se for, usa os dados padrão.
+            const data = pageData || defaultData;
+
             // Meta Tags (SEO)
-            document.getElementById('page-title').textContent = pageData.hero.title || defaultData.hero.title;
-            document.getElementById('page-description').content = pageData.hero.subtitle || defaultData.hero.subtitle;
+            document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
+            document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
 
             // Hero
-            document.getElementById('hero-title').textContent = pageData.hero.title;
-            document.getElementById('hero-subtitle').textContent = pageData.hero.subtitle;
-            document.getElementById('hero-cta1-text').textContent = pageData.hero.cta1Text;
-            document.getElementById('hero-cta2-text').textContent = pageData.hero.cta2Text;
-            document.getElementById('hero-image').src = pageData.hero.image;
-            document.getElementById('hero-image').alt = pageData.hero.title;
+            document.getElementById('hero-title').textContent = data.hero?.title || '';
+            document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
+            document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
+            document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
+            document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
+            document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
             
             // Nav
-            document.getElementById('nav-logo').textContent = pageData.footer.logo;
-            document.getElementById('nav-cta').textContent = pageData.hero.cta1Text;
-            document.getElementById('nav-cta-mobile').textContent = pageData.hero.cta1Text;
+            document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
+            document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
+            document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
 
             // Social Proof
-            document.getElementById('social-title').textContent = pageData.socialProof.title;
+            document.getElementById('social-title').textContent = data.socialProof?.title || '';
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
-            pageData.socialProof.logos.forEach(logo => {
+            // VERIFICAÇÃO: Garante que logos é um array antes de usar o forEach
+            (data.socialProof?.logos || []).forEach(logo => {
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition-opacity duration-500 hover:opacity-75">`;
             });
 
             // About
-            document.getElementById('about-title').textContent = pageData.about.title;
-            document.getElementById('about-subtitle').textContent = pageData.about.subtitle;
-            document.getElementById('about-step1-title').textContent = pageData.about.step1.title;
-            document.getElementById('about-step1-desc').textContent = pageData.about.step1.description;
-            document.getElementById('about-step2-title').textContent = pageData.about.step2.title;
-            document.getElementById('about-step2-desc').textContent = pageData.about.step2.description;
-            document.getElementById('about-step3-title').textContent = pageData.about.step3.title;
-            document.getElementById('about-step3-desc').textContent = pageData.about.step3.description;
+            document.getElementById('about-title').textContent = data.about?.title || '';
+            document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
+            document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
+            document.getElementById('about-step1-desc').textContent = data.about?.step1?.description || '';
+            document.getElementById('about-step2-title').textContent = data.about?.step2?.title || '';
+            document.getElementById('about-step2-desc').textContent = data.about?.step2?.description || '';
+            document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
+            document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
             
             // Services Carousel
-            document.getElementById('services-title').textContent = pageData.services.title;
-            document.getElementById('services-subtitle').textContent = pageData.services.subtitle;
+            document.getElementById('services-title').textContent = data.services?.title || '';
+            document.getElementById('services-subtitle').textContent = data.services?.subtitle || '';
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
-            if(pageData.services.items && pageData.services.items.length > 0) {
-                const whatsappNumber = pageData.footer.whatsapp;
-                pageData.services.items.forEach(item => {
+            // VERIFICAÇÃO: Garante que items é um array
+            const servicesItems = data.services?.items || [];
+            if(servicesItems.length > 0) {
+                const whatsappNumber = data.footer?.whatsapp || '';
+                servicesItems.forEach(item => {
                     const message = encodeURIComponent(`Olá, tenho interesse no produto/serviço: ${item.title}`);
                     const whatsappLink = `https://wa.me/${whatsappNumber}?text=${message}`;
                     track.innerHTML += `
@@ -359,65 +364,63 @@
             }
 
             // Testimonials
-            document.getElementById('testimonials-title').textContent = pageData.testimonials.title;
-            document.getElementById('testimonials-subtitle').textContent = pageData.testimonials.subtitle;
+            document.getElementById('testimonials-title').textContent = data.testimonials?.title || '';
+            document.getElementById('testimonials-subtitle').textContent = data.testimonials?.subtitle || '';
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
-            if(pageData.testimonials.items && pageData.testimonials.items.length > 0) {
-                pageData.testimonials.items.forEach(item => {
-                    testimonialsContainer.innerHTML += `
-                        <div class="bg-gray-50 p-8 rounded-lg">
-                            <p class="text-gray-600">"${item.quote}"</p>
-                            <div class="mt-6 flex items-center">
-                                <img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200">
-                                <div class="ml-4">
-                                    <p class="font-semibold text-gray-900">${item.author}</p>
-                                    <p class="text-sm text-gray-500">${item.position}</p>
-                                </div>
+            // VERIFICAÇÃO: Garante que items é um array
+            (data.testimonials?.items || []).forEach(item => {
+                testimonialsContainer.innerHTML += `
+                    <div class="bg-gray-50 p-8 rounded-lg">
+                        <p class="text-gray-600">"${item.quote}"</p>
+                        <div class="mt-6 flex items-center">
+                            <img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200">
+                            <div class="ml-4">
+                                <p class="font-semibold text-gray-900">${item.author}</p>
+                                <p class="text-sm text-gray-500">${item.position}</p>
                             </div>
                         </div>
-                    `;
-                });
-            }
+                    </div>
+                `;
+            });
 
             // FAQ
-            document.getElementById('faq-title').textContent = pageData.faq.title;
-            document.getElementById('faq-subtitle').textContent = pageData.faq.subtitle;
+            document.getElementById('faq-title').textContent = data.faq?.title || '';
+            document.getElementById('faq-subtitle').textContent = data.faq?.subtitle || '';
             const faqContainer = document.getElementById('faq-container');
             faqContainer.innerHTML = '';
-            if(pageData.faq.items && pageData.faq.items.length > 0) {
-                pageData.faq.items.forEach(item => {
-                    faqContainer.innerHTML += `
-                        <div class="bg-white rounded-lg shadow-sm">
-                            <button class="faq-toggle w-full text-left p-6 flex justify-between items-center">
-                                <span class="text-lg font-semibold text-gray-800">${item.question}</span>
-                                <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                            </button>
-                            <div class="faq-content px-6 pb-4">
-                                <p class="text-gray-600">${item.answer}</p>
-                            </div>
+            // VERIFICAÇÃO: Garante que items é um array
+            (data.faq?.items || []).forEach(item => {
+                faqContainer.innerHTML += `
+                    <div class="bg-white rounded-lg shadow-sm">
+                        <button class="faq-toggle w-full text-left p-6 flex justify-between items-center">
+                            <span class="text-lg font-semibold text-gray-800">${item.question}</span>
+                            <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-content px-6 pb-4">
+                            <p class="text-gray-600">${item.answer}</p>
                         </div>
-                    `;
-                });
-            }
+                    </div>
+                `;
+            });
 
             // CTA
-            document.getElementById('cta-title').textContent = pageData.cta.title;
-            document.getElementById('cta-subtitle').textContent = pageData.cta.subtitle;
-            document.getElementById('cta-button').textContent = pageData.cta.buttonText;
-            const ctaButtonHref = pageData.footer.whatsapp ? `https://wa.me/${pageData.footer.whatsapp}?text=${encodeURIComponent('Olá, gostaria de solicitar um orçamento.')}` : '#contato';
+            document.getElementById('cta-title').textContent = data.cta?.title || '';
+            document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
+            document.getElementById('cta-button').textContent = data.cta?.buttonText || '';
+            const ctaButtonHref = data.footer?.whatsapp ? `https://wa.me/${data.footer.whatsapp}?text=${encodeURIComponent('Olá, gostaria de solicitar um orçamento.')}` : '#contato';
             document.getElementById('cta-button').href = ctaButtonHref;
             if (ctaButtonHref !== '#contato') {
                 document.getElementById('cta-button').target = '_blank';
             }
             
             // Footer
-            document.getElementById('footer-logo').textContent = pageData.footer.logo;
-            document.getElementById('footer-description').textContent = pageData.footer.description;
-            document.getElementById('footer-email').textContent = `Email: ${pageData.footer.email}`;
-            document.getElementById('footer-phone').textContent = `Telefone: ${pageData.footer.phone}`;
-            document.getElementById('footer-address').textContent = `Endereço: ${pageData.footer.address}`;
-            document.getElementById('footer-copyright').textContent = pageData.footer.copyright;
+            document.getElementById('footer-logo').textContent = data.footer?.logo || '';
+            document.getElementById('footer-description').textContent = data.footer?.description || '';
+            document.getElementById('footer-email').textContent = `Email: ${data.footer?.email || ''}`;
+            document.getElementById('footer-phone').textContent = `Telefone: ${data.footer?.phone || ''}`;
+            document.getElementById('footer-address').textContent = `Endereço: ${data.footer?.address || ''}`;
+            document.getElementById('footer-copyright').textContent = data.footer?.copyright || '';
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -435,6 +438,9 @@
                     console.log("Documento de conteúdo não encontrado! Mostrando dados padrão.");
                     renderContent(defaultData); // Mostra dados padrão se o documento não existir
                 }
+            }, (error) => {
+                console.error("Erro ao escutar o documento:", error);
+                renderContent(defaultData);
             });
 
             // --- LÓGICA DE INTERAÇÃO (MENUS, FAQ, CARROSSEL) ---
@@ -457,18 +463,15 @@
                 const content = toggle.nextElementSibling;
                 const icon = toggle.querySelector('.faq-icon');
                 
+                const isOpening = !content.style.maxHeight;
+
                 // Fecha todos os outros antes de potencialmente abrir o atual
                 document.querySelectorAll('.faq-content').forEach(c => {
-                    if (c !== content) {
-                        c.style.maxHeight = null;
-                        c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
-                    }
+                    c.style.maxHeight = null;
+                    c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
                 });
 
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                    icon.style.transform = 'rotate(0deg)';
-                } else {
+                if (isOpening) {
                     content.style.maxHeight = content.scrollHeight + "px";
                     icon.style.transform = 'rotate(180deg)';
                 }
