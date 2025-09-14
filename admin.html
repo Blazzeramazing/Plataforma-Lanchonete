@@ -343,28 +343,6 @@
             const styleSheet = document.createElement("style");
             styleSheet.innerText = globalStyles;
             document.head.appendChild(styleSheet);
-
-            sidebarLinks.forEach(link => {
-                if(link.id !== 'logout-button') {
-                    link.addEventListener('click', e => {
-                        e.preventDefault();
-                        sidebarLinks.forEach(l => l.classList.remove('active'));
-                        contentSections.forEach(s => s.classList.remove('active'));
-                        link.classList.add('active');
-                        const sectionId = 'section-' + link.dataset.section;
-                        document.getElementById(sectionId).classList.add('active');
-                    });
-                }
-            });
-
-            document.getElementById('logout-button').addEventListener('click', async (e) => {
-                e.preventDefault();
-                try {
-                    await signOut(auth);
-                } catch (error) {
-                    console.error('Erro ao fazer logout:', error);
-                }
-            });
             
             let pageData = {};
             
@@ -390,18 +368,20 @@
             }
 
             async function loadData() {
+                console.log("Tentando carregar dados do Firestore...");
                 try {
                     const docSnap = await getDoc(contentDocRef);
                     if (docSnap.exists()) {
+                        console.log("Documento encontrado. Dados:", docSnap.data());
                         pageData = docSnap.data();
                     } else {
-                        console.log("Nenhum documento encontrado. A criar com dados padrão.");
+                        console.log("Nenhum documento encontrado! Criando com dados padrão.");
                         pageData = getDefaultData();
                         await setDoc(contentDocRef, pageData);
                     }
                 } catch (error) {
-                    console.error("Erro ao carregar dados: ", error);
-                    alert("Ocorreu um erro ao carregar os dados. A usar dados padrão.");
+                    console.error("Erro ao carregar dados do Firestore: ", error);
+                    alert("Ocorreu um erro ao carregar os dados. Usando dados padrão.");
                     pageData = getDefaultData();
                 }
                 populateForms();
@@ -440,6 +420,7 @@
             }
 
             function populateForms() {
+                console.log("Populando formulários com os dados carregados.");
                 if (!pageData) pageData = getDefaultData();
                 document.getElementById('hero-title').value = pageData.hero?.title || '';
                 document.getElementById('hero-subtitle').value = pageData.hero?.subtitle || '';
@@ -481,166 +462,65 @@
                 document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
             }
             
-            function updateHeroData() {
-                pageData.hero = {
-                    title: document.getElementById('hero-title').value,
-                    subtitle: document.getElementById('hero-subtitle').value,
-                    cta1Text: document.getElementById('hero-cta1-text').value,
-                    cta2Text: document.getElementById('hero-cta2-text').value,
-                    image: document.getElementById('hero-image').value
-                };
-            }
+            function updateHeroData() { pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta2Text: document.getElementById('hero-cta2-text').value, image: document.getElementById('hero-image').value }; }
+            function updateSocialProofData() { const newLogos = []; document.querySelectorAll('#social-logos-container .border').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; }
+            function updateAboutData() { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; }
+            function updateServicesData() { const newServices = []; document.querySelectorAll('#services-container .border').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices }; }
+            function updateTestimonialsData() { const newTestimonials = []; document.querySelectorAll('#testimonials-container .border').forEach(div => { newTestimonials.push({ quote: div.querySelector('.testimonial-item-quote').value, author: div.querySelector('.testimonial-item-author').value, position: div.querySelector('.testimonial-item-position').value, image: div.querySelector('.testimonial-item-image').value, }); }); pageData.testimonials = { title: document.getElementById('testimonials-title').value, subtitle: document.getElementById('testimonials-subtitle').value, items: newTestimonials }; }
+            function updateFaqData() { const newFaqs = []; document.querySelectorAll('#faq-container .border').forEach(div => { newFaqs.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value }); }); pageData.faq = { title: document.getElementById('faq-title').value, subtitle: document.getElementById('faq-subtitle').value, items: newFaqs }; }
+            function updateCtaData() { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value }; }
+            function updateFooterData() { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, copyright: document.getElementById('footer-copyright').value }; }
 
-            function updateSocialProofData() {
-                const newLogos = [];
-                document.querySelectorAll('#social-logos-container .border').forEach(div => {
-                    newLogos.push({ 
-                        src: div.querySelector('.social-logo-src').value, 
-                        alt: div.querySelector('.social-logo-alt').value 
-                    });
-                });
-                pageData.socialProof = {
-                    title: document.getElementById('social-title').value,
-                    logos: newLogos
-                };
-            }
+            function getDefaultData() { return { hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' }, socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } }; }
             
-            function updateAboutData() {
-                pageData.about = {
-                    title: document.getElementById('about-title').value,
-                    subtitle: document.getElementById('about-subtitle').value,
-                    step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value },
-                    step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
-                    step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
-                };
-            }
+            function initializeApp() {
+                console.log("DOM totalmente carregado. Inicializando a aplicação.");
 
-            function updateServicesData() {
-                 const newServices = [];
-                document.querySelectorAll('#services-container .border').forEach(div => {
-                    newServices.push({
-                        title: div.querySelector('.service-item-title').value,
-                        description: div.querySelector('.service-item-description').value,
-                        image: div.querySelector('.service-item-image').value,
-                        price: div.querySelector('.service-item-price').value,
-                    });
-                });
-                pageData.services = {
-                    title: document.getElementById('services-title').value,
-                    subtitle: document.getElementById('services-subtitle').value,
-                    items: newServices
-                };
-            }
-
-            function updateTestimonialsData() {
-                const newTestimonials = [];
-                document.querySelectorAll('#testimonials-container .border').forEach(div => {
-                    newTestimonials.push({
-                        quote: div.querySelector('.testimonial-item-quote').value,
-                        author: div.querySelector('.testimonial-item-author').value,
-                        position: div.querySelector('.testimonial-item-position').value,
-                        image: div.querySelector('.testimonial-item-image').value,
-                    });
-                });
-                pageData.testimonials = {
-                    title: document.getElementById('testimonials-title').value,
-                    subtitle: document.getElementById('testimonials-subtitle').value,
-                    items: newTestimonials
-                };
-            }
-
-            function updateFaqData() {
-                const newFaqs = [];
-                document.querySelectorAll('#faq-container .border').forEach(div => {
-                    newFaqs.push({ 
-                        question: div.querySelector('.faq-item-question').value, 
-                        answer: div.querySelector('.faq-item-answer').value 
-                    });
-                });
-                pageData.faq = {
-                    title: document.getElementById('faq-title').value,
-                    subtitle: document.getElementById('faq-subtitle').value,
-                    items: newFaqs
-                };
-            }
-            
-            function updateCtaData() {
-                pageData.cta = {
-                    title: document.getElementById('cta-title').value,
-                    subtitle: document.getElementById('cta-subtitle').value,
-                    buttonText: document.getElementById('cta-button-text').value
-                };
-            }
-
-            function updateFooterData() {
-                pageData.footer = {
-                    logo: document.getElementById('footer-logo').value,
-                    description: document.getElementById('footer-description').value,
-                    whatsapp: document.getElementById('footer-contact-whatsapp').value,
-                    email: document.getElementById('footer-contact-email').value,
-                    phone: document.getElementById('footer-contact-phone').value,
-                    address: document.getElementById('footer-contact-address').value,
-                    copyright: document.getElementById('footer-copyright').value
-                };
-            }
-
-            // Listeners para os botões de salvar
-            document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
-            document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
-            document.getElementById('save-about').addEventListener('click', () => { updateAboutData(); saveData(); });
-            document.getElementById('save-services').addEventListener('click', () => { updateServicesData(); saveData(); });
-            document.getElementById('save-testimonials').addEventListener('click', () => { updateTestimonialsData(); saveData(); });
-            document.getElementById('save-faq').addEventListener('click', () => { updateFaqData(); saveData(); });
-            document.getElementById('save-cta').addEventListener('click', () => { updateCtaData(); saveData(); });
-            document.getElementById('save-footer').addEventListener('click', () => { updateFooterData(); saveData(); });
-            
-            // Listeners para os botões de adicionar
-            document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
-            document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
-            document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials?.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
-            document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
-            
-            // Listener para os botões de remover (delegação de evento)
-            document.body.addEventListener('click', e => {
-                if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
-                    e.target.closest('.border').remove();
-                }
-            });
-
-            function getDefaultData() {
-                return {
-                    hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
-                    socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] },
-                    about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } },
-                    services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] },
-                    testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] },
-                    faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] },
-                    cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' },
-                    footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' }
-                };
-            }
-
-            // Lógica de Autenticação - executada por último para iniciar o processo
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    if (user.emailVerified) {
-                        authLayer.style.display = 'none';
-                        mainContent.classList.remove('hidden');
-                        mainContent.classList.add('flex');
-                        document.getElementById('user-email').textContent = user.email;
-                        loadData(); // Agora esta chamada é segura
-                    } else {
-                        authMessage.innerHTML = `
-                            <h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2>
-                            <p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p>
-                            <p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>
-                        `;
+                // Configura todos os listeners da UI
+                document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
+                document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
+                document.getElementById('save-about').addEventListener('click', () => { updateAboutData(); saveData(); });
+                document.getElementById('save-services').addEventListener('click', () => { updateServicesData(); saveData(); });
+                document.getElementById('save-testimonials').addEventListener('click', () => { updateTestimonialsData(); saveData(); });
+                document.getElementById('save-faq').addEventListener('click', () => { updateFaqData(); saveData(); });
+                document.getElementById('save-cta').addEventListener('click', () => { updateCtaData(); saveData(); });
+                document.getElementById('save-footer').addEventListener('click', () => { updateFooterData(); saveData(); });
+                
+                document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
+                document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
+                document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials?.items) pageData.testimonials.items = []; renderTestimonial({ quote: '', author: '', position: '', image: '' }, pageData.testimonials.items.length); });
+                document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; renderFAQ({ question: '', answer: '' }, pageData.faq.items.length); });
+                
+                document.body.addEventListener('click', e => {
+                    if (e.target.matches('.remove-logo, .remove-service, .remove-testimonial, .remove-faq')) {
+                        e.target.closest('.border').remove();
                     }
-                } else {
-                    window.location.href = './login.html';
-                }
-            });
+                });
 
+                // Inicia o processo de autenticação
+                onAuthStateChanged(auth, user => {
+                    console.log("Estado de autenticação alterado.");
+                    if (user) {
+                        if (user.emailVerified) {
+                            console.log("Utilizador autenticado e verificado:", user.email);
+                            authLayer.style.display = 'none';
+                            mainContent.classList.remove('hidden');
+                            mainContent.classList.add('flex');
+                            document.getElementById('user-email').textContent = user.email;
+                            loadData();
+                        } else {
+                            console.log("Utilizador autenticado mas email não verificado.");
+                            authMessage.innerHTML = `<h2 class="text-xl font-bold mb-4">Verifique o seu Email</h2><p class="text-gray-600 mb-4">Enviámos um link de verificação para <strong>${user.email}</strong>.</p><p class="text-gray-600">Por favor, clique no link para ativar a sua conta e depois atualize esta página.</p>`;
+                        }
+                    } else {
+                        console.log("Nenhum utilizador autenticado. A redirecionar para o login.");
+                        window.location.href = './login.html';
+                    }
+                });
+            }
+
+            // Inicia tudo
+            initializeApp();
         });
     </script>
 </body>
