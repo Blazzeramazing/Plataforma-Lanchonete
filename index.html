@@ -26,7 +26,7 @@
         @media (min-width: 1024px) { .service-card { flex-basis: 31%; } }
         .service-card-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease-in-out; padding: 1rem; text-align: center; }
         .service-card:hover .service-card-overlay { opacity: 1; }
-        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgb(255, 255, 255); border-radius: 9999px; width: 3rem; height: 3rem; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgb(255, 255, 255); cursor: pointer; z-index: 10; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.8); border-radius: 9999px; width: 3rem; height: 3rem; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; z-index: 10; }
         @media (min-width: 1024px) { .carousel-btn { display: flex; } }
         .carousel-btn:hover { background-color: white; }
         .carousel-btn#prevBtn { left: -1.5rem; }
@@ -227,7 +227,7 @@
             <h3 class="text-2xl font-bold mb-2 text-gray-900">Fale Conosco</h3>
             <p class="text-gray-600 mb-6">Preencha seus dados para enviar uma mensagem via WhatsApp.</p>
             <div id="form-error" class="form-error-message"></div>
-            <form id="contact-form">
+            <form id="contact-form" novalidate>
                 <div class="mb-4">
                     <label for="contact-name" class="block text-sm font-medium text-gray-700">Nome</label>
                     <input type="text" id="contact-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -240,7 +240,8 @@
                     <label for="contact-phone" class="block text-sm font-medium text-gray-700">Telefone (com DDD)</label>
                     <input type="tel" id="contact-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ex: 32999998888">
                 </div>
-                <button type="submit" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">Enviar Mensagem no WhatsApp</button>
+                <!-- MUDANÇA 1: O tipo do botão agora é 'button' para não submeter o formulário -->
+                <button type="button" id="submit-whatsapp-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">Enviar Mensagem no WhatsApp</button>
             </form>
         </div>
     </div>
@@ -288,7 +289,6 @@
             const dynamicStyleEl = document.getElementById('dynamic-styles');
             const allSections = document.querySelectorAll('main > section');
 
-            // 1. Lógica do Fundo
             if (styles.backgroundImage) {
                 document.body.style.backgroundImage = `url('${styles.backgroundImage}')`;
                 document.body.style.backgroundSize = 'cover';
@@ -305,69 +305,9 @@
                     }
                 });
             }
-
-            // 2. Lógica da Cor do Texto
-            let cssString = `
-                /* 1. REGRA GERAL: Define a cor base para o texto da página com alta prioridade. */
-                h1, h2, h3, p, #social-title {
-                    color: ${styles.textColor} !important;
-                }
-
-                /* --- 2. EXCEÇÕES para manter contraste e design --- */
-
-                /* Cabeçalho: Mantém as cores originais para os links e o logo. */
-                header a, header button, #nav-logo, #mobile-menu a {
-                    color: initial;
-                }
-                
-                /* Botões: Mantém as cores de texto originais para contraste com o fundo do botão. */
-                .bg-indigo-600, .bg-green-500 { color: white !important; }
-                .bg-gray-200 { color: #1f2937 !important; }
-
-                /* Seções com Fundo Escuro: Força o texto branco para garantir a legibilidade. */
-                #contato *, footer *, .service-card-overlay * {
-                    color: white !important;
-                }
-
-                /* EXCEÇÃO PARA O BOTÃO CTA: Garante que o texto do botão CTA seja legível sobre seu fundo branco, mesmo dentro da seção #contato. */
-                #cta-button { 
-                    color: #4f46e5 !important; 
-                }
-
-                /* Links e Texto Secundário no Rodapé: Usa cores específicas mais suaves. */
-                footer a, footer .text-gray-400, footer p, footer li {
-                    color: #9ca3af !important; /* Cor de 'text-gray-400' */
-                }
-                footer a:hover {
-                    color: white !important;
-                }
-                footer h3, footer h4 { /* Títulos do Rodapé */
-                    color: white !important;
-                }
-
-                /* Ícones na seção "Sobre": Mantém a cor original. */
-                #sobre .bg-indigo-100 {
-                    color: #4f46e5 !important;
-                }
-
-                /* Texto Dentro de Cards: Reverte para as cores escuras originais para contraste com o fundo claro dos cards. */
-                .service-card h3, .faq-toggle span, #testimonials-container .font-semibold {
-                    color: #1F2937 !important; /* Cor de 'text-gray-900' */
-                }
-                #testimonials-container p, .faq-content p, .service-card p {
-                     color: #4B5563 !important; /* Cor de 'text-gray-600' */
-                }
-                 #testimonials-container .text-sm {
-                     color: #6B7280 !important; /* Cor de 'text-gray-500' */
-                 }
-                
-                /* Modal de Contato: Garante que o texto seja sempre escuro para contraste com o fundo branco do modal. */
-                #contact-modal h3 { color: #1F2937 !important; } /* text-gray-900 */
-                #contact-modal p { color: #4B5563 !important; } /* text-gray-600 */
-                #contact-modal label { color: #374151 !important; } /* text-gray-700 */
-            `;
+            
+            let cssString = `h1, h2, h3, p, #social-title { color: ${styles.textColor} !important; } header a, header button, #nav-logo, #mobile-menu a { color: initial; } .bg-indigo-600, .bg-green-500 { color: white !important; } .bg-gray-200 { color: #1f2937 !important; } #contato *, footer *, .service-card-overlay * { color: white !important; } #cta-button { color: #4f46e5 !important; } footer a, footer .text-gray-400, footer p, footer li { color: #9ca3af !important; } footer a:hover { color: white !important; } footer h3, footer h4 { color: white !important; } #sobre .bg-indigo-100 { color: #4f46e5 !important; } .service-card h3, .faq-toggle span, #testimonials-container .font-semibold { color: #1F2937 !important; } #testimonials-container p, .faq-content p, .service-card p { color: #4B5563 !important; } #testimonials-container .text-sm { color: #6B7280 !important; } #contact-modal h3 { color: #1F2937 !important; } #contact-modal p { color: #4B5563 !important; } #contact-modal label { color: #374151 !important; }`;
             dynamicStyleEl.innerHTML = cssString;
-
 
             // Meta tags
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
@@ -413,16 +353,7 @@
             const servicesItems = data.services?.items || [];
             if(servicesItems.length > 0) {
                 servicesItems.forEach(item => {
-                    track.innerHTML += `
-                        <div class="service-card rounded-lg shadow-lg bg-white">
-                            <img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg">
-                            <div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div>
-                            <div class="service-card-overlay">
-                                <p class="text-white font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>
-                                ${item.price ? `<p class="text-2xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}
-                                <button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button>
-                            </div>
-                        </div>`;
+                    track.innerHTML += `<div class="service-card rounded-lg shadow-lg bg-white"><img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg"><div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div><div class="service-card-overlay"><p class="text-white font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>${item.price ? `<p class="text-2xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}<button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button></div></div>`;
                 });
             } else {
                 track.innerHTML = '<p class="text-center w-full text-gray-500">Nenhum serviço cadastrado no momento.</p>';
@@ -434,17 +365,7 @@
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
             (data.testimonials?.items || []).forEach(item => {
-                testimonialsContainer.innerHTML += `
-                    <div class="bg-gray-50/80 p-8 rounded-lg">
-                        <p class="text-gray-600">"${item.quote}"</p>
-                        <div class="mt-6 flex items-center">
-                            <img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200">
-                            <div class="ml-4">
-                                <p class="font-semibold text-gray-900">${item.author}</p>
-                                <p class="text-sm text-gray-500">${item.position}</p>
-                            </div>
-                        </div>
-                    </div>`;
+                testimonialsContainer.innerHTML += `<div class="bg-gray-50/80 p-8 rounded-lg"><p class="text-gray-600">"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200"><div class="ml-4"><p class="font-semibold text-gray-900">${item.author}</p><p class="text-sm text-gray-500">${item.position}</p></div></div></div>`;
             });
 
             // Seção FAQ
@@ -453,14 +374,7 @@
             const faqContainer = document.getElementById('faq-container');
             faqContainer.innerHTML = '';
             (data.faq?.items || []).forEach(item => {
-                faqContainer.innerHTML += `
-                    <div class="bg-white/80 rounded-lg shadow-sm">
-                        <button class="faq-toggle w-full text-left p-6 flex justify-between items-center">
-                            <span class="text-lg font-semibold text-gray-800">${item.question}</span>
-                            <svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </button>
-                        <div class="faq-content px-6 pb-4"><p class="text-gray-600">${item.answer}</p></div>
-                    </div>`;
+                faqContainer.innerHTML += `<div class="bg-white/80 rounded-lg shadow-sm"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="text-lg font-semibold text-gray-800">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p class="text-gray-600">${item.answer}</p></div></div>`;
             });
 
             // Seção CTA
@@ -542,6 +456,8 @@
             const closeModalButton = document.getElementById('close-modal-button');
             const contactForm = document.getElementById('contact-form');
             const formError = document.getElementById('form-error');
+            // MUDANÇA 2: Selecionamos o botão pelo seu novo ID
+            const submitWhatsappButton = document.getElementById('submit-whatsapp-button');
 
             const showFormError = (message) => {
                 formError.textContent = message;
@@ -568,8 +484,16 @@
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-            contactForm.addEventListener('submit', (e) => {
-                e.preventDefault();
+            // MUDANÇA 3: O evento agora é 'click' no botão, não 'submit' no formulário.
+            submitWhatsappButton.addEventListener('click', () => {
+                // MUDANÇA 4: Validamos o formulário manualmente aqui.
+                if (!contactForm.checkValidity()) {
+                    // Se o formulário não for válido, podemos mostrar um erro ou simplesmente deixar a validação do navegador (HTML5) atuar.
+                    // Para uma melhor experiência, podemos solicitar que o navegador mostre as mensagens de erro.
+                    contactForm.reportValidity();
+                    return;
+                }
+                
                 const name = document.getElementById('contact-name').value;
                 const email = document.getElementById('contact-email').value;
                 const phone = document.getElementById('contact-phone').value;
@@ -587,6 +511,7 @@
 
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
                 
+                // Esta ação agora é direta, o que funciona em telemóveis.
                 window.open(whatsappUrl, '_blank');
                 closeModal();
             });
@@ -594,4 +519,3 @@
     </script>
 </body>
 </html>
-
