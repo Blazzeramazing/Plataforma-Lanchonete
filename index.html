@@ -45,6 +45,7 @@
             text-align: center;
         }
     </style>
+    <style id="dynamic-styles"></style>
 </head>
 <body>
 
@@ -263,22 +264,56 @@
             pageDataStore = pageData || defaultData;
             const data = pageDataStore;
 
-            // Aplica estilos globais
-            if (data.style) {
-                const body = document.body;
-                body.style.color = data.style.textColor || defaultData.style.textColor;
-                
-                if (data.style.backgroundImage) {
-                    body.style.backgroundImage = `url('${data.style.backgroundImage}')`;
-                    body.style.backgroundSize = 'cover';
-                    body.style.backgroundPosition = 'center';
-                    body.style.backgroundAttachment = 'fixed';
-                    body.style.backgroundColor = ''; // Limpa a cor para a imagem ter prioridade
-                } else {
-                    body.style.backgroundImage = 'none';
-                    body.style.backgroundColor = data.style.backgroundColor || defaultData.style.backgroundColor;
-                }
+            // --- Aplicação de Estilos Dinâmicos ---
+            const styles = data.style || defaultData.style;
+            const dynamicStyleEl = document.getElementById('dynamic-styles');
+            const allSections = document.querySelectorAll('main > section');
+
+            // 1. Lógica do Fundo
+            if (styles.backgroundImage) {
+                document.body.style.backgroundImage = `url('${styles.backgroundImage}')`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundAttachment = 'fixed';
+                document.body.style.backgroundColor = '';
+            } else {
+                document.body.style.backgroundImage = 'none';
+                document.body.style.backgroundColor = styles.backgroundColor;
+                // Torna as secções transparentes para mostrar a cor de fundo do body
+                allSections.forEach(sec => {
+                    if (sec.id !== 'contato') { // Exclui a secção CTA que tem cor própria
+                        sec.style.backgroundColor = 'transparent';
+                        sec.classList.remove('backdrop-blur-sm'); // Remove o blur se não houver imagem
+                    }
+                });
             }
+
+            // 2. Lógica da Cor do Texto
+            let cssString = `
+                body {
+                    color: ${styles.textColor};
+                }
+                /* Redefine elementos comuns para herdar a cor do body */
+                h1, h2, h3, h4, h5, h6, p, li, .text-gray-900, .text-gray-800, .text-gray-700, .text-gray-600, .text-gray-500 {
+                    color: inherit;
+                }
+                /* EXCEÇÕES: Manter cores para contraste e design específico */
+                header a, header button, #nav-logo {
+                    color: initial; /* Permite que as classes Tailwind do header funcionem */
+                }
+                #contato, #contato *, footer, footer *, .service-card-overlay * {
+                    color: white; /* Textos em fundos escuros devem ser brancos */
+                }
+                footer a, footer .text-gray-400, #contato .text-indigo-200 {
+                    color: initial; /* Permite que classes de cor mais clara funcionem no footer/CTA */
+                }
+                 /* Garante que os títulos e textos dentro de cartões com fundo próprio mantenham o contraste */
+                .service-card h3, .faq-toggle span, #testimonials-container .font-semibold, #testimonials-container .text-sm, #testimonials-container p {
+                     color: initial;
+                }
+            `;
+            dynamicStyleEl.innerHTML = cssString;
+
 
             // Meta tags
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
