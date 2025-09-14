@@ -240,7 +240,6 @@
                     <label for="contact-phone" class="block text-sm font-medium text-gray-700">Telefone (com DDD)</label>
                     <input type="tel" id="contact-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ex: 32999998888">
                 </div>
-                <!-- MUDANÇA 1: O tipo do botão agora é 'button' para não submeter o formulário -->
                 <button type="button" id="submit-whatsapp-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">Enviar Mensagem no WhatsApp</button>
             </form>
         </div>
@@ -420,13 +419,11 @@
                 }
             });
             
-            // Lógica do Menu Mobile
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-            // Lógica do FAQ (Acordeão)
             document.getElementById('faq-container').addEventListener('click', (e) => {
                 const toggle = e.target.closest('.faq-toggle');
                 if (!toggle) return;
@@ -443,7 +440,6 @@
                 }
             });
 
-            // Lógica do Carrossel de Serviços
             const track = document.getElementById('service-carousel-track'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
             if(track && prevBtn && nextBtn){
                 const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 16 : 300; }
@@ -451,12 +447,11 @@
                 prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
             }
 
-            // Lógica do Modal de Contato
+            // --- Lógica do Modal de Contato CORRIGIDA ---
             const modal = document.getElementById('contact-modal');
             const closeModalButton = document.getElementById('close-modal-button');
             const contactForm = document.getElementById('contact-form');
             const formError = document.getElementById('form-error');
-            // MUDANÇA 2: Selecionamos o botão pelo seu novo ID
             const submitWhatsappButton = document.getElementById('submit-whatsapp-button');
 
             const showFormError = (message) => {
@@ -484,12 +479,10 @@
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-            // MUDANÇA 3: O evento agora é 'click' no botão, não 'submit' no formulário.
+            // <-- MUDANÇA PRINCIPAL: LÓGICA DO BOTÃO DE ENVIO -->
             submitWhatsappButton.addEventListener('click', () => {
-                // MUDANÇA 4: Validamos o formulário manualmente aqui.
+                // 1. Valida o formulário
                 if (!contactForm.checkValidity()) {
-                    // Se o formulário não for válido, podemos mostrar um erro ou simplesmente deixar a validação do navegador (HTML5) atuar.
-                    // Para uma melhor experiência, podemos solicitar que o navegador mostre as mensagens de erro.
                     contactForm.reportValidity();
                     return;
                 }
@@ -499,7 +492,7 @@
                 const phone = document.getElementById('contact-phone').value;
                 
                 if (!pageDataStore || !pageDataStore.footer?.whatsapp) {
-                    showFormError("Número de WhatsApp não configurado. Não é possível enviar a mensagem.");
+                    showFormError("Número de WhatsApp não configurado.");
                     return;
                 }
 
@@ -511,11 +504,17 @@
 
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
                 
-                // Esta ação agora é direta, o que funciona em telemóveis.
+                // 2. Abre o link do WhatsApp
                 window.open(whatsappUrl, '_blank');
-                closeModal();
+                
+                // 3. Adiciona um atraso ANTES de fechar o modal.
+                // Isto dá tempo ao navegador para processar a abertura da nova janela.
+                setTimeout(() => {
+                    closeModal();
+                }, 500); // 500ms = meio segundo de atraso
             });
         });
     </script>
 </body>
 </html>
+
