@@ -54,11 +54,11 @@
                     Depoimentos
                 </a>
                 <a href="#" class="sidebar-link" data-section="faq">
-                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     FAQ
                 </a>
                 <a href="#" class="sidebar-link" data-section="cta">
-                     <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
                     Chamada Final (CTA)
                 </a>
                 <a href="#" class="sidebar-link" data-section="footer">
@@ -397,6 +397,8 @@
                 const saveButtons = document.querySelectorAll('.save-button');
                 saveButtons.forEach(btn => btn.disabled = true);
                 try {
+                    // Usamos a opção { merge: true } para garantir que apenas os campos fornecidos sejam atualizados.
+                    // No entanto, como lemos todos os dados primeiro, o setDoc simples também funciona com a nossa nova lógica.
                     await setDoc(contentDocRef, pageData); 
                     showToast();
                 } catch (error) {
@@ -499,7 +501,10 @@
                 document.getElementById('footer-copyright').value = pageData.footer?.copyright || '';
             }
             
-            function updatePageDataFromForms() {
+            // --- INÍCIO DA CORREÇÃO ---
+            
+            // 1. Funções específicas para atualizar cada seção do objeto pageData
+            function updateHeroData() {
                 pageData.hero = {
                     title: document.getElementById('hero-title').value,
                     subtitle: document.getElementById('hero-subtitle').value,
@@ -507,7 +512,9 @@
                     cta2Text: document.getElementById('hero-cta2-text').value,
                     image: document.getElementById('hero-image').value
                 };
+            }
 
+            function updateSocialProofData() {
                 const newLogos = [];
                 document.querySelectorAll('#social-logos-container .border').forEach(div => {
                     newLogos.push({ 
@@ -519,7 +526,9 @@
                     title: document.getElementById('social-title').value,
                     logos: newLogos
                 };
-
+            }
+            
+            function updateAboutData() {
                 pageData.about = {
                     title: document.getElementById('about-title').value,
                     subtitle: document.getElementById('about-subtitle').value,
@@ -527,8 +536,10 @@
                     step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value },
                     step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value }
                 };
+            }
 
-                const newServices = [];
+            function updateServicesData() {
+                 const newServices = [];
                 document.querySelectorAll('#services-container .border').forEach(div => {
                     newServices.push({
                         title: div.querySelector('.service-item-title').value,
@@ -542,7 +553,9 @@
                     subtitle: document.getElementById('services-subtitle').value,
                     items: newServices
                 };
+            }
 
+            function updateTestimonialsData() {
                 const newTestimonials = [];
                 document.querySelectorAll('#testimonials-container .border').forEach(div => {
                     newTestimonials.push({
@@ -557,7 +570,9 @@
                     subtitle: document.getElementById('testimonials-subtitle').value,
                     items: newTestimonials
                 };
+            }
 
+            function updateFaqData() {
                 const newFaqs = [];
                 document.querySelectorAll('#faq-container .border').forEach(div => {
                     newFaqs.push({ 
@@ -570,13 +585,17 @@
                     subtitle: document.getElementById('faq-subtitle').value,
                     items: newFaqs
                 };
-
+            }
+            
+            function updateCtaData() {
                 pageData.cta = {
                     title: document.getElementById('cta-title').value,
                     subtitle: document.getElementById('cta-subtitle').value,
                     buttonText: document.getElementById('cta-button-text').value
                 };
+            }
 
+            function updateFooterData() {
                 pageData.footer = {
                     logo: document.getElementById('footer-logo').value,
                     description: document.getElementById('footer-description').value,
@@ -588,18 +607,17 @@
                 };
             }
 
-            const setupSaveHandlers = () => {
-                const allSaveButtons = document.querySelectorAll('.save-button');
-                allSaveButtons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        updatePageDataFromForms();
-                        saveData();
-                    });
-                });
-            };
+            // 2. Listeners específicos para cada botão de salvar
+            document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
+            document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
+            document.getElementById('save-about').addEventListener('click', () => { updateAboutData(); saveData(); });
+            document.getElementById('save-services').addEventListener('click', () => { updateServicesData(); saveData(); });
+            document.getElementById('save-testimonials').addEventListener('click', () => { updateTestimonialsData(); saveData(); });
+            document.getElementById('save-faq').addEventListener('click', () => { updateFaqData(); saveData(); });
+            document.getElementById('save-cta').addEventListener('click', () => { updateCtaData(); saveData(); });
+            document.getElementById('save-footer').addEventListener('click', () => { updateFooterData(); saveData(); });
 
-            setupSaveHandlers();
+            // --- FIM DA CORREÇÃO ---
             
             document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; renderLogo({ src: '', alt: '' }, pageData.socialProof.logos.length); });
             document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; renderService({ title: '', description: '', image: '', price: '' }, pageData.services.items.length); });
@@ -628,4 +646,3 @@
     </script>
 </body>
 </html>
-
