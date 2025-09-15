@@ -310,8 +310,10 @@
             }
             
             let cssString = `
-                /* Cor de Texto Geral */
-                body, .text-gray-600, .text-gray-800, .text-gray-900 { color: ${styles.textColor}; }
+                /* Cor de Texto Geral - CORREÇÃO */
+                h1, h2, h3, p, li, span, .text-gray-500, .text-gray-600, .text-gray-700, .text-gray-800, .text-gray-900 { 
+                    color: ${styles.textColor} !important; 
+                }
 
                 /* Cabeçalho */
                 header#home { background-color: ${styles.headerBgColor} !important; }
@@ -333,8 +335,8 @@
                 section#contato { background-color: ${styles.ctaBgColor} !important; }
                 section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
                 section#contato #cta-button {
-                    background-color: ${styles.primaryBtnTextColor} !important; /* Fundo do botão CTA usa cor de texto do primário */
-                    color: ${styles.primaryBtnBgColor} !important; /* Texto do botão CTA usa cor de fundo do primário */
+                    background-color: ${styles.primaryBtnTextColor} !important;
+                    color: ${styles.primaryBtnBgColor} !important;
                 }
 
                 /* Rodapé */
@@ -343,9 +345,10 @@
                 footer p, footer li, footer a, footer .text-gray-400, footer .text-gray-500 { color: ${styles.footerTextColor} !important; }
                 footer a:hover { color: ${styles.footerHeadingsColor} !important; }
 
-                /* Exceções para manter contraste */
-                #contact-modal h3, #contact-modal p, #contact-modal label { color: initial; }
-                #about-step1 .text-indigo-600, #about-step2 .text-indigo-600, #about-step3 .text-indigo-600 { color: #4f46e5 !important; }
+                /* Exceções para manter contraste e funcionalidade */
+                .service-card-overlay *, .service-card-overlay p { color: white !important; }
+                #contact-modal *, #contact-modal p { color: initial; }
+                .bg-indigo-100 { color: #4F46E5 !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
 
