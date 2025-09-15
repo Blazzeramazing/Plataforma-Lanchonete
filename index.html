@@ -310,12 +310,9 @@
             }
             
             let cssString = `
-                /* Cor de Texto Geral - CORREÇÃO */
-                body { 
-                    color: ${styles.textColor}; 
-                }
-                main h1, main h2, main h3, main p, main li, main span, main div:not([class*="bg-"]) { 
-                    color: ${styles.textColor} !important; 
+                /* Cor de Texto Geral - CORREÇÃO DEFINITIVA */
+                main .text-gray-900, main .text-gray-800, main .text-gray-700, main .text-gray-600, main .text-gray-500, main .text-sm, main p, main h1, main h2, main h3 {
+                    color: ${styles.textColor} !important;
                 }
 
                 /* Cabeçalho */
