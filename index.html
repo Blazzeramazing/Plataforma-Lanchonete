@@ -227,7 +227,6 @@
             <h3 class="text-2xl font-bold mb-2 text-gray-900">Fale Conosco</h3>
             <p class="text-gray-600 mb-6">Preencha seus dados para enviar uma mensagem via WhatsApp.</p>
             <div id="form-error" class="form-error-message"></div>
-            <!-- MUDANÇA: O formulário agora usa a validação padrão do navegador -->
             <form id="contact-form">
                 <div class="mb-4">
                     <label for="contact-name" class="block text-sm font-medium text-gray-700">Nome</label>
@@ -241,7 +240,6 @@
                     <label for="contact-phone" class="block text-sm font-medium text-gray-700">Telefone (com DDD)</label>
                     <input type="tel" id="contact-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ex: 32999998888">
                 </div>
-                <!-- MUDANÇA: O botão é do tipo 'submit' para acionar a validação -->
                 <button type="submit" id="submit-whatsapp-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">Enviar Mensagem no WhatsApp</button>
             </form>
         </div>
@@ -271,7 +269,14 @@
 
         const defaultData = {
             hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta2Text: '...', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
-            style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937' },
+            style: { 
+                backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937',
+                headerBgColor: '#FFFFFF', headerTextColor: '#4B5563',
+                primaryBtnBgColor: '#4F46E5', primaryBtnTextColor: '#FFFFFF',
+                secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937',
+                ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF',
+                footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF'
+            },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
             services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
@@ -284,11 +289,10 @@
         function renderContent(pageData) {
             pageDataStore = pageData || defaultData;
             const data = pageDataStore;
+            const styles = { ...defaultData.style, ...data.style };
 
             // --- Aplicação de Estilos Dinâmicos ---
-            const styles = data.style || defaultData.style;
             const dynamicStyleEl = document.getElementById('dynamic-styles');
-            const allSections = document.querySelectorAll('main > section');
 
             if (styles.backgroundImage) {
                 document.body.style.backgroundImage = `url('${styles.backgroundImage}')`;
@@ -299,16 +303,52 @@
             } else {
                 document.body.style.backgroundImage = 'none';
                 document.body.style.backgroundColor = styles.backgroundColor;
-                allSections.forEach(sec => {
-                    if (sec.id !== 'contato') { 
-                        sec.style.backgroundColor = 'transparent';
-                        sec.classList.remove('backdrop-blur-sm');
-                    }
+                document.querySelectorAll('main > section:not(#contato)').forEach(sec => {
+                    sec.style.backgroundColor = 'transparent';
+                    sec.classList.remove('backdrop-blur-sm');
                 });
             }
             
-            let cssString = `h1, h2, h3, p, #social-title { color: ${styles.textColor} !important; } header a, header button, #nav-logo, #mobile-menu a { color: initial; } .bg-indigo-600, .bg-green-500 { color: white !important; } .bg-gray-200 { color: #1f2937 !important; } #contato *, footer *, .service-card-overlay * { color: white !important; } #cta-button { color: #4f46e5 !important; } footer a, footer .text-gray-400, footer p, footer li { color: #9ca3af !important; } footer a:hover { color: white !important; } footer h3, footer h4 { color: white !important; } #sobre .bg-indigo-100 { color: #4f46e5 !important; } .service-card h3, .faq-toggle span, #testimonials-container .font-semibold { color: #1F2937 !important; } #testimonials-container p, .faq-content p, .service-card p { color: #4B5563 !important; } #testimonials-container .text-sm { color: #6B7280 !important; } #contact-modal h3 { color: #1F2937 !important; } #contact-modal p { color: #4B5563 !important; } #contact-modal label { color: #374151 !important; }`;
-            dynamicStyleEl.innerHTML = cssString;
+            let cssString = `
+                /* Cor de Texto Geral */
+                body, .text-gray-600, .text-gray-800, .text-gray-900 { color: ${styles.textColor}; }
+
+                /* Cabeçalho */
+                header#home { background-color: ${styles.headerBgColor} !important; }
+                header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
+
+                /* Botões Primários */
+                #hero-cta1-text, #nav-cta, #nav-cta-mobile, .service-card-overlay .open-modal-button {
+                    background-color: ${styles.primaryBtnBgColor} !important;
+                    color: ${styles.primaryBtnTextColor} !important;
+                }
+
+                /* Botão Secundário */
+                #hero-cta2-text {
+                    background-color: ${styles.secondaryBtnBgColor} !important;
+                    color: ${styles.secondaryBtnTextColor} !important;
+                }
+
+                /* Seção CTA */
+                section#contato { background-color: ${styles.ctaBgColor} !important; }
+                section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
+                section#contato #cta-button {
+                    background-color: ${styles.primaryBtnTextColor} !important; /* Fundo do botão CTA usa cor de texto do primário */
+                    color: ${styles.primaryBtnBgColor} !important; /* Texto do botão CTA usa cor de fundo do primário */
+                }
+
+                /* Rodapé */
+                footer { background-color: ${styles.footerBgColor} !important; }
+                footer h3, footer h4 { color: ${styles.footerHeadingsColor} !important; }
+                footer p, footer li, footer a, footer .text-gray-400, footer .text-gray-500 { color: ${styles.footerTextColor} !important; }
+                footer a:hover { color: ${styles.footerHeadingsColor} !important; }
+
+                /* Exceções para manter contraste */
+                #contact-modal h3, #contact-modal p, #contact-modal label { color: initial; }
+                #about-step1 .text-indigo-600, #about-step2 .text-indigo-600, #about-step3 .text-indigo-600 { color: #4f46e5 !important; }
+            `;
+            dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
+
 
             // Meta tags
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
@@ -449,7 +489,7 @@
                 prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
             }
 
-            // --- LÓGICA DO MODAL DE CONTATO REFEITA DO ZERO ---
+            // --- Lógica do Modal de Contato ---
             const modal = document.getElementById('contact-modal');
             const closeModalButton = document.getElementById('close-modal-button');
             const contactForm = document.getElementById('contact-form');
@@ -480,12 +520,8 @@
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             
-            // MUDANÇA: Lógica de submissão do formulário
             contactForm.addEventListener('submit', (event) => {
-                // Previne o comportamento padrão de recarregar a página
                 event.preventDefault();
-                
-                // Se o código chegou aqui, o formulário está preenchido e é válido.
                 const name = document.getElementById('contact-name').value;
                 const email = document.getElementById('contact-email').value;
                 const phone = document.getElementById('contact-phone').value;
@@ -503,7 +539,6 @@
 
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
                 
-                // Redireciona a página atual para o WhatsApp.
                 window.location.href = whatsappUrl;
             });
         });
