@@ -311,7 +311,10 @@
             
             let cssString = `
                 /* Cor de Texto Geral - CORREÇÃO */
-                h1, h2, h3, p, li, span, .text-gray-500, .text-gray-600, .text-gray-700, .text-gray-800, .text-gray-900 { 
+                body { 
+                    color: ${styles.textColor}; 
+                }
+                main h1, main h2, main h3, main p, main li, main span, main div:not([class*="bg-"]) { 
                     color: ${styles.textColor} !important; 
                 }
 
