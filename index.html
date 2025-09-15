@@ -181,7 +181,7 @@
             <div class="container mx-auto px-6 py-20 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold" id="cta-title"></h2>
                 <p class="mt-4 text-lg text-indigo-200 max-w-2xl mx-auto" id="cta-subtitle"></p>
-                <button class="mt-8 inline-block bg-white text-indigo-700 font-bold px-10 py-4 rounded-lg hover:bg-indigo-50 transition-colors duration-300 text-lg open-modal-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></button>
+                <a href="#" class="mt-8 inline-block bg-white text-indigo-700 font-bold px-10 py-4 rounded-lg hover:bg-indigo-50 transition-colors duration-300 text-lg open-modal-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
             </div>
         </section>
     </main>
@@ -261,7 +261,7 @@
         let currentServiceTitle = '';
 
         const defaultData = {
-            hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta2Text: '...', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
+            hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
             style: { 
                 backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937',
                 headerBgColor: '#FFFFFF', headerTextColor: '#4B5563',
@@ -275,7 +275,7 @@
             services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], showButton: true },
             testimonials: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
             faq: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
-            cta: { title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...' },
+            cta: { title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...', buttonLink: '' },
             footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
@@ -308,7 +308,7 @@
                 header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
 
                 /* Botões Primários */
-                #hero-cta1-text, #nav-cta, #nav-cta-mobile, .service-card-overlay .open-modal-button {
+                #hero-cta1-text, #nav-cta, #nav-cta-mobile, .service-card-overlay .open-modal-button, .service-card-overlay a {
                     background-color: ${styles.primaryBtnBgColor} !important;
                     color: ${styles.primaryBtnTextColor} !important;
                 }
@@ -340,7 +340,6 @@
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
             
-            // Aplicar cor do texto via Javascript inline para máxima prioridade
             document.querySelectorAll('main *:not(a[class*="bg-"], button[class*="bg-"])').forEach(el => {
                 if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay')) {
                      el.style.color = styles.textColor;
@@ -356,10 +355,14 @@
             }
 
             // Seção Hero
+            const heroCta1 = document.getElementById('hero-cta1-text');
+            const heroCta2 = document.getElementById('hero-cta2-text');
             document.getElementById('hero-title').textContent = data.hero?.title || '';
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
-            document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
-            document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
+            heroCta1.textContent = data.hero?.cta1Text || '';
+            heroCta1.href = data.hero?.cta1Link || '#servicos';
+            heroCta2.textContent = data.hero?.cta2Text || '';
+            heroCta2.href = data.hero?.cta2Link || '#contato';
             document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
             document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
             
@@ -391,13 +394,18 @@
             track.innerHTML = '';
             const servicesData = data.services || {};
             const servicesItems = servicesData.items || [];
-            const showServiceButton = servicesData.showButton === true; // Garante que é um booleano
+            const showServiceButton = servicesData.showButton === true;
 
             if(servicesItems.length > 0) {
                 servicesItems.forEach(item => {
-                    const buttonHtml = showServiceButton
-                        ? `<button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button>`
-                        : '';
+                    let buttonHtml = '';
+                    if (showServiceButton) {
+                        if (item.link) {
+                            buttonHtml = `<a href="${item.link}" target="_blank" class="bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Tenho Interesse!</a>`;
+                        } else {
+                            buttonHtml = `<button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button>`;
+                        }
+                    }
 
                     track.innerHTML += `
                         <div class="service-card rounded-lg shadow-lg bg-white">
@@ -433,9 +441,19 @@
             });
 
             // Seção CTA
+            const ctaButton = document.getElementById('cta-button');
+            ctaButton.textContent = data.cta?.buttonText || '';
+            if (data.cta?.buttonLink) {
+                ctaButton.href = data.cta.buttonLink;
+                ctaButton.classList.remove('open-modal-button');
+                ctaButton.removeAttribute('data-service-title');
+            } else {
+                ctaButton.href = '#';
+                ctaButton.classList.add('open-modal-button');
+                ctaButton.setAttribute('data-service-title', 'Gostaria de solicitar um orçamento.');
+            }
             document.getElementById('cta-title').textContent = data.cta?.title || '';
             document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
-            document.getElementById('cta-button').textContent = data.cta?.buttonText || '';
             
             // Seção Rodapé
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
@@ -525,8 +543,10 @@
             };
 
             document.body.addEventListener('click', (e) => {
-                if (e.target.matches('.open-modal-button')) {
-                    const serviceTitle = e.target.dataset.serviceTitle;
+                const button = e.target.closest('.open-modal-button');
+                if (button) {
+                    e.preventDefault();
+                    const serviceTitle = button.dataset.serviceTitle;
                     openModal(serviceTitle);
                 }
             });
