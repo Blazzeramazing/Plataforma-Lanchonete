@@ -311,7 +311,7 @@
             
             let cssString = `
                 /* Cor de Texto Geral - CORREÇÃO DEFINITIVA */
-                main .text-gray-900, main .text-gray-800, main .text-gray-700, main .text-gray-600, main .text-gray-500, main .text-sm, main p, main h1, main h2, main h3 {
+                main .text-gray-900, main .text-gray-800, main .text-gray-700, main .text-gray-600, main .text-gray-500, main .text-sm, main p, main h1, main h2, main h3, main li, main span, main div {
                     color: ${styles.textColor} !important;
                 }
 
@@ -333,7 +333,7 @@
 
                 /* Seção CTA */
                 section#contato { background-color: ${styles.ctaBgColor} !important; }
-                section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
+                section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
                 section#contato #cta-button {
                     background-color: ${styles.primaryBtnTextColor} !important;
                     color: ${styles.primaryBtnBgColor} !important;
@@ -347,8 +347,8 @@
 
                 /* Exceções para manter contraste e funcionalidade */
                 .service-card-overlay *, .service-card-overlay p { color: white !important; }
-                #contact-modal *, #contact-modal p { color: initial; }
-                .bg-indigo-100 { color: #4F46E5 !important; }
+                #contact-modal *, #contact-modal p { color: initial !important; }
+                .bg-indigo-100, .bg-indigo-100 svg { color: #4F46E5 !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
 
