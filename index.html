@@ -245,23 +245,16 @@
         </div>
     </div>
 
+    <!-- Configuração do Firebase -->
+    <script src="./firebase-config.js"></script>
 
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Configuração do Firebase ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
-            authDomain: "minhas-credenciais-firebase.firebaseapp.com",
-            projectId: "minhas-credenciais-firebase",
-            storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
-            messagingSenderId: "90146495031",
-            appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
-        };
-
-        const app = initializeApp(firebaseConfig);
+        // Inicializa o Firebase com a configuração do arquivo externo
+        const app = initializeApp(window.firebaseConfig);
         const db = getFirestore(app);
         
         let pageDataStore = null;
