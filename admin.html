@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Gestão - Landing Page</title>
+    <!-- Favicon dinâmico para o painel de gestão -->
+    <link id="admin-favicon" rel="icon" type="image/x-icon" href="https://placehold.co/32x32/1e293b/94a3b8?text=P">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -457,7 +459,10 @@
                         </div>
                         <div>
                             <label for="footer-favicon" class="block text-sm font-medium text-slate-400">URL do Favicon</label>
-                            <input type="text" id="footer-favicon" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico">
+                            <div class="flex items-center space-x-4 mt-1">
+                                <input type="text" id="footer-favicon" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico">
+                                <img id="favicon-preview" src="https://placehold.co/32x32/1e293b/94a3b8?text=Favicon" alt="Pré-visualização do Favicon" class="w-8 h-8 rounded-md bg-slate-700 flex-shrink-0">
+                            </div>
                         </div>
                         <div>
                             <label for="footer-copyright" class="block text-sm font-medium text-slate-400">Texto de Copyright</label>
@@ -629,7 +634,13 @@
                 document.getElementById('footer-contact-email').value = pageData.footer.email;
                 document.getElementById('footer-contact-phone').value = pageData.footer.phone;
                 document.getElementById('footer-contact-address').value = pageData.footer.address;
-                document.getElementById('footer-favicon').value = pageData.footer.favicon;
+                const faviconUrl = pageData.footer.favicon || '';
+                document.getElementById('footer-favicon').value = faviconUrl;
+                const faviconPreview = document.getElementById('favicon-preview');
+                faviconPreview.src = faviconUrl || 'https://placehold.co/32x32/1e293b/94a3b8?text=Favicon';
+                faviconPreview.onerror = () => { faviconPreview.src = 'https://placehold.co/32x32/1e293b/94a3b8?text=Error'; };
+                // MUDANÇA AQUI: Atualiza o favicon do próprio painel
+                document.getElementById('admin-favicon').href = faviconUrl || 'https://placehold.co/32x32/1e293b/94a3b8?text=P';
                 document.getElementById('footer-copyright').value = pageData.footer.copyright;
             };
             
@@ -784,6 +795,13 @@
                     }
                 });
                 
+                document.getElementById('footer-favicon').addEventListener('input', (e) => {
+                    const preview = document.getElementById('favicon-preview');
+                    const newSrc = e.target.value;
+                    preview.src = newSrc || 'https://placehold.co/32x32/1e293b/94a3b8?text=Favicon';
+                     preview.onerror = () => { preview.src = 'https://placehold.co/32x32/1e293b/94a3b8?text=Error'; };
+                });
+
                 loadData();
             };
 
