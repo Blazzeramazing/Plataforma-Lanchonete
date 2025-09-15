@@ -4,34 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel de Gestão - Landing Page</title>
+    <!-- Favicon dinâmico para o painel de gestão -->
+    <link id="admin-favicon" rel="icon" type="image/x-icon" href="https://placehold.co/32x32/1e293b/94a3b8?text=P">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .sidebar-link.active { background-color: #4f46e5; color: white; }
+        .sidebar-link.active { background-color: #4f46e5; color: white; box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.5); }
         .content-section { display: none; }
         .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         aside { transition: transform 0.3s ease-in-out; }
-        input[type="color"] { min-height: 42px; padding: 4px; }
-        .save-button, .add-button, .remove-button, .sidebar-link { transition: all 0.2s ease-in-out; }
+        
+        /* Efeito Aurora */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #111827;
+            overflow: hidden;
+        }
+        .aurora-bg::before, .aurora-bg::after {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(100px);
+            mix-blend-mode: screen;
+            animation: aurora-move 20s infinite linear;
+        }
+        .aurora-bg::before {
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.4) 0%, rgba(79, 70, 229, 0) 60%);
+            top: -20%;
+            left: -20%;
+        }
+        .aurora-bg::after {
+            background: radial-gradient(circle, rgba(30, 64, 175, 0.4) 0%, rgba(30, 64, 175, 0) 60%);
+            bottom: -20%;
+            right: -20%;
+            animation-delay: -10s;
+        }
+        @keyframes aurora-move {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(100px) translateY(50px); }
+            50% { transform: translateX(0) translateY(100px); }
+            75% { transform: translateX(-100px) translateY(50px); }
+        }
+
+        /* Melhorias nos inputs */
+        .form-input {
+            background-color: rgba(30, 41, 59, 0.7);
+            border: 1px solid #334155;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            background-color: rgba(30, 41, 59, 1);
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
+            outline: none;
+        }
+
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
+<body class="bg-slate-900 text-slate-300">
+
+    <div class="aurora-bg"></div>
 
     <!-- Camada de Autenticação -->
-    <div id="auth-layer" class="fixed inset-0 bg-slate-100 z-50 flex items-center justify-center p-4">
-        <div id="auth-message" class="text-center p-8 bg-white rounded-lg shadow-xl max-w-sm w-full">
-            <h2 class="text-xl font-bold mb-4 text-slate-800">A verificar autenticação...</h2>
-            <p class="text-slate-600">Por favor, aguarde.</p>
+    <div id="auth-layer" class="fixed inset-0 bg-slate-900 z-50 flex items-center justify-center p-4">
+        <div id="auth-message" class="text-center p-8 bg-slate-800/80 backdrop-blur-sm border border-slate-700 rounded-lg shadow-2xl max-w-sm w-full">
+            <h2 class="text-xl font-bold mb-4 text-white">A verificar autenticação...</h2>
+            <p class="text-slate-400">Por favor, aguarde.</p>
         </div>
     </div>
 
     <div id="main-content" class="hidden relative min-h-screen lg:flex">
         <!-- Barra Lateral de Navegação -->
-        <aside id="sidebar" class="w-64 bg-slate-800 text-slate-200 flex-col fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0 flex shadow-lg">
+        <aside id="sidebar" class="w-64 bg-slate-800/80 backdrop-blur-sm border-r border-slate-700 text-slate-200 flex-col fixed inset-y-0 left-0 z-40 transform -translate-x-full lg:relative lg:translate-x-0 flex shadow-lg">
             <div class="px-6 py-4 border-b border-slate-700">
                 <h1 class="text-2xl font-bold text-white">Painel de Gestão</h1>
                 <p id="user-email" class="text-sm text-slate-400 truncate">Landing Page</p>
@@ -87,7 +142,7 @@
 
         <div class="flex-1 flex flex-col">
             <!-- Header Mobile -->
-            <header class="lg:hidden bg-slate-800 text-white p-4 flex justify-between items-center sticky top-0 z-20 shadow-md">
+            <header class="lg:hidden bg-slate-800/80 backdrop-blur-sm border-b border-slate-700 text-white p-4 flex justify-between items-center sticky top-0 z-20 shadow-md">
                 <h1 class="text-xl font-bold">Painel</h1>
                 <button id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
@@ -99,27 +154,27 @@
                 
                 <!-- Seção Hero -->
                 <div id="section-hero" class="content-section active">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Seção Inicial (Hero)</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Seção Inicial (Hero)</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="hero-title" class="block text-sm font-medium text-slate-700">Título Principal</label>
-                            <textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            <label for="hero-title" class="block text-sm font-medium text-slate-400">Título Principal</label>
+                            <textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div>
-                            <label for="hero-subtitle" class="block text-sm font-medium text-slate-700">Subtítulo</label>
-                            <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            <label for="hero-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label>
+                            <textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                          <div>
-                            <label for="hero-cta1-text" class="block text-sm font-medium text-slate-700">Texto do Botão 1 (Primário)</label>
-                            <input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="hero-cta1-text" class="block text-sm font-medium text-slate-400">Texto do Botão 1 (Primário)</label>
+                            <input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                          <div>
-                            <label for="hero-cta2-text" class="block text-sm font-medium text-slate-700">Texto do Botão 2 (Secundário)</label>
-                            <input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="hero-cta2-text" class="block text-sm font-medium text-slate-400">Texto do Botão 2 (Secundário)</label>
+                            <input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="hero-image" class="block text-sm font-medium text-slate-700">URL da Imagem</label>
-                            <input type="text" id="hero-image" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/imagem.png">
+                            <label for="hero-image" class="block text-sm font-medium text-slate-400">URL da Imagem</label>
+                            <input type="text" id="hero-image" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/imagem.png">
                         </div>
                         <button id="save-hero" class="save-button">Salvar Alterações</button>
                     </div>
@@ -127,98 +182,98 @@
 
                 <!-- Seção de Estilo -->
                 <div id="section-style" class="content-section">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Customização Visual</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Customização Visual</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <!-- Estilos Gerais -->
                         <div>
-                            <h3 class="text-lg font-medium text-slate-800 mb-4 border-b pb-2">Estilos Gerais</h3>
+                            <h3 class="text-lg font-medium text-white mb-4 border-b border-slate-700 pb-2">Estilos Gerais</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="style-bg-color" class="block text-sm font-medium text-slate-700">Cor de Fundo da Página</label>
-                                    <input type="color" id="style-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-bg-color" class="block text-sm font-medium text-slate-400">Cor de Fundo da Página</label>
+                                    <input type="color" id="style-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-text-color" class="block text-sm font-medium text-slate-700">Cor Principal do Texto</label>
-                                    <input type="color" id="style-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-text-color" class="block text-sm font-medium text-slate-400">Cor Principal do Texto</label>
+                                    <input type="color" id="style-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div class="sm:col-span-2">
-                                    <label for="style-bg-image" class="block text-sm font-medium text-slate-700">URL da Imagem de Fundo (Opcional)</label>
-                                    <input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="https://exemplo.com/fundo.jpg">
+                                    <label for="style-bg-image" class="block text-sm font-medium text-slate-400">URL da Imagem de Fundo (Opcional)</label>
+                                    <input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/fundo.jpg">
                                     <p class="mt-2 text-sm text-slate-500">Deixe em branco para usar a cor de fundo sólida. A imagem tem prioridade.</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Cores do Cabeçalho -->
-                        <div class="border-t pt-6 mt-6">
-                            <h3 class="text-lg font-medium text-slate-800 mb-4 border-b pb-2">Cabeçalho e Navegação</h3>
+                        <div class="border-t border-slate-700 pt-6 mt-6">
+                            <h3 class="text-lg font-medium text-white mb-4 border-b border-slate-700 pb-2">Cabeçalho e Navegação</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="style-header-bg-color" class="block text-sm font-medium text-slate-700">Cor do Fundo</label>
-                                    <input type="color" id="style-header-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-header-bg-color" class="block text-sm font-medium text-slate-400">Cor do Fundo</label>
+                                    <input type="color" id="style-header-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-header-text-color" class="block text-sm font-medium text-slate-700">Cor dos Links</label>
-                                    <input type="color" id="style-header-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-header-text-color" class="block text-sm font-medium text-slate-400">Cor dos Links</label>
+                                    <input type="color" id="style-header-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Cores dos Botões -->
-                        <div class="border-t pt-6 mt-6">
-                            <h3 class="text-lg font-medium text-slate-800 mb-4 border-b pb-2">Botões</h3>
+                        <div class="border-t border-slate-700 pt-6 mt-6">
+                            <h3 class="text-lg font-medium text-white mb-4 border-b border-slate-700 pb-2">Botões</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                                <label class="block text-sm font-medium text-slate-700 sm:col-span-2">Botão Primário</label>
+                                <label class="block text-sm font-medium text-white sm:col-span-2">Botão Primário</label>
                                 <div>
-                                    <label for="style-primary-btn-bg-color" class="block text-xs font-medium text-slate-500">Cor do Fundo</label>
-                                    <input type="color" id="style-primary-btn-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-primary-btn-bg-color" class="block text-xs font-medium text-slate-400">Cor do Fundo</label>
+                                    <input type="color" id="style-primary-btn-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-primary-btn-text-color" class="block text-xs font-medium text-slate-500">Cor do Texto</label>
-                                    <input type="color" id="style-primary-btn-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-primary-btn-text-color" class="block text-xs font-medium text-slate-400">Cor do Texto</label>
+                                    <input type="color" id="style-primary-btn-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
-                                <label class="block text-sm font-medium text-slate-700 sm:col-span-2 mt-4">Botão Secundário</label>
+                                <label class="block text-sm font-medium text-white sm:col-span-2 mt-4">Botão Secundário</label>
                                 <div>
-                                    <label for="style-secondary-btn-bg-color" class="block text-xs font-medium text-slate-500">Cor do Fundo</label>
-                                    <input type="color" id="style-secondary-btn-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-secondary-btn-bg-color" class="block text-xs font-medium text-slate-400">Cor do Fundo</label>
+                                    <input type="color" id="style-secondary-btn-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-secondary-btn-text-color" class="block text-xs font-medium text-slate-500">Cor do Texto</label>
-                                    <input type="color" id="style-secondary-btn-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-secondary-btn-text-color" class="block text-xs font-medium text-slate-400">Cor do Texto</label>
+                                    <input type="color" id="style-secondary-btn-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Cores da Chamada Final (CTA) -->
-                        <div class="border-t pt-6 mt-6">
-                            <h3 class="text-lg font-medium text-slate-800 mb-4 border-b pb-2">Chamada Final (CTA)</h3>
+                        <div class="border-t border-slate-700 pt-6 mt-6">
+                            <h3 class="text-lg font-medium text-white mb-4 border-b border-slate-700 pb-2">Chamada Final (CTA)</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="style-cta-bg-color" class="block text-sm font-medium text-slate-700">Cor do Fundo</label>
-                                    <input type="color" id="style-cta-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-cta-bg-color" class="block text-sm font-medium text-slate-400">Cor do Fundo</label>
+                                    <input type="color" id="style-cta-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-cta-text-color" class="block text-sm font-medium text-slate-700">Cor do Texto</label>
-                                    <input type="color" id="style-cta-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-cta-text-color" class="block text-sm font-medium text-slate-400">Cor do Texto</label>
+                                    <input type="color" id="style-cta-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                             </div>
                         </div>
 
                         <!-- Cores do Rodapé -->
-                        <div class="border-t pt-6 mt-6">
-                            <h3 class="text-lg font-medium text-slate-800 mb-4 border-b pb-2">Rodapé</h3>
+                        <div class="border-t border-slate-700 pt-6 mt-6">
+                            <h3 class="text-lg font-medium text-white mb-4 border-b border-slate-700 pb-2">Rodapé</h3>
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                                 <div>
-                                    <label for="style-footer-bg-color" class="block text-sm font-medium text-slate-700">Cor do Fundo</label>
-                                    <input type="color" id="style-footer-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-footer-bg-color" class="block text-sm font-medium text-slate-400">Cor do Fundo</label>
+                                    <input type="color" id="style-footer-bg-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-footer-headings-color" class="block text-sm font-medium text-slate-700">Cor dos Títulos</label>
-                                    <input type="color" id="style-footer-headings-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-footer-headings-color" class="block text-sm font-medium text-slate-400">Cor dos Títulos</label>
+                                    <input type="color" id="style-footer-headings-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                                 <div>
-                                    <label for="style-footer-text-color" class="block text-sm font-medium text-slate-700">Cor do Texto e Links</label>
-                                    <input type="color" id="style-footer-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-300 shadow-sm">
+                                    <label for="style-footer-text-color" class="block text-sm font-medium text-slate-400">Cor do Texto e Links</label>
+                                    <input type="color" id="style-footer-text-color" class="mt-1 h-10 block w-full rounded-md border-slate-600 shadow-sm">
                                 </div>
                             </div>
                         </div>
@@ -230,58 +285,58 @@
 
                 <!-- Seção Prova Social -->
                 <div id="section-social-proof" class="content-section">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Seção de Prova Social</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Seção de Prova Social</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="social-title" class="block text-sm font-medium text-slate-700">Título da Seção</label>
-                            <input type="text" id="social-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="social-title" class="block text-sm font-medium text-slate-400">Título da Seção</label>
+                            <input type="text" id="social-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div id="social-logos-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2">Logos das Empresas</h3>
+                            <h3 class="text-lg font-semibold text-white mb-2">Logos das Empresas</h3>
                             <!-- Logos serão adicionados aqui via JS -->
                         </div>
                         <button id="add-social-logo" class="add-button">Adicionar Logo</button>
-                        <hr>
+                        <hr class="border-slate-700">
                         <button id="save-social-proof" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
 
                 <!-- Seção Sobre -->
                 <div id="section-about" class="content-section">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Seção Sobre</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Seção Sobre</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                          <div>
-                            <label for="about-title" class="block text-sm font-medium text-slate-700">Título</label>
-                            <input type="text" id="about-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <label for="about-title" class="block text-sm font-medium text-slate-400">Título</label>
+                            <input type="text" id="about-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="about-subtitle" class="block text-sm font-medium text-slate-700">Subtítulo</label>
-                            <textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            <label for="about-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label>
+                            <textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Passo 1 -->
-                            <div class="border p-4 rounded-md">
-                                 <h4 class="font-bold mb-2">Passo 1</h4>
-                                 <label for="about-step1-title" class="block text-sm font-medium text-slate-700">Título do Passo 1</label>
-                                 <input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
-                                 <label for="about-step1-desc" class="block text-sm font-medium text-slate-700 mt-2">Descrição</label>
-                                 <textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40">
+                                 <h4 class="font-bold mb-2 text-white">Passo 1</h4>
+                                 <label for="about-step1-title" class="block text-sm font-medium text-slate-400">Título do Passo 1</label>
+                                 <input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
+                                 <label for="about-step1-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label>
+                                 <textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                             </div>
                             <!-- Passo 2 -->
-                            <div class="border p-4 rounded-md">
-                                 <h4 class="font-bold mb-2">Passo 2</h4>
-                                 <label for="about-step2-title" class="block text-sm font-medium text-slate-700">Título do Passo 2</label>
-                                 <input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
-                                 <label for="about-step2-desc" class="block text-sm font-medium text-slate-700 mt-2">Descrição</label>
-                                 <textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40">
+                                 <h4 class="font-bold mb-2 text-white">Passo 2</h4>
+                                 <label for="about-step2-title" class="block text-sm font-medium text-slate-400">Título do Passo 2</label>
+                                 <input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
+                                 <label for="about-step2-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label>
+                                 <textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                             </div>
                             <!-- Passo 3 -->
-                            <div class="border p-4 rounded-md">
-                                 <h4 class="font-bold mb-2">Passo 3</h4>
-                                 <label for="about-step3-title" class="block text-sm font-medium text-slate-700">Título do Passo 3</label>
-                                 <input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
-                                 <label for="about-step3-desc" class="block text-sm font-medium text-slate-700 mt-2">Descrição</label>
-                                 <textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40">
+                                 <h4 class="font-bold mb-2 text-white">Passo 3</h4>
+                                 <label for="about-step3-title" class="block text-sm font-medium text-slate-400">Título do Passo 3</label>
+                                 <input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
+                                 <label for="about-step3-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label>
+                                 <textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                             </div>
                         </div>
                         <button id="save-about" class="save-button">Salvar Alterações</button>
@@ -290,85 +345,85 @@
 
                 <!-- Seção Serviços -->
                 <div id="section-services" class="content-section">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Seção de Serviços/Produtos</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Seção de Serviços/Produtos</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="services-title" class="block text-sm font-medium text-slate-700">Título da Seção</label>
-                            <input type="text" id="services-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="services-title" class="block text-sm font-medium text-slate-400">Título da Seção</label>
+                            <input type="text" id="services-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="services-subtitle" class="block text-sm font-medium text-slate-700">Subtítulo da Seção</label>
-                            <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <label for="services-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label>
+                            <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div id="services-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2">Itens de Serviço/Produto</h3>
+                            <h3 class="text-lg font-semibold text-white mb-2">Itens de Serviço/Produto</h3>
                              <!-- Serviços serão adicionados aqui via JS -->
                         </div>
                         <button id="add-service" class="add-button">Adicionar Item</button>
-                        <hr>
+                        <hr class="border-slate-700">
                         <button id="save-services" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
 
                 <!-- Seção Depoimentos -->
                 <div id="section-testimonials" class="content-section">
-                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Seção de Depoimentos</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Seção de Depoimentos</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="testimonials-title" class="block text-sm font-medium text-slate-700">Título da Seção</label>
-                            <input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="testimonials-title" class="block text-sm font-medium text-slate-400">Título da Seção</label>
+                            <input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="testimonials-subtitle" class="block text-sm font-medium text-slate-700">Subtítulo da Seção</label>
-                            <textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <label for="testimonials-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label>
+                            <textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div id="testimonials-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2">Depoimentos</h3>
+                            <h3 class="text-lg font-semibold text-white mb-2">Depoimentos</h3>
                               <!-- Depoimentos serão adicionados aqui via JS -->
                         </div>
                         <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
-                        <hr>
+                        <hr class="border-slate-700">
                         <button id="save-testimonials" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
 
                 <!-- Seção FAQ -->
                 <div id="section-faq" class="content-section">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Seção de FAQ</h2>
-                     <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Seção de FAQ</h2>
+                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="faq-title" class="block text-sm font-medium text-slate-700">Título da Seção</label>
-                            <input type="text" id="faq-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="faq-title" class="block text-sm font-medium text-slate-400">Título da Seção</label>
+                            <input type="text" id="faq-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="faq-subtitle" class="block text-sm font-medium text-slate-700">Subtítulo da Seção</label>
-                            <textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <label for="faq-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label>
+                            <textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div id="faq-container">
-                            <h3 class="text-lg font-semibold text-slate-800 mb-2">Perguntas e Respostas</h3>
+                            <h3 class="text-lg font-semibold text-white mb-2">Perguntas e Respostas</h3>
                               <!-- FAQs serão adicionados aqui via JS -->
                         </div>
                         <button id="add-faq" class="add-button">Adicionar Pergunta</button>
-                        <hr>
+                        <hr class="border-slate-700">
                         <button id="save-faq" class="save-button">Salvar Alterações</button>
                     </div>
                 </div>
                 
                 <!-- Seção CTA -->
                 <div id="section-cta" class="content-section">
-                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Chamada Final (CTA)</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                    <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Chamada Final (CTA)</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="cta-title" class="block text-sm font-medium text-slate-700">Título</label>
-                            <input type="text" id="cta-title" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="cta-title" class="block text-sm font-medium text-slate-400">Título</label>
+                            <input type="text" id="cta-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="cta-subtitle" class="block text-sm font-medium text-slate-700">Subtítulo</label>
-                            <textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <label for="cta-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label>
+                            <textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div>
-                            <label for="cta-button-text" class="block text-sm font-medium text-slate-700">Texto do Botão</label>
-                            <input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="cta-button-text" class="block text-sm font-medium text-slate-400">Texto do Botão</label>
+                            <input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <button id="save-cta" class="save-button">Salvar Alterações</button>
                     </div>
@@ -376,39 +431,42 @@
 
                 <!-- Seção Rodapé -->
                 <div id="section-footer" class="content-section">
-                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-slate-800">Editar Rodapé</h2>
-                    <div class="bg-white p-6 lg:p-8 rounded-lg shadow-xl space-y-6">
+                     <h2 class="text-2xl lg:text-3xl font-bold mb-6 text-white">Editar Rodapé</h2>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-lg shadow-2xl space-y-6">
                         <div>
-                            <label for="footer-logo" class="block text-sm font-medium text-slate-700">Texto da Logo</label>
-                            <input type="text" id="footer-logo" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="footer-logo" class="block text-sm font-medium text-slate-400">Texto da Logo</label>
+                            <input type="text" id="footer-logo" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                          <div>
-                            <label for="footer-description" class="block text-sm font-medium text-slate-700">Descrição Curta</label>
-                            <textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm"></textarea>
+                            <label for="footer-description" class="block text-sm font-medium text-slate-400">Descrição Curta</label>
+                            <textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
                         <div>
-                            <label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-700">Nº de WhatsApp (com código do país, ex: 55329...)</label>
-                            <input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-400">Nº de WhatsApp (com código do país, ex: 55329...)</label>
+                            <input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="footer-contact-email" class="block text-sm font-medium text-slate-700">Email de Contato</label>
-                            <input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="footer-contact-email" class="block text-sm font-medium text-slate-400">Email de Contato</label>
+                            <input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="footer-contact-phone" class="block text-sm font-medium text-slate-700">Telefone de Contato</label>
-                            <input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="footer-contact-phone" class="block text-sm font-medium text-slate-400">Telefone de Contato</label>
+                            <input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                          <div>
-                            <label for="footer-contact-address" class="block text-sm font-medium text-slate-700">Endereço</label>
-                            <input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="footer-contact-address" class="block text-sm font-medium text-slate-400">Endereço</label>
+                            <input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <div>
-                            <label for="footer-favicon" class="block text-sm font-medium text-slate-700">URL do Favicon</label>
-                            <input type="text" id="footer-favicon" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm" placeholder="https://exemplo.com/favicon.ico">
+                            <label for="footer-favicon" class="block text-sm font-medium text-slate-400">URL do Favicon</label>
+                            <div class="flex items-center space-x-4 mt-1">
+                                <input type="text" id="footer-favicon" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico">
+                                <img id="favicon-preview" src="https://placehold.co/32x32/1e293b/94a3b8?text=Favicon" alt="Pré-visualização do Favicon" class="w-8 h-8 rounded-md bg-slate-700 flex-shrink-0">
+                            </div>
                         </div>
                         <div>
-                            <label for="footer-copyright" class="block text-sm font-medium text-slate-700">Texto de Copyright</label>
-                            <input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm">
+                            <label for="footer-copyright" class="block text-sm font-medium text-slate-400">Texto de Copyright</label>
+                            <input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200">
                         </div>
                         <button id="save-footer" class="save-button">Salvar Alterações</button>
                     </div>
@@ -419,29 +477,22 @@
     </div>
 
     <!-- Toast de Notificação -->
-    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-5 rounded-lg shadow-xl transition-all duration-300 opacity-0 transform translate-y-4 flex items-center">
+    <div id="toast" class="fixed bottom-5 right-5 bg-green-500 text-white py-3 px-5 rounded-lg shadow-2xl transition-all duration-300 opacity-0 transform translate-y-4 flex items-center border border-green-400">
         <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <span id="toast-message">Alterações salvas com sucesso!</span>
     </div>
     
+    <!-- Configuração do Firebase -->
+    <script src="./firebase-config.js"></script>
+
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Configuração do Firebase ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyC7J_J7JCagM65E5qkl1z-Kn2V360ldmdg",
-            authDomain: "minhas-credenciais-firebase.firebaseapp.com",
-            projectId: "minhas-credenciais-firebase",
-            storageBucket: "minhas-credenciais-firebase.firebasestorage.app",
-            messagingSenderId: "90146495031",
-            appId: "1:90146495031:web:04bdab47de65f7444cbdb2"
-        };
-        
-        // Inicializa o Firebase
-        const app = initializeApp(firebaseConfig);
+        // Inicializa o Firebase com a configuração do arquivo externo
+        const app = initializeApp(window.firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
         const contentDocRef = doc(db, "landingPage", "content");
@@ -462,7 +513,7 @@
             const overlay = document.getElementById('sidebar-overlay');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
 
-            const globalStyles = `.save-button { background-color: #4f46e5; color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; width: 100%; text-align: center; } .save-button:hover { background-color: #4338ca; } .save-button:disabled { background-color: #a5b4fc; cursor: not-allowed; } .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; } .add-button:hover { background-color: #059669; } .remove-button { background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem; } .remove-button:hover { background-color: #dc2626; } .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; white-space: nowrap; } .sidebar-link:hover { background-color: #374151; } .sidebar-link.active { background-color: #4f46e5; color: white; }`;
+            const globalStyles = `.save-button { background-image: linear-gradient(to right, #4f46e5, #6366f1); color: white; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; width: 100%; text-align: center; box-shadow: 0 4px 15px 0 rgba(79, 70, 229, 0.75); } .save-button:hover { background-position: 100% 0; } .save-button:disabled { background-image: none; background-color: #a5b4fc; cursor: not-allowed; box-shadow: none; } .add-button { background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem; } .add-button:hover { background-color: #059669; } .remove-button { background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem; } .remove-button:hover { background-color: #dc2626; } .sidebar-link { display: flex; align-items: center; padding: 0.75rem 1rem; border-radius: 0.5rem; white-space: nowrap; transform: scale(1); } .sidebar-link:hover { background-color: #374151; transform: scale(1.02); } .sidebar-link.active { background-color: #4f46e5; color: white; transform: scale(1.05); }`;
             const styleSheet = document.createElement("style");
             styleSheet.innerText = globalStyles;
             document.head.appendChild(styleSheet);
@@ -472,7 +523,9 @@
             const showToast = (message = "Alterações salvas com sucesso!", isError = false) => {
                 toastMessage.textContent = message;
                 toast.classList.toggle('bg-red-500', isError);
+                toast.classList.toggle('border-red-400', isError);
                 toast.classList.toggle('bg-green-500', !isError);
+                toast.classList.toggle('border-green-400', !isError);
                 toast.classList.remove('opacity-0', 'translate-y-4');
                 setTimeout(() => { 
                     toast.classList.add('opacity-0', 'translate-y-4'); 
@@ -531,7 +584,7 @@
 
                 // Seção Prova Social
                 document.getElementById('social-title').value = pageData.socialProof.title;
-                document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2">Logos das Empresas</h3>';
+                document.getElementById('social-logos-container').innerHTML = '<h3 class="text-lg font-semibold text-white mb-2">Logos das Empresas</h3>';
                 pageData.socialProof.logos?.forEach(renderLogo);
                 
                 // Seção Sobre
@@ -547,19 +600,19 @@
                 // Seção Serviços
                 document.getElementById('services-title').value = pageData.services.title;
                 document.getElementById('services-subtitle').value = pageData.services.subtitle;
-                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2">Itens de Serviço/Produto</h3>';
+                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-white mb-2">Itens de Serviço/Produto</h3>';
                 pageData.services.items?.forEach(renderService);
                 
                 // Seção Depoimentos
                 document.getElementById('testimonials-title').value = pageData.testimonials.title;
                 document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle;
-                document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2">Depoimentos</h3>';
+                document.getElementById('testimonials-container').innerHTML = '<h3 class="text-lg font-semibold text-white mb-2">Depoimentos</h3>';
                 pageData.testimonials.items?.forEach(renderTestimonial);
 
                 // Seção FAQ
                 document.getElementById('faq-title').value = pageData.faq.title;
                 document.getElementById('faq-subtitle').value = pageData.faq.subtitle;
-                document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-slate-800 mb-2">Perguntas e Respostas</h3>';
+                document.getElementById('faq-container').innerHTML = '<h3 class="text-lg font-semibold text-white mb-2">Perguntas e Respostas</h3>';
                 pageData.faq.items?.forEach(renderFAQ);
 
                 // Seção CTA
@@ -574,7 +627,12 @@
                 document.getElementById('footer-contact-email').value = pageData.footer.email;
                 document.getElementById('footer-contact-phone').value = pageData.footer.phone;
                 document.getElementById('footer-contact-address').value = pageData.footer.address;
-                document.getElementById('footer-favicon').value = pageData.footer.favicon;
+                const faviconUrl = pageData.footer.favicon || '';
+                document.getElementById('footer-favicon').value = faviconUrl;
+                const faviconPreview = document.getElementById('favicon-preview');
+                faviconPreview.src = faviconUrl || 'https://placehold.co/32x32/1e293b/94a3b8?text=Favicon';
+                faviconPreview.onerror = () => { faviconPreview.src = 'https://placehold.co/32x32/1e293b/94a3b8?text=Error'; };
+                document.getElementById('admin-favicon').href = faviconUrl || 'https://placehold.co/32x32/1e293b/94a3b8?text=P';
                 document.getElementById('footer-copyright').value = pageData.footer.copyright;
             };
             
@@ -598,32 +656,32 @@
             const renderLogo = (logo, index) => {
                 const container = document.getElementById('social-logos-container');
                 const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-slate-700">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm social-logo-alt" value="${logo.alt}"></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-src" value="${logo.src}"></div><div><label class="block text-sm font-medium text-slate-400">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-alt" value="${logo.alt}"></div>`;
                 container.appendChild(div);
             };
             
             const renderService = (item, index) => {
                 const container = document.getElementById('services-container');
                 const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-700">Título do Serviço/Produto</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-slate-700">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-slate-700">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-700">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm service-item-description">${item.description}</textarea></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Título do Serviço/Produto</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-title" value="${item.title}"></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-description">${item.description}</textarea></div>`;
                 container.appendChild(div);
             };
             
             const renderTestimonial = (item, index) => {
                 const container = document.getElementById('testimonials-container');
                 const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-700">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-slate-700">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-slate-700">Cargo/Empresa do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-slate-700">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm testimonial-item-image" value="${item.image}"></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-quote">${item.quote}</textarea></div><div><label class="block text-sm font-medium text-slate-400">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-author" value="${item.author}"></div><div><label class="block text-sm font-medium text-slate-400">Cargo/Empresa do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-position" value="${item.position}"></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-image" value="${item.image}"></div>`;
                 container.appendChild(div);
             };
 
             const renderFAQ = (item, index) => {
                 const container = document.getElementById('faq-container');
                 const div = document.createElement('div');
-                div.className = 'border p-4 rounded-md mb-4 space-y-3 relative';
-                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-700">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-slate-700">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md border-slate-300 shadow-sm faq-item-answer">${item.answer}</textarea></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md mb-4 space-y-3 relative';
+                div.innerHTML = `<button class="remove-button absolute -top-2 -right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-question" value="${item.question}"></div><div><label class="block text-sm font-medium text-slate-400">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-answer">${item.answer}</textarea></div>`;
                 container.appendChild(div);
             };
             
@@ -655,7 +713,7 @@
             const updateFooterData = () => { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, favicon: document.getElementById('footer-favicon').value, copyright: document.getElementById('footer-copyright').value }; };
 
             const getDefaultData = () => ({
-                hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366F1/FFFFFF?text=Imagem+Incrível' },
+                hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta2Text: 'Fale com um Especialista', image: 'https://placehold.co/600x400/6366f1/FFFFFF?text=Imagem+Incrível' },
                 style: { 
                     backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937',
                     headerBgColor: '#FFFFFF', headerTextColor: '#4B5563',
@@ -729,6 +787,13 @@
                     }
                 });
                 
+                document.getElementById('footer-favicon').addEventListener('input', (e) => {
+                    const preview = document.getElementById('favicon-preview');
+                    const newSrc = e.target.value;
+                    preview.src = newSrc || 'https://placehold.co/32x32/1e293b/94a3b8?text=Favicon';
+                     preview.onerror = () => { preview.src = 'https://placehold.co/32x32/1e293b/94a3b8?text=Error'; };
+                });
+
                 loadData();
             };
 
