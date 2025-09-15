@@ -57,7 +57,7 @@
             75% { transform: translateX(-100px) translateY(50px); }
         }
 
-        /* Melhorias nos inputs e Toggle */
+        /* Melhorias nos inputs */
         .form-input {
             background-color: rgba(30, 41, 59, 0.7);
             border: 1px solid #334155;
@@ -69,13 +69,7 @@
             box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5);
             outline: none;
         }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #4f46e5;
-        }
-        .toggle-checkbox:checked + .toggle-label::after {
-            transform: translateX(100%);
-            border-color: white;
-        }
+
     </style>
 </head>
 <body class="bg-slate-900 text-slate-300">
@@ -361,21 +355,8 @@
                             <label for="services-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label>
                             <textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea>
                         </div>
-                        <!-- NOVO: Interruptor para o botão de interesse -->
-                        <div class="border-t border-slate-700 pt-6">
-                            <label for="services-show-button-toggle" class="flex items-center cursor-pointer">
-                                <div class="relative">
-                                    <input type="checkbox" id="services-show-button-toggle" class="sr-only toggle-checkbox">
-                                    <div class="block bg-slate-600 w-14 h-8 rounded-full toggle-label transition"></div>
-                                    <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div>
-                                </div>
-                                <div class="ml-3 text-white font-medium">
-                                    Exibir botão "Tenho Interesse!" nos serviços
-                                </div>
-                            </label>
-                        </div>
                         <div id="services-container">
-                            <h3 class="text-lg font-semibold text-white mb-2 border-t border-slate-700 pt-6">Itens de Serviço/Produto</h3>
+                            <h3 class="text-lg font-semibold text-white mb-2">Itens de Serviço/Produto</h3>
                              <!-- Serviços serão adicionados aqui via JS -->
                         </div>
                         <button id="add-service" class="add-button">Adicionar Item</button>
@@ -619,9 +600,7 @@
                 // Seção Serviços
                 document.getElementById('services-title').value = pageData.services.title;
                 document.getElementById('services-subtitle').value = pageData.services.subtitle;
-                // NOVO: Popula o interruptor do botão de interesse
-                document.getElementById('services-show-button-toggle').checked = pageData.services.showButton;
-                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-white mb-2 border-t border-slate-700 pt-6">Itens de Serviço/Produto</h3>';
+                document.getElementById('services-container').innerHTML = '<h3 class="text-lg font-semibold text-white mb-2">Itens de Serviço/Produto</h3>';
                 pageData.services.items?.forEach(renderService);
                 
                 // Seção Depoimentos
@@ -727,7 +706,7 @@
             };
             const updateSocialProofData = () => { const newLogos = []; document.querySelectorAll('#social-logos-container .border').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; };
             const updateAboutData = () => { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; };
-            const updateServicesData = () => { const newServices = []; document.querySelectorAll('#services-container .border').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices, showButton: document.getElementById('services-show-button-toggle').checked }; };
+            const updateServicesData = () => { const newServices = []; document.querySelectorAll('#services-container .border').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices }; };
             const updateTestimonialsData = () => { const newTestimonials = []; document.querySelectorAll('#testimonials-container .border').forEach(div => { newTestimonials.push({ quote: div.querySelector('.testimonial-item-quote').value, author: div.querySelector('.testimonial-item-author').value, position: div.querySelector('.testimonial-item-position').value, image: div.querySelector('.testimonial-item-image').value, }); }); pageData.testimonials = { title: document.getElementById('testimonials-title').value, subtitle: document.getElementById('testimonials-subtitle').value, items: newTestimonials }; };
             const updateFaqData = () => { const newFaqs = []; document.querySelectorAll('#faq-container .border').forEach(div => { newFaqs.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value }); }); pageData.faq = { title: document.getElementById('faq-title').value, subtitle: document.getElementById('faq-subtitle').value, items: newFaqs }; };
             const updateCtaData = () => { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value }; };
@@ -745,7 +724,7 @@
                 },
                 socialProof: { title: 'Confiado por grandes empresas', logos: [ { src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' } ] }, 
                 about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, 
-                services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ], showButton: true }, 
+                services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [ { title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90' } ] }, 
                 testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [ { quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' } ] }, 
                 faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [ { question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' } ] }, 
                 cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito' }, 

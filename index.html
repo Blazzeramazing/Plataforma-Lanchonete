@@ -272,7 +272,7 @@
             },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
-            services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], showButton: true },
+            services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
             testimonials: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
             faq: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
             cta: { title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...' },
@@ -340,7 +340,7 @@
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
             
-            // Aplicar cor do texto via Javascript inline para máxima prioridade
+            // CORREÇÃO DEFINITIVA: Aplicar cor do texto via Javascript inline
             document.querySelectorAll('main *:not(a[class*="bg-"], button[class*="bg-"])').forEach(el => {
                 if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay')) {
                      el.style.color = styles.textColor;
@@ -389,26 +389,10 @@
             // Seção Serviços
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
-            const servicesData = data.services || {};
-            const servicesItems = servicesData.items || [];
-            const showServiceButton = servicesData.showButton === true; // Garante que é um booleano
-
+            const servicesItems = data.services?.items || [];
             if(servicesItems.length > 0) {
                 servicesItems.forEach(item => {
-                    const buttonHtml = showServiceButton
-                        ? `<button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button>`
-                        : '';
-
-                    track.innerHTML += `
-                        <div class="service-card rounded-lg shadow-lg bg-white">
-                            <img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg">
-                            <div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div>
-                            <div class="service-card-overlay">
-                                <p class="text-white font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>
-                                ${item.price ? `<p class="text-2xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}
-                                ${buttonHtml}
-                            </div>
-                        </div>`;
+                    track.innerHTML += `<div class="service-card rounded-lg shadow-lg bg-white"><img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg"><div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div><div class="service-card-overlay"><p class="text-white font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>${item.price ? `<p class="text-2xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}<button class="open-modal-button bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300" data-service-title="${item.title}">Tenho Interesse!</button></div></div>`;
                 });
             } else {
                 track.innerHTML = '<p class="text-center w-full text-gray-500">Nenhum serviço cadastrado no momento.</p>';
