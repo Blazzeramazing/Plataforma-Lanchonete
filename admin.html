@@ -119,76 +119,99 @@
                     </div>
                 </div>
 
-                <!-- SEÇÃO DE ESTILO REFEITA -->
+                <!-- SEÇÃO DE ESTILO REESTRUTURADA -->
                 <div id="section-style" class="content-section">
                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Customização Visual</h2>
                         <div class="space-y-8">
-                            <!-- Gerais -->
-                            <div class="border-b border-slate-700 pb-8">
-                                <h3 class="text-lg font-semibold text-white mb-4">Gerais</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                                    <div class="flex items-center justify-between"><label for="style-bg-color" class="text-sm font-medium text-slate-400">Cor Fundo Página</label><input type="color" id="style-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div class="flex items-center justify-between"><label for="style-text-color" class="text-sm font-medium text-slate-400">Cor Principal Texto</label><input type="color" id="style-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                </div>
-                                <div class="mt-4">
-                                  <label for="style-bg-image" class="block text-sm font-medium text-slate-400 mb-1">URL Imagem Fundo (Opcional)</label>
-                                  <input type="text" id="style-bg-image" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://..."><p class="mt-2 text-xs text-slate-500">Substitui a cor de fundo.</p>
-                                </div>
-                            </div>
-                            <!-- Cabeçalho -->
-                            <div class="border-b border-slate-700 pb-8">
-                                <h3 class="text-lg font-semibold text-white mb-4">Cabeçalho e Navegação</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                                    <div class="flex items-center justify-between"><label for="style-header-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-header-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div class="flex items-center justify-between"><label for="style-header-text-color" class="text-sm font-medium text-slate-400">Cor dos Links</label><input type="color" id="style-header-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                </div>
-                            </div>
-                            <!-- Botões -->
-                            <div class="border-b border-slate-700 pb-8">
-                                <h3 class="text-lg font-semibold text-white mb-4">Botões</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="space-y-4 p-4 bg-slate-900/40 rounded-lg border border-slate-700"><h4 class="font-medium text-white">Botão Primário</h4>
-                                        <div class="flex items-center justify-between"><label for="style-primary-btn-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-primary-btn-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div class="flex items-center justify-between"><label for="style-primary-btn-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-primary-btn-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                
+                            <!-- Paleta de Cores -->
+                            <div>
+                                <h3 class="text-lg font-semibold text-white mb-4">Paleta de Cores</h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
+                                    <!-- Global -->
+                                    <div>
+                                        <label for="style-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo da Página</label>
+                                        <input type="color" id="style-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
                                     </div>
-                                    <div class="space-y-4 p-4 bg-slate-900/40 rounded-lg border border-slate-700"><h4 class="font-medium text-white">Botão Secundário</h4>
-                                        <div class="flex items-center justify-between"><label for="style-secondary-btn-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-secondary-btn-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div class="flex items-center justify-between"><label for="style-secondary-btn-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-secondary-btn-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                    <div>
+                                        <label for="style-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Principal</label>
+                                        <input type="color" id="style-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <!-- Header -->
+                                    <div>
+                                        <label for="style-header-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Cabeçalho</label>
+                                        <input type="color" id="style-header-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <div>
+                                        <label for="style-header-text-color" class="block text-sm font-medium text-slate-400 mb-1">Links Cabeçalho</label>
+                                        <input type="color" id="style-header-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <!-- Botão Primário -->
+                                    <div>
+                                        <label for="style-primary-btn-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Botão Primário</label>
+                                        <input type="color" id="style-primary-btn-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <div>
+                                        <label for="style-primary-btn-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Botão Primário</label>
+                                        <input type="color" id="style-primary-btn-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <!-- Botão Secundário -->
+                                    <div>
+                                        <label for="style-secondary-btn-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Botão Secundário</label>
+                                        <input type="color" id="style-secondary-btn-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <div>
+                                        <label for="style-secondary-btn-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Botão Secundário</label>
+                                        <input type="color" id="style-secondary-btn-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                     <!-- Fundo Seções -->
+                                    <div>
+                                        <label for="style-about-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Seção "Sobre"</label>
+                                        <input type="color" id="style-about-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <div>
+                                        <label for="style-testimonials-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Seção "Depoimentos"</label>
+                                        <input type="color" id="style-testimonials-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                     <!-- CTA -->
+                                    <div>
+                                        <label for="style-cta-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo CTA Final</label>
+                                        <input type="color" id="style-cta-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <div>
+                                        <label for="style-cta-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto CTA Final</label>
+                                        <input type="color" id="style-cta-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <!-- Rodapé -->
+                                    <div>
+                                        <label for="style-footer-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Rodapé</label>
+                                        <input type="color" id="style-footer-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                     <div>
+                                        <label for="style-footer-headings-color" class="block text-sm font-medium text-slate-400 mb-1">Títulos Rodapé</label>
+                                        <input type="color" id="style-footer-headings-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
+                                    </div>
+                                    <div>
+                                        <label for="style-footer-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Rodapé</label>
+                                        <input type="color" id="style-footer-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
                                     </div>
                                 </div>
                             </div>
-                            <!-- Fundo Seções -->
-                            <div class="border-b border-slate-700 pb-8">
-                                <h3 class="text-lg font-semibold text-white mb-4">Fundo de Seções</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                                    <div class="flex items-center justify-between"><label for="style-about-bg-color" class="text-sm font-medium text-slate-400">Seção "Sobre"</label><input type="color" id="style-about-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div class="flex items-center justify-between"><label for="style-testimonials-bg-color" class="text-sm font-medium text-slate-400">Seção "Depoimentos"</label><input type="color" id="style-testimonials-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                </div>
-                            </div>
-                            <!-- CTA e Rodapé -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                            <!-- Imagem de Fundo -->
+                            <div class="border-t border-slate-700 pt-8">
+                                <h3 class="text-lg font-semibold text-white mb-4">Imagem de Fundo</h3>
                                 <div>
-                                    <h3 class="text-lg font-semibold text-white mb-4">CTA Final</h3>
-                                    <div class="space-y-4">
-                                        <div class="flex items-center justify-between"><label for="style-cta-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-cta-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div class="flex items-center justify-between"><label for="style-cta-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-cta-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h3 class="text-lg font-semibold text-white mb-4">Rodapé</h3>
-                                    <div class="space-y-4">
-                                        <div class="flex items-center justify-between"><label for="style-footer-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-footer-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div class="flex items-center justify-between"><label for="style-footer-headings-color" class="text-sm font-medium text-slate-400">Cor dos Títulos</label><input type="color" id="style-footer-headings-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div class="flex items-center justify-between"><label for="style-footer-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-footer-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    </div>
+                                  <label for="style-bg-image" class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem de Fundo (Opcional)</label>
+                                  <input type="text" id="style-bg-image" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://...">
+                                  <p class="mt-2 text-xs text-slate-500">Substitui a cor de fundo da página.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-8"><button id="save-style" class="save-button">Salvar Alterações de Estilo</button></div>
                     </div>
                 </div>
-
 
                 <div id="section-social-proof" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
@@ -609,3 +632,4 @@
     </script>
 </body>
 </html>
+
