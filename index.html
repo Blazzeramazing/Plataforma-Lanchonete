@@ -18,62 +18,77 @@
         }
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         
-        /* Estilos do Carrossel de Serviços */
+        /* --- ESTILOS VISUAIS APRIMORADOS --- */
+
+        /* Carrossel de Serviços */
         .service-carousel-container { position: relative; }
-        .service-carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .service-carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 1rem; }
         .service-carousel-track::-webkit-scrollbar { display: none; }
-        .service-card { scroll-snap-align: start; flex: 0 0 90%; margin-right: 1rem; position: relative; overflow: hidden; }
+        .service-card { 
+            scroll-snap-align: start; 
+            flex: 0 0 90%; 
+            margin-right: 1.5rem;
+            position: relative; 
+            overflow: hidden; 
+        }
+        .service-card-image {
+            transition: transform 0.4s ease-in-out;
+        }
+        .service-card:hover .service-card-image {
+            transform: scale(1.05);
+        }
         @media (min-width: 768px) { .service-card { flex-basis: 45%; } }
         @media (min-width: 1024px) { .service-card { flex-basis: 31%; } }
-        .service-card-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease-in-out; padding: 1rem; text-align: center; }
+        
+        .service-card-overlay { 
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.1));
+            color: white; 
+            display: flex; flex-direction: column; justify-content: flex-end;
+            opacity: 0; 
+            transition: opacity 0.4s ease-in-out; 
+            padding: 1.5rem; 
+            text-align: left;
+        }
+        .service-card-overlay > * {
+            transform: translateY(10px);
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            opacity: 0;
+        }
         .service-card:hover .service-card-overlay { opacity: 1; }
-        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.8); border-radius: 9999px; width: 3rem; height: 3rem; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; z-index: 10; transition: all 0.2s ease-in-out; }
+        .service-card:hover .service-card-overlay > * { 
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .service-card:hover .service-card-overlay > *:nth-child(2) { transition-delay: 0.1s; }
+        .service-card:hover .service-card-overlay > *:nth-child(3) { transition-delay: 0.2s; }
+        
+        .carousel-btn { 
+            position: absolute; top: 50%; transform: translateY(-50%); 
+            background-color: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 9999px; width: 3rem; height: 3rem; 
+            display: none; align-items: center; justify-content: center; 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
+            cursor: pointer; z-index: 10; 
+            transition: all 0.2s ease-in-out; 
+        }
         @media (min-width: 1024px) { .carousel-btn { display: flex; } }
         .carousel-btn:hover { background-color: white; transform: translateY(-50%) scale(1.1); }
         .carousel-btn#prevBtn { left: -1.5rem; }
         .carousel-btn#nextBtn { right: -1.5rem; }
 
-        /* Estilos do Modal de Contato */
+        /* Modal e Animações */
         #contact-modal { transition: opacity 0.3s ease-in-out; }
-        .form-error-message {
-            display: none;
-            background-color: #fef2f2;
-            color: #991b1b;
-            padding: 0.75rem 1rem;
-            border: 1px solid #fecaca;
-            border-radius: 0.375rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        /* Spinner de Carregamento */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #4f46e5;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Efeitos e Transições Adicionais */
-        .animated-section > * {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .animated-section.is-visible > * {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        /* Efeito cascata para elementos filhos */
+        #contact-modal > div { transition: transform 0.3s ease-in-out; }
+        .animated-section > * { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animated-section.is-visible > * { opacity: 1; transform: translateY(0); }
         .animated-section.is-visible > *:nth-child(2) { transition-delay: 0.1s; }
         .animated-section.is-visible > *:nth-child(3) { transition-delay: 0.2s; }
         .animated-section.is-visible > *:nth-child(4) { transition-delay: 0.3s; }
 
+        /* Cards e Botões */
         .interactive-card {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
@@ -82,54 +97,50 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         .enhanced-button {
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            transition: all 0.3s ease-in-out;
         }
         .enhanced-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.2);
+            transform: translateY(-3px) scale(1.03);
         }
-        /* Spotlight Effect */
+
+        /* Efeitos Adicionais */
         #spotlight {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 400px;
-            height: 400px;
+            position: fixed; top: 0; left: 0; width: 400px; height: 400px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-            pointer-events: none;
-            z-index: 1000;
-            mix-blend-mode: overlay;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+            pointer-events: none; z-index: 1000; mix-blend-mode: overlay;
             transition: transform 0.1s ease-out;
         }
-        /* Parallax Hero */
         .parallax-container {
-            overflow: hidden;
-            border-radius: 0.5rem;
+            overflow: hidden; border-radius: 0.75rem;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
         }
         #hero-image {
-            width: 100%;
-            height: 110%; /* Imagem ligeiramente maior para permitir o movimento */
-            object-fit: cover;
+            width: 100%; height: 110%; object-fit: cover;
             transition: transform 0.2s ease-out;
         }
-
+        
+        /* Loader */
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #4f46e5;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
     <style id="dynamic-styles"></style>
 </head>
-<body>
+<body class="bg-gray-50">
 
     <div id="spotlight"></div>
 
-    <!-- Tela de Carregamento -->
-    <div id="loading-overlay" class="fixed inset-0 bg-gray-100 z-50 flex flex-col items-center justify-center">
+    <div id="loading-overlay" class="fixed inset-0 bg-gray-50 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
         <div class="loader"></div>
-        <p class="mt-4 text-gray-600">A carregar...</p>
+        <p class="mt-4 text-gray-600 text-lg">A carregar a sua experiência...</p>
     </div>
 
-    <!-- Cabeçalho e Navegação (inicialmente escondido) -->
-    <header id="home" class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50 hidden">
+    <header id="home" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40 hidden border-b border-gray-200/80">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold text-gray-900" id="nav-logo">SuaLogo</a>
             <div class="hidden lg:flex items-center space-x-8">
@@ -138,30 +149,29 @@
                 <a href="#depoimentos" class="text-gray-600 hover:text-indigo-600 transition duration-300">Depoimentos</a>
                 <a href="#contato" class="text-gray-600 hover:text-indigo-600 transition duration-300">Contato</a>
             </div>
-            <a href="#contato" class="hidden lg:inline-block bg-indigo-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-indigo-700 transition duration-300" id="nav-cta">Comece Agora</a>
+            <a href="#contato" class="hidden lg:inline-block text-white font-semibold px-6 py-2.5 rounded-lg enhanced-button" id="nav-cta">Comece Agora</a>
             <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
         <div id="mobile-menu" class="hidden lg:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="#sobre" class="block text-gray-600 hover:text-indigo-600">Sobre</a>
-            <a href="#servicos" class="block text-gray-600 hover:text-indigo-600">Serviços</a>
-            <a href="#depoimentos" class="block text-gray-600 hover:text-indigo-600">Depoimentos</a>
-            <a href="#contato" class="block text-gray-600 hover:text-indigo-600">Contato</a>
-            <a href="#contato" class="block mt-4 bg-indigo-600 text-white text-center font-semibold px-5 py-2 rounded-lg hover:bg-indigo-700" id="nav-cta-mobile">Comece Agora</a>
+            <a href="#sobre" class="block text-gray-600 hover:text-indigo-600 py-2">Sobre</a>
+            <a href="#servicos" class="block text-gray-600 hover:text-indigo-600 py-2">Serviços</a>
+            <a href="#depoimentos" class="block text-gray-600 hover:text-indigo-600 py-2">Depoimentos</a>
+            <a href="#contato" class="block text-gray-600 hover:text-indigo-600 py-2">Contato</a>
+            <a href="#contato" class="block mt-4 text-white text-center font-semibold px-5 py-3 rounded-lg enhanced-button" id="nav-cta-mobile">Comece Agora</a>
         </div>
     </header>
 
     <main class="hidden">
-        <!-- Seções da página (Hero, Sobre, etc.) -->
         <section class="animated-section">
-            <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
                 <div class="text-center lg:text-left">
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight" id="hero-title"></h1>
                     <p class="mt-6 text-lg text-gray-600 max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#servicos" class="bg-indigo-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg enhanced-button" id="hero-cta1-text"></a>
-                        <a href="#contato" class="bg-gray-200 text-gray-800 font-semibold px-8 py-4 rounded-lg shadow-lg enhanced-button" id="hero-cta2-text"></a>
+                        <a href="#servicos" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta1-text"></a>
+                        <a href="#contato" class="bg-gray-200 text-gray-800 font-semibold px-8 py-4 rounded-lg shadow-lg transition hover:bg-gray-300 hover:shadow-xl enhanced-button" id="hero-cta2-text"></a>
                     </div>
                 </div>
                 <div class="parallax-container">
@@ -169,35 +179,37 @@
                 </div>
             </div>
         </section>
+
         <section class="py-16 animated-section">
             <div class="container mx-auto px-6 text-center">
                 <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider" id="social-title"></h3>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
-        <section id="sobre" class="py-24 animated-section">
+
+        <section id="sobre" class="py-24 bg-white animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="about-title"></h2>
                     <p class="mt-4 text-lg text-gray-600" id="about-subtitle"></p>
                 </div>
-                <div class="mt-16 grid md:grid-cols-3 gap-12 text-center">
-                    <div class="flex flex-col items-center interactive-card p-6" id="about-step1">
-                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4">
+                <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
+                    <div class="interactive-card p-8 rounded-xl bg-gray-50" id="about-step1">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step1-title"></h3>
                         <p class="mt-2 text-gray-600" id="about-step1-desc"></p>
                     </div>
-                    <div class="flex flex-col items-center interactive-card p-6" id="about-step2">
-                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4">
+                    <div class="interactive-card p-8 rounded-xl bg-gray-50" id="about-step2">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step2-title"></h3>
                         <p class="mt-2 text-gray-600" id="about-step2-desc"></p>
                     </div>
-                    <div class="flex flex-col items-center interactive-card p-6" id="about-step3">
-                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4">
+                    <div class="interactive-card p-8 rounded-xl bg-gray-50" id="about-step3">
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step3-title"></h3>
@@ -206,6 +218,7 @@
                 </div>
             </div>
         </section>
+
         <section id="servicos" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
@@ -219,7 +232,8 @@
                 </div>
             </div>
         </section>
-        <section id="depoimentos" class="py-24 animated-section">
+
+        <section id="depoimentos" class="py-24 bg-white animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="testimonials-title"></h2>
@@ -228,6 +242,7 @@
                 <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container"></div>
             </div>
         </section>
+
         <section id="faq" class="py-24 animated-section">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center">
@@ -237,16 +252,16 @@
                 <div class="mt-12 space-y-4" id="faq-container"></div>
             </div>
         </section>
-        <section id="contato" class="text-white animated-section">
+
+        <section id="contato" class="animated-section">
             <div class="container mx-auto px-6 py-20 text-center">
                 <h2 class="text-3xl md:text-4xl font-bold" id="cta-title"></h2>
                 <p class="mt-4 text-lg max-w-2xl mx-auto" id="cta-subtitle"></p>
-                <a href="#" class="mt-8 inline-block font-bold px-10 py-4 rounded-lg transition-colors duration-300 text-lg open-modal-button enhanced-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
+                <a href="#" class="mt-8 inline-block font-bold px-10 py-4 rounded-lg text-lg open-modal-button enhanced-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
             </div>
         </section>
     </main>
 
-    <!-- Rodapé -->
     <footer class="bg-gray-900 text-white">
         <div class="container mx-auto px-6 py-12">
             <div class="grid md:grid-cols-3 gap-8">
@@ -257,10 +272,10 @@
                 <div>
                     <h4 class="text-lg font-semibold uppercase">Links Úteis</h4>
                     <ul class="mt-4 space-y-2">
-                        <li><a href="#sobre" class="text-gray-400 hover:text-white">Sobre Nós</a></li>
-                        <li><a href="#servicos" class="text-gray-400 hover:text-white">Serviços</a></li>
-                        <li><a href="#depoimentos" class="text-gray-400 hover:text-white">Depoimentos</a></li>
-                        <li><a href="#contato" class="text-gray-400 hover:text-white">Contato</a></li>
+                        <li><a href="#sobre" class="text-gray-400 hover:text-white transition">Sobre Nós</a></li>
+                        <li><a href="#servicos" class="text-gray-400 hover:text-white transition">Serviços</a></li>
+                        <li><a href="#depoimentos" class="text-gray-400 hover:text-white transition">Depoimentos</a></li>
+                        <li><a href="#contato" class="text-gray-400 hover:text-white transition">Contato</a></li>
                     </ul>
                 </div>
                 <div>
@@ -278,42 +293,29 @@
         </div>
     </footer>
     
-    <!-- Modal de Contato -->
-    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md relative">
-            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
+    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 w-full max-w-md relative transform scale-95">
+            <button id="close-modal-button" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 class="text-2xl font-bold mb-2 text-gray-900">Fale Conosco</h3>
             <p class="text-gray-600 mb-6">Preencha seus dados para enviar uma mensagem via WhatsApp.</p>
-            <div id="form-error" class="form-error-message"></div>
+            <div id="form-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"></div>
             <form id="contact-form">
-                <div class="mb-4">
-                    <label for="contact-name" class="block text-sm font-medium text-gray-700">Nome</label>
-                    <input type="text" id="contact-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                </div>
-                <div class="mb-4">
-                    <label for="contact-email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="contact-email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                </div>
-                <div class="mb-6">
-                    <label for="contact-phone" class="block text-sm font-medium text-gray-700">Telefone (com DDD)</label>
-                    <input type="tel" id="contact-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ex: 32999998888">
-                </div>
+                <div class="mb-4"><label for="contact-name" class="block text-sm font-medium text-gray-700">Nome</label><input type="text" id="contact-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></div>
+                <div class="mb-4"><label for="contact-email" class="block text-sm font-medium text-gray-700">Email</label><input type="email" id="contact-email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"></div>
+                <div class="mb-6"><label for="contact-phone" class="block text-sm font-medium text-gray-700">Telefone (com DDD)</label><input type="tel" id="contact-phone" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ex: 32999998888"></div>
                 <button type="submit" id="submit-whatsapp-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300">Enviar Mensagem no WhatsApp</button>
             </form>
         </div>
     </div>
 
-    <!-- Configuração do Firebase -->
+    <!-- Firebase -->
     <script src="./firebase-config.js"></script>
-
-    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Inicializa o Firebase com a configuração do arquivo externo
         const app = initializeApp(window.firebaseConfig);
         const db = getFirestore(app);
         
@@ -344,9 +346,7 @@
             const data = pageDataStore;
             const styles = { ...defaultData.style, ...data.style };
 
-            // --- Aplicação de Estilos Dinâmicos ---
             const dynamicStyleEl = document.getElementById('dynamic-styles');
-
             if (styles.backgroundImage) {
                 document.body.style.backgroundImage = `url('${styles.backgroundImage}')`;
                 document.body.style.backgroundSize = 'cover';
@@ -356,90 +356,69 @@
             } else {
                 document.body.style.backgroundImage = 'none';
                 document.body.style.backgroundColor = styles.backgroundColor;
-                document.querySelectorAll('main > section:not(#contato)').forEach(sec => {
-                    sec.style.backgroundColor = 'transparent';
-                    sec.classList.remove('backdrop-blur-sm');
-                });
             }
             
             let cssString = `
-                /* Cabeçalho */
-                header#home { background-color: ${styles.headerBgColor} !important; }
+                header#home { background-color: ${styles.headerBgColor}CC !important; }
                 header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
-
-                /* Botões Primários */
-                #hero-cta1-text, #nav-cta, #nav-cta-mobile, .service-card-overlay .open-modal-button, .service-card-overlay a {
-                    background-color: ${styles.primaryBtnBgColor} !important;
+                .enhanced-button {
+                    background-image: linear-gradient(to right, ${styles.primaryBtnBgColor}, color-mix(in srgb, ${styles.primaryBtnBgColor} 80%, black)) !important;
                     color: ${styles.primaryBtnTextColor} !important;
+                    box-shadow: 0 10px 20px -5px ${styles.primaryBtnBgColor}66;
                 }
-
-                /* Botão Secundário */
-                #hero-cta2-text {
+                .enhanced-button:hover { box-shadow: 0 15px 25px -5px ${styles.primaryBtnBgColor}88; }
+                #hero-cta2-text.enhanced-button {
+                    background-image: none !important;
                     background-color: ${styles.secondaryBtnBgColor} !important;
                     color: ${styles.secondaryBtnTextColor} !important;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
                 }
-
-                /* Seção CTA */
+                #hero-cta2-text.enhanced-button:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
                 section#contato { background-color: ${styles.ctaBgColor} !important; background-image: linear-gradient(to right, ${styles.ctaBgColor}, color-mix(in srgb, ${styles.ctaBgColor} 70%, black)); }
                 section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
                 section#contato #cta-button {
-                    background-color: ${styles.primaryBtnTextColor} !important;
-                    color: ${styles.primaryBtnBgColor} !important;
+                    background-image: none !important; background-color: ${styles.primaryBtnTextColor} !important;
+                    color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
                 }
-
-                /* Rodapé */
                 footer { background-color: ${styles.footerBgColor} !important; }
                 footer h3, footer h4 { color: ${styles.footerHeadingsColor} !important; }
-                footer p, footer li, footer a, footer .text-gray-400, footer .text-gray-500 { color: ${styles.footerTextColor} !important; }
+                footer p, footer li, footer a { color: ${styles.footerTextColor} !important; }
                 footer a:hover { color: ${styles.footerHeadingsColor} !important; }
-
-                /* Exceções para manter contraste e funcionalidade */
-                .service-card-overlay *, .service-card-overlay p { color: white !important; }
+                .service-card-overlay .enhanced-button { color: ${styles.primaryBtnTextColor} !important; }
                 #contact-modal *, #contact-modal p { color: initial !important; }
-                .bg-indigo-100, .bg-indigo-100 svg { color: #4F46E5 !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
             
             document.querySelectorAll('main *:not(a[class*="bg-"], button[class*="bg-"])').forEach(el => {
                 if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay')) {
-                     el.style.color = styles.textColor;
+                   if (el.style) el.style.color = styles.textColor;
                 }
             });
 
-
-            // Meta tags
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
-            if (data.footer?.favicon) {
-                document.getElementById('favicon-link').href = data.footer.favicon;
-            }
+            if (data.footer?.favicon) document.getElementById('favicon-link').href = data.footer.favicon;
 
-            // Seção Hero
-            const heroCta1 = document.getElementById('hero-cta1-text');
-            const heroCta2 = document.getElementById('hero-cta2-text');
             document.getElementById('hero-title').textContent = data.hero?.title || '';
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
-            heroCta1.textContent = data.hero?.cta1Text || '';
-            heroCta1.href = data.hero?.cta1Link || '#servicos';
-            heroCta2.textContent = data.hero?.cta2Text || '';
-            heroCta2.href = data.hero?.cta2Link || '#contato';
+            document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
+            document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
+            document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
+            document.getElementById('hero-cta2-text').href = data.hero?.cta2Link || '#contato';
             document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
             document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
             
-            // Navegação
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
             document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
 
-            // Seção Prova Social
             document.getElementById('social-title').textContent = data.socialProof?.title || '';
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
             (data.socialProof?.logos || []).forEach(logo => {
-                logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition-opacity duration-500 hover:opacity-75">`;
+                logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100">`;
             });
 
-            // Seção Sobre
             document.getElementById('about-title').textContent = data.about?.title || '';
             document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
             document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
@@ -449,7 +428,6 @@
             document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
             document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
             
-            // Seção Serviços
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
             const servicesData = data.services || {};
@@ -460,7 +438,7 @@
                 servicesItems.forEach(item => {
                     let buttonHtml = '';
                     if (showServiceButton) {
-                        const commonClasses = "bg-indigo-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 enhanced-button";
+                        const commonClasses = "font-semibold px-6 py-2.5 rounded-lg enhanced-button text-sm";
                         if (item.link) {
                             buttonHtml = `<a href="${item.link}" target="_blank" class="${commonClasses}">Tenho Interesse!</a>`;
                         } else {
@@ -469,12 +447,14 @@
                     }
 
                     track.innerHTML += `
-                        <div class="service-card rounded-lg shadow-lg bg-white border border-gray-200 interactive-card">
-                            <img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-t-lg">
-                            <div class="p-6"><h3 class="text-xl font-bold text-gray-900">${item.title}</h3></div>
+                        <div class="service-card rounded-xl shadow-lg bg-white border border-gray-200/50 group">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-80 object-cover service-card-image">
+                            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                                <h3 class="text-xl font-bold text-white">${item.title}</h3>
+                            </div>
                             <div class="service-card-overlay">
-                                <p class="text-white font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>
-                                ${item.price ? `<p class="text-2xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}
+                                <p class="text-white/90 font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>
+                                ${item.price ? `<p class="text-3xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}
                                 ${buttonHtml}
                             </div>
                         </div>`;
@@ -483,25 +463,22 @@
                 track.innerHTML = '<p class="text-center w-full text-gray-500">Nenhum serviço cadastrado no momento.</p>';
             }
 
-            // Seção Depoimentos
             document.getElementById('testimonials-title').textContent = data.testimonials?.title || '';
             document.getElementById('testimonials-subtitle').textContent = data.testimonials?.subtitle || '';
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
             (data.testimonials?.items || []).forEach(item => {
-                testimonialsContainer.innerHTML += `<div class="bg-gray-50/80 backdrop-blur-sm p-8 rounded-lg interactive-card border border-gray-200/50"><p class="text-gray-600">"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200"><div class="ml-4"><p class="font-semibold text-gray-900">${item.author}</p><p class="text-sm text-gray-500">${item.position}</p></div></div></div>`;
+                testimonialsContainer.innerHTML += `<div class="interactive-card bg-gray-50 p-8 rounded-xl"><p class="text-gray-600">"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold text-gray-900">${item.author}</p><p class="text-sm text-gray-500">${item.position}</p></div></div></div>`;
             });
 
-            // Seção FAQ
             document.getElementById('faq-title').textContent = data.faq?.title || '';
             document.getElementById('faq-subtitle').textContent = data.faq?.subtitle || '';
             const faqContainer = document.getElementById('faq-container');
             faqContainer.innerHTML = '';
             (data.faq?.items || []).forEach(item => {
-                faqContainer.innerHTML += `<div class="bg-white/80 rounded-lg shadow-sm border border-gray-200/50"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="text-lg font-semibold text-gray-800">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p class="text-gray-600">${item.answer}</p></div></div>`;
+                faqContainer.innerHTML += `<div class="bg-white rounded-lg shadow-sm border border-gray-200/50"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="text-lg font-semibold text-gray-800">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p class="text-gray-600">${item.answer}</p></div></div>`;
             });
 
-            // Seção CTA
             const ctaButton = document.getElementById('cta-button');
             ctaButton.textContent = data.cta?.buttonText || '';
             if (data.cta?.buttonLink) {
@@ -516,7 +493,6 @@
             document.getElementById('cta-title').textContent = data.cta?.title || '';
             document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
             
-            // Seção Rodapé
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
             document.getElementById('footer-email').textContent = `Email: ${data.footer?.email || ''}`;
@@ -538,21 +514,19 @@
                 renderContent(data);
 
                 if (isInitialLoad) {
-                    loadingOverlay.classList.add('hidden');
-                    header.classList.remove('hidden');
-                    main.classList.remove('hidden');
-                    isInitialLoad = false;
+                    setTimeout(() => {
+                        loadingOverlay.style.opacity = '0';
+                        loadingOverlay.addEventListener('transitionend', () => loadingOverlay.classList.add('hidden'));
+                        header.classList.remove('hidden');
+                        main.classList.remove('hidden');
+                        isInitialLoad = false;
 
-                    // Lógica para animações de scroll
-                    const sections = document.querySelectorAll('.animated-section');
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach(entry => {
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add('is-visible');
-                            }
-                        });
-                    }, { threshold: 0.1 });
-                    sections.forEach(section => observer.observe(section));
+                        const sections = document.querySelectorAll('.animated-section');
+                        const observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+                        }, { threshold: 0.1 });
+                        sections.forEach(section => observer.observe(section));
+                    }, 500);
                 }
             }, (error) => { 
                 console.error("Erro ao buscar dados:", error); 
@@ -588,38 +562,36 @@
 
             const track = document.getElementById('service-carousel-track'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
             if(track && prevBtn && nextBtn){
-                const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 16 : 300; }
+                const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 24 : 300; }
                 nextBtn.addEventListener('click', () => track.scrollBy({ left: scrollStep(), behavior: 'smooth' }));
                 prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
             }
 
-            // --- Lógica do Modal de Contato ---
             const modal = document.getElementById('contact-modal');
+            const modalContent = modal.querySelector('div');
             const closeModalButton = document.getElementById('close-modal-button');
             const contactForm = document.getElementById('contact-form');
             const formError = document.getElementById('form-error');
 
-            const showFormError = (message) => {
-                formError.textContent = message;
-                formError.style.display = 'block';
-            };
-
             const openModal = (service) => {
                 currentServiceTitle = service;
                 modal.classList.remove('hidden');
+                setTimeout(() => modalContent.classList.remove('scale-95'), 10);
             };
             const closeModal = () => {
-                modal.classList.add('hidden');
-                contactForm.reset();
-                formError.style.display = 'none';
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    contactForm.reset();
+                    formError.classList.add('hidden');
+                }, 300);
             };
 
             document.body.addEventListener('click', (e) => {
                 const button = e.target.closest('.open-modal-button');
                 if (button) {
                     e.preventDefault();
-                    const serviceTitle = button.dataset.serviceTitle;
-                    openModal(serviceTitle);
+                    openModal(button.dataset.serviceTitle);
                 }
             });
 
@@ -631,34 +603,26 @@
                 const name = document.getElementById('contact-name').value;
                 const email = document.getElementById('contact-email').value;
                 const phone = document.getElementById('contact-phone').value;
-                
                 if (!pageDataStore || !pageDataStore.footer?.whatsapp) {
-                    showFormError("Número de WhatsApp não configurado.");
+                    formError.textContent = "Número de WhatsApp não configurado.";
+                    formError.classList.remove('hidden');
                     return;
                 }
-
-                let message = `Olá, meu nome é ${name}.\n\n`;
-                message += `Tenho interesse em: *${currentServiceTitle}*.\n\n`;
-                message += `Meus dados de contato são:\n`;
-                message += `*Email:* ${email}\n`;
-                message += `*Telefone:* ${phone}`;
-
+                let message = `Olá, meu nome é ${name}.\n\nTenho interesse em: *${currentServiceTitle}*.\n\nMeus dados de contato são:\n*Email:* ${email}\n*Telefone:* ${phone}`;
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
-                
-                window.location.href = whatsappUrl;
+                window.open(whatsappUrl, '_blank');
             });
 
-            // Efeitos de Spotlight e Parallax
             const spotlight = document.getElementById('spotlight');
             const heroImage = document.getElementById('hero-image');
             window.addEventListener('mousemove', e => {
-                spotlight.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
+                if (spotlight) spotlight.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
             });
             window.addEventListener('scroll', () => {
-                const scrollY = window.scrollY;
-                heroImage.style.transform = `translateY(${scrollY * 0.2}px)`;
+                if (heroImage) heroImage.style.transform = `translateY(${window.scrollY * 0.2}px)`;
             });
         });
     </script>
 </body>
 </html>
+
