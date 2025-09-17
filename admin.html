@@ -58,6 +58,9 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5);
             outline: none;
         }
+        input[type="color"].form-input {
+             padding: 0.25rem;
+        }
         .toggle-checkbox:checked + .toggle-label { background-color: #4f46e5; }
         .toggle-checkbox:checked + .toggle-label .dot { transform: translateX(100%); }
     </style>
@@ -112,7 +115,7 @@
                             <div><label for="hero-cta2-link" class="block text-sm font-medium text-slate-400">URL do Botão 2</label><input type="url" id="hero-cta2-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"></div>
                         </div>
                         <div class="pt-4 border-t border-slate-700"><label for="hero-image" class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" id="hero-image" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/imagem.png"></div>
-                        <button id="save-hero" class="save-button mt-4">Salvar Alterações</button>
+                        <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-hero" class="save-button">Salvar Alterações</button></div>
                     </div>
                 </div>
 
@@ -124,40 +127,43 @@
                             <!-- Gerais -->
                             <div class="border-b border-slate-700 pb-8">
                                 <h3 class="text-lg font-semibold text-white mb-4">Gerais</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    <div><label for="style-bg-color" class="block text-sm font-medium text-slate-400">Cor Fundo Página</label><input type="color" id="style-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div><label for="style-text-color" class="block text-sm font-medium text-slate-400">Cor Principal Texto</label><input type="color" id="style-text-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div class="md:col-span-2 lg:col-span-3"><label for="style-bg-image" class="block text-sm font-medium text-slate-400">URL Imagem Fundo (Opcional)</label><input type="text" id="style-bg-image" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://..."><p class="mt-2 text-xs text-slate-500">Substitui a cor de fundo.</p></div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                                    <div class="flex items-center justify-between"><label for="style-bg-color" class="text-sm font-medium text-slate-400">Cor Fundo Página</label><input type="color" id="style-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                    <div class="flex items-center justify-between"><label for="style-text-color" class="text-sm font-medium text-slate-400">Cor Principal Texto</label><input type="color" id="style-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                </div>
+                                <div class="mt-4">
+                                  <label for="style-bg-image" class="block text-sm font-medium text-slate-400 mb-1">URL Imagem Fundo (Opcional)</label>
+                                  <input type="text" id="style-bg-image" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://..."><p class="mt-2 text-xs text-slate-500">Substitui a cor de fundo.</p>
                                 </div>
                             </div>
                             <!-- Cabeçalho -->
                             <div class="border-b border-slate-700 pb-8">
                                 <h3 class="text-lg font-semibold text-white mb-4">Cabeçalho e Navegação</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div><label for="style-header-bg-color" class="block text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-header-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div><label for="style-header-text-color" class="block text-sm font-medium text-slate-400">Cor dos Links</label><input type="color" id="style-header-text-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                                    <div class="flex items-center justify-between"><label for="style-header-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-header-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                    <div class="flex items-center justify-between"><label for="style-header-text-color" class="text-sm font-medium text-slate-400">Cor dos Links</label><input type="color" id="style-header-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
                                 </div>
                             </div>
                             <!-- Botões -->
                             <div class="border-b border-slate-700 pb-8">
                                 <h3 class="text-lg font-semibold text-white mb-4">Botões</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="space-y-4 p-4 bg-slate-900/40 rounded-lg border border-slate-700"><h4 class="font-medium text-white">Botão Primário</h4>
-                                        <div><label for="style-primary-btn-bg-color" class="block text-xs font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-primary-btn-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div><label for="style-primary-btn-text-color" class="block text-xs font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-primary-btn-text-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-primary-btn-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-primary-btn-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-primary-btn-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-primary-btn-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
                                     </div>
                                     <div class="space-y-4 p-4 bg-slate-900/40 rounded-lg border border-slate-700"><h4 class="font-medium text-white">Botão Secundário</h4>
-                                        <div><label for="style-secondary-btn-bg-color" class="block text-xs font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-secondary-btn-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div><label for="style-secondary-btn-text-color" class="block text-xs font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-secondary-btn-text-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-secondary-btn-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-secondary-btn-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-secondary-btn-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-secondary-btn-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
                                     </div>
                                 </div>
                             </div>
                             <!-- Fundo Seções -->
                             <div class="border-b border-slate-700 pb-8">
                                 <h3 class="text-lg font-semibold text-white mb-4">Fundo de Seções</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div><label for="style-about-bg-color" class="block text-sm font-medium text-slate-400">Seção "Sobre"</label><input type="color" id="style-about-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                    <div><label for="style-testimonials-bg-color" class="block text-sm font-medium text-slate-400">Seção "Depoimentos"</label><input type="color" id="style-testimonials-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                                    <div class="flex items-center justify-between"><label for="style-about-bg-color" class="text-sm font-medium text-slate-400">Seção "Sobre"</label><input type="color" id="style-about-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                    <div class="flex items-center justify-between"><label for="style-testimonials-bg-color" class="text-sm font-medium text-slate-400">Seção "Depoimentos"</label><input type="color" id="style-testimonials-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
                                 </div>
                             </div>
                             <!-- CTA e Rodapé -->
@@ -165,108 +171,116 @@
                                 <div>
                                     <h3 class="text-lg font-semibold text-white mb-4">CTA Final</h3>
                                     <div class="space-y-4">
-                                        <div><label for="style-cta-bg-color" class="block text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-cta-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div><label for="style-cta-text-color" class="block text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-cta-text-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-cta-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-cta-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-cta-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-cta-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
                                     </div>
                                 </div>
                                 <div>
                                     <h3 class="text-lg font-semibold text-white mb-4">Rodapé</h3>
                                     <div class="space-y-4">
-                                        <div><label for="style-footer-bg-color" class="block text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-footer-bg-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div><label for="style-footer-headings-color" class="block text-sm font-medium text-slate-400">Cor dos Títulos</label><input type="color" id="style-footer-headings-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
-                                        <div><label for="style-footer-text-color" class="block text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-footer-text-color" class="mt-1 h-10 w-full rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-footer-bg-color" class="text-sm font-medium text-slate-400">Cor do Fundo</label><input type="color" id="style-footer-bg-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-footer-headings-color" class="text-sm font-medium text-slate-400">Cor dos Títulos</label><input type="color" id="style-footer-headings-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
+                                        <div class="flex items-center justify-between"><label for="style-footer-text-color" class="text-sm font-medium text-slate-400">Cor do Texto</label><input type="color" id="style-footer-text-color" class="h-9 w-16 rounded-md border-slate-600 shadow-sm form-input"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <button id="save-style" class="save-button mt-8">Salvar Alterações de Estilo</button>
+                        <div class="flex justify-end pt-6 border-t border-slate-700 mt-8"><button id="save-style" class="save-button">Salvar Alterações de Estilo</button></div>
                     </div>
                 </div>
 
 
                 <div id="section-social-proof" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Prova Social</h2>
-                        <div><label for="social-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="social-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div id="social-logos-container" class="space-y-4"></div>
-                        <button id="add-social-logo" class="add-button">Adicionar Logo</button>
-                        <button id="save-social-proof" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Prova Social</h2>
+                         <div><label for="social-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="social-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div id="social-logos-container" class="space-y-4 pt-4"></div>
+                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
+                             <button id="add-social-logo" class="add-button">Adicionar Logo</button>
+                             <button id="save-social-proof" class="save-button">Salvar Alterações</button>
+                         </div>
                     </div>
                 </div>
                 
                 <div id="section-about" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção Sobre</h2>
-                        <div><label for="about-title" class="block text-sm font-medium text-slate-400">Título</label><input type="text" id="about-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div><label for="about-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-700">
-                            <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 1</h4><label for="about-step1-title" class="block text-sm font-medium text-slate-400">Título do Passo 1</label><input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step1-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                            <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 2</h4><label for="about-step2-title" class="block text-sm font-medium text-slate-400">Título do Passo 2</label><input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step2-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                            <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 3</h4><label for="about-step3-title" class="block text-sm font-medium text-slate-400">Título do Passo 3</label><input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step3-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        </div>
-                        <button id="save-about" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção Sobre</h2>
+                         <div><label for="about-title" class="block text-sm font-medium text-slate-400">Título</label><input type="text" id="about-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div><label for="about-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-700">
+                             <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 1</h4><label for="about-step1-title" class="block text-sm font-medium text-slate-400">Título do Passo 1</label><input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step1-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                             <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 2</h4><label for="about-step2-title" class="block text-sm font-medium text-slate-400">Título do Passo 2</label><input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step2-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                             <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 3</h4><label for="about-step3-title" class="block text-sm font-medium text-slate-400">Título do Passo 3</label><input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step3-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         </div>
+                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-about" class="save-button">Salvar Alterações</button></div>
                     </div>
                 </div>
 
                 <div id="section-services" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Serviços</h2>
-                        <div><label for="services-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="services-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div><label for="services-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div class="border-t border-slate-700 pt-6"><label for="services-show-button-toggle" class="flex items-center cursor-pointer"><div class="relative"><input type="checkbox" id="services-show-button-toggle" class="sr-only toggle-checkbox"><div class="block bg-slate-600 w-14 h-8 rounded-full toggle-label transition"><div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div></div></div><div class="ml-3 text-white font-medium">Exibir botão "Tenho Interesse!" nos serviços</div></label></div>
-                        <div id="services-container" class="space-y-4"></div>
-                        <button id="add-service" class="add-button">Adicionar Item</button>
-                        <button id="save-services" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Serviços</h2>
+                         <div><label for="services-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="services-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div><label for="services-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div class="border-t border-slate-700 pt-6"><label for="services-show-button-toggle" class="flex items-center cursor-pointer"><div class="relative"><input type="checkbox" id="services-show-button-toggle" class="sr-only toggle-checkbox"><div class="block bg-slate-600 w-14 h-8 rounded-full toggle-label transition"><div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div></div></div><div class="ml-3 text-white font-medium">Exibir botão "Tenho Interesse!" nos serviços</div></label></div>
+                         <div id="services-container" class="space-y-4 pt-4"></div>
+                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
+                            <button id="add-service" class="add-button">Adicionar Item</button>
+                            <button id="save-services" class="save-button">Salvar Alterações</button>
+                         </div>
                     </div>
                 </div>
 
                 <div id="section-testimonials" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Depoimentos</h2>
-                        <div><label for="testimonials-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div><label for="testimonials-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div id="testimonials-container" class="space-y-4"></div>
-                        <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
-                        <button id="save-testimonials" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Depoimentos</h2>
+                         <div><label for="testimonials-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div><label for="testimonials-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div id="testimonials-container" class="space-y-4 pt-4"></div>
+                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
+                            <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
+                            <button id="save-testimonials" class="save-button">Salvar Alterações</button>
+                         </div>
                     </div>
                 </div>
 
                 <div id="section-faq" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de FAQ</h2>
-                        <div><label for="faq-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="faq-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div><label for="faq-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div id="faq-container" class="space-y-4"></div>
-                        <button id="add-faq" class="add-button">Adicionar Pergunta</button>
-                        <button id="save-faq" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de FAQ</h2>
+                         <div><label for="faq-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="faq-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div><label for="faq-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div id="faq-container" class="space-y-4 pt-4"></div>
+                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
+                             <button id="add-faq" class="add-button">Adicionar Pergunta</button>
+                             <button id="save-faq" class="save-button">Salvar Alterações</button>
+                         </div>
                     </div>
                 </div>
 
                 <div id="section-cta" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Chamada Final (CTA)</h2>
-                        <div><label for="cta-title" class="block text-sm font-medium text-slate-400">Título</label><input type="text" id="cta-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div><label for="cta-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div><label for="cta-button-text" class="block text-sm font-medium text-slate-400">Texto do Botão</label><input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        <div><label for="cta-button-link" class="block text-sm font-medium text-slate-400">URL do Botão (Opcional)</label><input type="url" id="cta-button-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"><p class="mt-2 text-sm text-slate-500">Se preenchido, o botão levará a este link. Caso contrário, abrirá o modal de contato.</p></div>
-                        <button id="save-cta" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Chamada Final (CTA)</h2>
+                         <div><label for="cta-title" class="block text-sm font-medium text-slate-400">Título</label><input type="text" id="cta-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div><label for="cta-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div><label for="cta-button-text" class="block text-sm font-medium text-slate-400">Texto do Botão</label><input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div><label for="cta-button-link" class="block text-sm font-medium text-slate-400">URL do Botão (Opcional)</label><input type="url" id="cta-button-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"><p class="mt-2 text-sm text-slate-500">Se preenchido, o botão levará a este link. Caso contrário, abrirá o modal de contato.</p></div>
+                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-cta" class="save-button">Salvar Alterações</button></div>
                     </div>
                 </div>
 
                 <div id="section-footer" class="content-section">
                      <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Rodapé</h2>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div><label for="footer-logo" class="block text-sm font-medium text-slate-400">Texto da Logo</label><input type="text" id="footer-logo" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div><label for="footer-description" class="block text-sm font-medium text-slate-400">Descrição Curta</label><textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                            <div><label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-400">Nº de WhatsApp (ex: 5532...)</label><input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div><label for="footer-contact-email" class="block text-sm font-medium text-slate-400">Email de Contato</label><input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div><label for="footer-contact-phone" class="block text-sm font-medium text-slate-400">Telefone de Contato</label><input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div><label for="footer-contact-address" class="block text-sm font-medium text-slate-400">Endereço</label><input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div class="md:col-span-2"><label for="footer-favicon" class="block text-sm font-medium text-slate-400">URL do Favicon</label><div class="flex items-center space-x-4 mt-1"><input type="text" id="footer-favicon" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico"><img id="favicon-preview" src="https://placehold.co/32x32/1e293b/94a3b8?text=Favicon" alt="Pré-visualização do Favicon" class="w-8 h-8 rounded-md bg-slate-700 flex-shrink-0"></div></div>
-                            <div class="md:col-span-2"><label for="footer-copyright" class="block text-sm font-medium text-slate-400">Texto de Copyright</label><input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                        </div>
-                        <button id="save-footer" class="save-button mt-4">Salvar Alterações</button>
+                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Rodapé</h2>
+                         <div class="grid md:grid-cols-2 gap-6">
+                             <div><label for="footer-logo" class="block text-sm font-medium text-slate-400">Texto da Logo</label><input type="text" id="footer-logo" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                             <div><label for="footer-description" class="block text-sm font-medium text-slate-400">Descrição Curta</label><textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                             <div><label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-400">Nº de WhatsApp (ex: 5532...)</label><input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                             <div><label for="footer-contact-email" class="block text-sm font-medium text-slate-400">Email de Contato</label><input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                             <div><label for="footer-contact-phone" class="block text-sm font-medium text-slate-400">Telefone de Contato</label><input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                             <div><label for="footer-contact-address" class="block text-sm font-medium text-slate-400">Endereço</label><input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                             <div class="md:col-span-2"><label for="footer-favicon" class="block text-sm font-medium text-slate-400">URL do Favicon</label><div class="flex items-center space-x-4 mt-1"><input type="text" id="footer-favicon" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico"><img id="favicon-preview" src="https://placehold.co/32x32/1e293b/94a3b8?text=Favicon" alt="Pré-visualização do Favicon" class="w-8 h-8 rounded-md bg-slate-700 flex-shrink-0"></div></div>
+                             <div class="md:col-span-2"><label for="footer-copyright" class="block text-sm font-medium text-slate-400">Texto de Copyright</label><input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         </div>
+                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-footer" class="save-button">Salvar Alterações</button></div>
                     </div>
                 </div>
             </main>
@@ -299,21 +313,25 @@
             const overlay = document.getElementById('sidebar-overlay');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
 
+            // --- ESTILOS DOS BOTÕES ATUALIZADOS ---
             const globalStyles = `
                 .save-button { 
                     background-image: linear-gradient(to right, #4f46e5, #6366f1); color: white; font-weight: 600; 
-                    padding: 0.75rem 1.5rem; border-radius: 0.5rem; cursor: pointer; width: 100%; text-align: center;
+                    padding: 0.6rem 1.5rem; border-radius: 9999px; cursor: pointer; text-align: center;
                     box-shadow: 0 4px 15px 0 rgba(79, 70, 229, 0.4); transition: all 0.3s ease-in-out; 
+                    display: inline-block;
                 }
                 .save-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px 0 rgba(79, 70, 229, 0.5); }
                 .save-button:disabled { background-image: none; background-color: #3e38a4; cursor: not-allowed; box-shadow: none; transform: none; }
                 .add-button { 
-                    background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.5rem;
-                    transition: all 0.2s ease-in-out;
+                    background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1.25rem; border-radius: 9999px;
+                    transition: all 0.2s ease-in-out; display: inline-flex; align-items: center;
                 }
                 .add-button:hover { background-color: #059669; transform: scale(1.05); }
                 .remove-button { 
-                    background-color: #ef4444; color: white; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 0.5rem;
+                    background-color: #ef4444; color: white; font-weight: 600; border-radius: 9999px;
+                    width: 1.75rem; height: 1.75rem;
+                    display: inline-flex; align-items: center; justify-content: center;
                     transition: all 0.2s ease-in-out;
                 }
                 .remove-button:hover { background-color: #dc2626; transform: scale(1.1); }
@@ -342,7 +360,15 @@
                     console.error("Erro ao salvar dados: ", error);
                     showToast("Ocorreu um erro ao salvar.", true);
                 } finally {
-                    saveButtons.forEach(btn => { btn.disabled = false; btn.textContent = 'Salvar Alterações'; });
+                    saveButtons.forEach(btn => { 
+                        btn.disabled = false; 
+                        // Mantém o texto original do botão após salvar
+                        if (btn.id === 'save-style') {
+                           btn.textContent = 'Salvar Alterações de Estilo';
+                        } else {
+                           btn.textContent = 'Salvar Alterações';
+                        }
+                    });
                 }
             };
 
@@ -463,7 +489,7 @@
                 const container = document.getElementById('social-logos-container');
                 const div = document.createElement('div');
                 div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Logo #${index + 1}</h4><button class="remove-button absolute top-2 right-2 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-src" value="${logo.src || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-alt" value="${logo.alt || ''}"></div>`;
+                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Logo #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-src" value="${logo.src || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-alt" value="${logo.alt || ''}"></div>`;
                 container.appendChild(div);
             };
             
@@ -471,7 +497,7 @@
                 const container = document.getElementById('services-container');
                 const div = document.createElement('div');
                 div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Serviço #${index + 1}</h4><button class="remove-button absolute top-2 right-2 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Título</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-title" value="${item.title || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-description">${item.description || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-400">URL do Botão (Opcional)</label><input type="url" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-link" value="${item.link || ''}" placeholder="https://"></div>`;
+                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Serviço #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Título</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-title" value="${item.title || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-description">${item.description || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-400">URL do Botão (Opcional)</label><input type="url" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-link" value="${item.link || ''}" placeholder="https://"></div>`;
                 container.appendChild(div);
             };
             
@@ -479,7 +505,7 @@
                 const container = document.getElementById('testimonials-container');
                 const div = document.createElement('div');
                 div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Depoimento #${index + 1}</h4><button class="remove-button absolute top-2 right-2 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-quote">${item.quote || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-author" value="${item.author || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Cargo/Empresa</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-position" value="${item.position || ''}"></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-image" value="${item.image || ''}"></div>`;
+                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Depoimento #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-quote">${item.quote || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-author" value="${item.author || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Cargo/Empresa</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-position" value="${item.position || ''}"></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-image" value="${item.image || ''}"></div>`;
                 container.appendChild(div);
             };
 
@@ -487,7 +513,7 @@
                 const container = document.getElementById('faq-container');
                 const div = document.createElement('div');
                 div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">FAQ #${index + 1}</h4><button class="remove-button absolute top-2 right-2 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-question" value="${item.question || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-answer">${item.answer || ''}</textarea></div>`;
+                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">FAQ #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-question" value="${item.question || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-answer">${item.answer || ''}</textarea></div>`;
                 container.appendChild(div);
             };
             
@@ -583,4 +609,3 @@
     </script>
 </body>
 </html>
-
