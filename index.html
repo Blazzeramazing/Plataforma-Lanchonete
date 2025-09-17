@@ -187,28 +187,28 @@
             </div>
         </section>
 
-        <section id="sobre" class="py-24 bg-white animated-section">
+        <section id="sobre" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="about-title"></h2>
                     <p class="mt-4 text-lg text-gray-600" id="about-subtitle"></p>
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
-                    <div class="interactive-card p-8 rounded-xl bg-gray-50" id="about-step1">
+                    <div class="interactive-card p-8 rounded-xl bg-gray-50/50 backdrop-blur-sm border border-gray-200/50" id="about-step1">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step1-title"></h3>
                         <p class="mt-2 text-gray-600" id="about-step1-desc"></p>
                     </div>
-                    <div class="interactive-card p-8 rounded-xl bg-gray-50" id="about-step2">
+                    <div class="interactive-card p-8 rounded-xl bg-gray-50/50 backdrop-blur-sm border border-gray-200/50" id="about-step2">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         </div>
                         <h3 class="text-xl font-semibold text-gray-900" id="about-step2-title"></h3>
                         <p class="mt-2 text-gray-600" id="about-step2-desc"></p>
                     </div>
-                    <div class="interactive-card p-8 rounded-xl bg-gray-50" id="about-step3">
+                    <div class="interactive-card p-8 rounded-xl bg-gray-50/50 backdrop-blur-sm border border-gray-200/50" id="about-step3">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
                         </div>
@@ -233,7 +233,7 @@
             </div>
         </section>
 
-        <section id="depoimentos" class="py-24 bg-white animated-section">
+        <section id="depoimentos" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="testimonials-title"></h2>
@@ -330,7 +330,8 @@
                 primaryBtnBgColor: '#4F46E5', primaryBtnTextColor: '#FFFFFF',
                 secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937',
                 ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF',
-                footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF'
+                footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF',
+                aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB'
             },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
@@ -385,6 +386,8 @@
                 footer p, footer li, footer a { color: ${styles.footerTextColor} !important; }
                 footer a:hover { color: ${styles.footerHeadingsColor} !important; }
                 .service-card-overlay .enhanced-button { color: ${styles.primaryBtnTextColor} !important; }
+                section#sobre { background-color: ${styles.aboutBgColor} !important; }
+                section#depoimentos { background-color: ${styles.testimonialsBgColor} !important; }
                 #contact-modal *, #contact-modal p { color: initial !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
@@ -468,7 +471,7 @@
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
             (data.testimonials?.items || []).forEach(item => {
-                testimonialsContainer.innerHTML += `<div class="interactive-card bg-gray-50 p-8 rounded-xl"><p class="text-gray-600">"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold text-gray-900">${item.author}</p><p class="text-sm text-gray-500">${item.position}</p></div></div></div>`;
+                testimonialsContainer.innerHTML += `<div class="interactive-card bg-gray-50/50 backdrop-blur-sm border border-gray-200/50 p-8 rounded-xl"><p class="text-gray-600">"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold text-gray-900">${item.author}</p><p class="text-sm text-gray-500">${item.position}</p></div></div></div>`;
             });
 
             document.getElementById('faq-title').textContent = data.faq?.title || '';
