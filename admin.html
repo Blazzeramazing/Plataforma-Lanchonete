@@ -11,14 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .sidebar-link.active { 
-            background-color: #4f46e5; 
-            color: white; 
-            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.5); 
+        .sidebar-link.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.5);
         }
-        .sidebar-link {
-            transition: all 0.2s ease-in-out;
-        }
+        .sidebar-link { transition: all 0.2s ease-in-out; }
         .sidebar-link:hover:not(.active) {
             background-color: #334155;
             transform: translateX(4px);
@@ -26,8 +24,10 @@
         .content-section { display: none; }
         .content-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         aside { transition: transform 0.3s ease-in-out; }
         
+        /* --- EFEITO DE FUNDO "AURORA" --- */
         .aurora-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; background: #0f172a;
@@ -47,6 +47,7 @@
             50% { transform: translate(100px, 100px) rotate(180deg); }
         }
 
+        /* --- ESTILOS DE FORMULÁRIO MODERNOS --- */
         .form-input {
             background-color: rgba(30, 41, 59, 0.7);
             border: 1px solid #334155;
@@ -58,11 +59,45 @@
             box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5);
             outline: none;
         }
-        input[type="color"].form-input {
-             padding: 0.25rem;
+        input[type="color"].form-input { padding: 0.25rem; height: 2.75rem; }
+        
+        /* --- BOTÕES --- */
+        .primary-button {
+            background-image: linear-gradient(to right, #4f46e5, #6366f1); color: white; font-weight: 600;
+            padding: 0.75rem 1.5rem; border-radius: 9999px; cursor: pointer; text-align: center;
+            box-shadow: 0 4px 15px 0 rgba(79, 70, 229, 0.4); transition: all 0.3s ease-in-out;
+            display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
         }
+        .primary-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px 0 rgba(79, 70, 229, 0.5); }
+        .primary-button:disabled { background-image: none; background-color: #3e38a4; cursor: not-allowed; box-shadow: none; transform: none; }
+        
+        .secondary-button {
+            background-color: #10b981; color: white; font-weight: 600; padding: 0.6rem 1.25rem; border-radius: 9999px;
+            transition: all 0.2s ease-in-out; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        }
+        .secondary-button:hover { background-color: #059669; transform: scale(1.05); }
+        
+        .danger-button {
+            background-color: #ef4444; color: white; font-weight: 600; border-radius: 9999px;
+            width: 2rem; height: 2rem;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: all 0.2s ease-in-out;
+        }
+        .danger-button:hover { background-color: #dc2626; transform: scale(1.1) rotate(6deg); }
+
+        /* --- TOGGLE SWITCH --- */
         .toggle-checkbox:checked + .toggle-label { background-color: #4f46e5; }
         .toggle-checkbox:checked + .toggle-label .dot { transform: translateX(100%); }
+
+        /* --- SPINNER DE CARREGAMENTO --- */
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-left-color: #fff;
+            border-radius: 50%; width: 1.25rem; height: 1.25rem;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
     </style>
 </head>
 <body class="bg-slate-900 text-slate-300">
@@ -103,207 +138,170 @@
             
             <main class="flex-1 p-4 sm:p-6 lg:p-10 overflow-y-auto">
                 
+                <!-- SEÇÃO HERO -->
                 <div id="section-hero" class="content-section active">
-                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção Inicial (Hero)</h2>
-                        <div><label for="hero-title" class="block text-sm font-medium text-slate-400">Título Principal</label><textarea id="hero-title" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div><label for="hero-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                        <div class="grid md:grid-cols-2 gap-6 pt-4 border-t border-slate-700">
-                            <div><label for="hero-cta1-text" class="block text-sm font-medium text-slate-400">Texto do Botão 1 (Primário)</label><input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div><label for="hero-cta1-link" class="block text-sm font-medium text-slate-400">URL do Botão 1</label><input type="url" id="hero-cta1-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"></div>
-                            <div><label for="hero-cta2-text" class="block text-sm font-medium text-slate-400">Texto do Botão 2 (Secundário)</label><input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                            <div><label for="hero-cta2-link" class="block text-sm font-medium text-slate-400">URL do Botão 2</label><input type="url" id="hero-cta2-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"></div>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                        <header class="border-b border-slate-700 pb-4 mb-6">
+                            <h2 class="text-2xl font-bold text-white">Seção Inicial (Hero)</h2>
+                            <p class="text-slate-400 mt-1">A primeira impressão da sua página.</p>
+                        </header>
+                        <div class="space-y-6">
+                            <div><label for="hero-title" class="block text-sm font-medium text-slate-400 mb-1">Título Principal</label><textarea id="hero-title" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            <div><label for="hero-subtitle" class="block text-sm font-medium text-slate-400 mb-1">Subtítulo</label><textarea id="hero-subtitle" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            <div class="grid md:grid-cols-2 gap-6 pt-4 border-t border-slate-700">
+                                <div><label for="hero-cta1-text" class="block text-sm font-medium text-slate-400 mb-1">Texto do Botão 1 (Primário)</label><input type="text" id="hero-cta1-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                                <div><label for="hero-cta1-link" class="block text-sm font-medium text-slate-400 mb-1">URL do Botão 1</label><input type="url" id="hero-cta1-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="#"></div>
+                                <div><label for="hero-cta2-text" class="block text-sm font-medium text-slate-400 mb-1">Texto do Botão 2 (Secundário)</label><input type="text" id="hero-cta2-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                                <div><label for="hero-cta2-link" class="block text-sm font-medium text-slate-400 mb-1">URL do Botão 2</label><input type="url" id="hero-cta2-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="#"></div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-700"><label for="hero-image" class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem</label><input type="text" id="hero-image" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/imagem.png"></div>
                         </div>
-                        <div class="pt-4 border-t border-slate-700"><label for="hero-image" class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" id="hero-image" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/imagem.png"></div>
-                        <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-hero" class="save-button">Salvar Alterações</button></div>
+                        <footer class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-hero" data-original-text="Salvar Alterações" class="save-button primary-button"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button></footer>
                     </div>
                 </div>
 
-                <!-- SEÇÃO DE ESTILO REESTRUTURADA -->
+                <!-- SEÇÃO DE ESTILO -->
                 <div id="section-style" class="content-section">
                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
-                        <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Customização Visual</h2>
+                        <header class="border-b border-slate-700 pb-4 mb-6">
+                            <h2 class="text-2xl font-bold text-white">Customização Visual</h2>
+                            <p class="text-slate-400 mt-1">Ajuste a paleta de cores e o visual da sua página.</p>
+                        </header>
                         <div class="space-y-8">
-                
-                            <!-- Paleta de Cores -->
                             <div>
                                 <h3 class="text-lg font-semibold text-white mb-4">Paleta de Cores</h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-4">
-                                    <!-- Global -->
-                                    <div>
-                                        <label for="style-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo da Página</label>
-                                        <input type="color" id="style-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Principal</label>
-                                        <input type="color" id="style-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <!-- Header -->
-                                    <div>
-                                        <label for="style-header-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Cabeçalho</label>
-                                        <input type="color" id="style-header-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-header-text-color" class="block text-sm font-medium text-slate-400 mb-1">Links Cabeçalho</label>
-                                        <input type="color" id="style-header-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <!-- Botão Primário -->
-                                    <div>
-                                        <label for="style-primary-btn-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Botão Primário</label>
-                                        <input type="color" id="style-primary-btn-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-primary-btn-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Botão Primário</label>
-                                        <input type="color" id="style-primary-btn-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <!-- Botão Secundário -->
-                                    <div>
-                                        <label for="style-secondary-btn-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Botão Secundário</label>
-                                        <input type="color" id="style-secondary-btn-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-secondary-btn-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Botão Secundário</label>
-                                        <input type="color" id="style-secondary-btn-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                     <!-- Fundo Seções -->
-                                    <div>
-                                        <label for="style-about-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Seção "Sobre"</label>
-                                        <input type="color" id="style-about-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-testimonials-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Seção "Depoimentos"</label>
-                                        <input type="color" id="style-testimonials-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                     <!-- CTA -->
-                                    <div>
-                                        <label for="style-cta-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo CTA Final</label>
-                                        <input type="color" id="style-cta-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-cta-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto CTA Final</label>
-                                        <input type="color" id="style-cta-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <!-- Rodapé -->
-                                    <div>
-                                        <label for="style-footer-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Rodapé</label>
-                                        <input type="color" id="style-footer-bg-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                     <div>
-                                        <label for="style-footer-headings-color" class="block text-sm font-medium text-slate-400 mb-1">Títulos Rodapé</label>
-                                        <input type="color" id="style-footer-headings-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
-                                    <div>
-                                        <label for="style-footer-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Rodapé</label>
-                                        <input type="color" id="style-footer-text-color" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1">
-                                    </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-4">
+                                    <div><label for="style-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo da Página</label><input type="color" id="style-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Principal</label><input type="color" id="style-text-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-header-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Cabeçalho</label><input type="color" id="style-header-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-header-text-color" class="block text-sm font-medium text-slate-400 mb-1">Links Cabeçalho</label><input type="color" id="style-header-text-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-primary-btn-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Botão Primário</label><input type="color" id="style-primary-btn-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-primary-btn-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Botão Primário</label><input type="color" id="style-primary-btn-text-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-secondary-btn-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Botão Secundário</label><input type="color" id="style-secondary-btn-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-secondary-btn-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Botão Secundário</label><input type="color" id="style-secondary-btn-text-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-about-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Seção "Sobre"</label><input type="color" id="style-about-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-testimonials-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo "Depoimentos"</label><input type="color" id="style-testimonials-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-cta-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo CTA Final</label><input type="color" id="style-cta-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-cta-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto CTA Final</label><input type="color" id="style-cta-text-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-footer-bg-color" class="block text-sm font-medium text-slate-400 mb-1">Fundo Rodapé</label><input type="color" id="style-footer-bg-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-footer-headings-color" class="block text-sm font-medium text-slate-400 mb-1">Títulos Rodapé</label><input type="color" id="style-footer-headings-color" class="w-full h-11 rounded-md form-input"></div>
+                                    <div><label for="style-footer-text-color" class="block text-sm font-medium text-slate-400 mb-1">Texto Rodapé</label><input type="color" id="style-footer-text-color" class="w-full h-11 rounded-md form-input"></div>
                                 </div>
                             </div>
-                
-                            <!-- Imagem de Fundo -->
                             <div class="border-t border-slate-700 pt-8">
                                 <h3 class="text-lg font-semibold text-white mb-4">Imagem de Fundo</h3>
                                 <div>
-                                  <label for="style-bg-image" class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem de Fundo (Opcional)</label>
-                                  <input type="text" id="style-bg-image" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://...">
-                                  <p class="mt-2 text-xs text-slate-500">Substitui a cor de fundo da página.</p>
+                                    <label for="style-bg-image" class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem de Fundo (Opcional)</label>
+                                    <input type="text" id="style-bg-image" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://...">
+                                    <p class="mt-2 text-xs text-slate-500">Substitui a cor de fundo da página.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex justify-end pt-6 border-t border-slate-700 mt-8"><button id="save-style" class="save-button">Salvar Alterações de Estilo</button></div>
+                        <footer class="flex justify-end pt-6 border-t border-slate-700 mt-8"><button id="save-style" data-original-text="Salvar Alterações" class="save-button primary-button"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button></footer>
                     </div>
                 </div>
 
+                <!-- DEMAIS SEÇÕES (ESTRUTURA SIMILAR) -->
                 <div id="section-social-proof" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Prova Social</h2>
-                         <div><label for="social-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="social-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div id="social-logos-container" class="space-y-4 pt-4"></div>
-                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
-                             <button id="add-social-logo" class="add-button">Adicionar Logo</button>
-                             <button id="save-social-proof" class="save-button">Salvar Alterações</button>
-                         </div>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                        <header class="border-b border-slate-700 pb-4 mb-6">
+                            <h2 class="text-2xl font-bold text-white">Prova Social</h2>
+                            <p class="text-slate-400 mt-1">Mostre quem confia na sua marca.</p>
+                        </header>
+                        <div><label for="social-title" class="block text-sm font-medium text-slate-400 mb-1">Título da Seção</label><input type="text" id="social-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                        <div id="social-logos-container" class="space-y-4 pt-6"></div>
+                        <footer class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-6 border-t border-slate-700 gap-4">
+                            <button id="add-social-logo" class="secondary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg><span>Adicionar Logo</span></button>
+                            <button id="save-social-proof" data-original-text="Salvar Alterações" class="save-button primary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button>
+                        </footer>
                     </div>
                 </div>
                 
                 <div id="section-about" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção Sobre</h2>
-                         <div><label for="about-title" class="block text-sm font-medium text-slate-400">Título</label><input type="text" id="about-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div><label for="about-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-700">
-                             <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 1</h4><label for="about-step1-title" class="block text-sm font-medium text-slate-400">Título do Passo 1</label><input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step1-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                             <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 2</h4><label for="about-step2-title" class="block text-sm font-medium text-slate-400">Título do Passo 2</label><input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step2-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                             <div class="border border-slate-700 p-4 rounded-md bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 3</h4><label for="about-step3-title" class="block text-sm font-medium text-slate-400">Título do Passo 3</label><input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step3-desc" class="block text-sm font-medium text-slate-400 mt-2">Descrição</label><textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                         </div>
-                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-about" class="save-button">Salvar Alterações</button></div>
+                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                        <header class="border-b border-slate-700 pb-4 mb-6"><h2 class="text-2xl font-bold text-white">Seção Sobre</h2><p class="text-slate-400 mt-1">Explique o seu processo ou metodologia.</p></header>
+                        <div class="space-y-6">
+                            <div><label for="about-title" class="block text-sm font-medium text-slate-400 mb-1">Título</label><input type="text" id="about-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div><label for="about-subtitle" class="block text-sm font-medium text-slate-400 mb-1">Subtítulo</label><textarea id="about-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-slate-700">
+                                <div class="border border-slate-700 p-4 rounded-lg bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 1</h4><label for="about-step1-title" class="block text-sm font-medium text-slate-400 mb-1">Título</label><input type="text" id="about-step1-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step1-desc" class="block text-sm font-medium text-slate-400 mt-2 mb-1">Descrição</label><textarea id="about-step1-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                                <div class="border border-slate-700 p-4 rounded-lg bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 2</h4><label for="about-step2-title" class="block text-sm font-medium text-slate-400 mb-1">Título</label><input type="text" id="about-step2-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step2-desc" class="block text-sm font-medium text-slate-400 mt-2 mb-1">Descrição</label><textarea id="about-step2-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                                <div class="border border-slate-700 p-4 rounded-lg bg-slate-900/40 space-y-2"><h4 class="font-bold text-white">Passo 3</h4><label for="about-step3-title" class="block text-sm font-medium text-slate-400 mb-1">Título</label><input type="text" id="about-step3-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"><label for="about-step3-desc" class="block text-sm font-medium text-slate-400 mt-2 mb-1">Descrição</label><textarea id="about-step3-desc" rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            </div>
+                        </div>
+                        <footer class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-about" data-original-text="Salvar Alterações" class="save-button primary-button"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button></footer>
                     </div>
                 </div>
 
                 <div id="section-services" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Serviços</h2>
-                         <div><label for="services-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="services-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div><label for="services-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                         <div class="border-t border-slate-700 pt-6"><label for="services-show-button-toggle" class="flex items-center cursor-pointer"><div class="relative"><input type="checkbox" id="services-show-button-toggle" class="sr-only toggle-checkbox"><div class="block bg-slate-600 w-14 h-8 rounded-full toggle-label transition"><div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div></div></div><div class="ml-3 text-white font-medium">Exibir botão "Tenho Interesse!" nos serviços</div></label></div>
-                         <div id="services-container" class="space-y-4 pt-4"></div>
-                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
-                            <button id="add-service" class="add-button">Adicionar Item</button>
-                            <button id="save-services" class="save-button">Salvar Alterações</button>
-                         </div>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                        <header class="border-b border-slate-700 pb-4 mb-6"><h2 class="text-2xl font-bold text-white">Serviços</h2><p class="text-slate-400 mt-1">Gerencie os serviços ou produtos oferecidos.</p></header>
+                        <div class="space-y-4">
+                            <div><label for="services-title" class="block text-sm font-medium text-slate-400 mb-1">Título da Seção</label><input type="text" id="services-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div><label for="services-subtitle" class="block text-sm font-medium text-slate-400 mb-1">Subtítulo da Seção</label><textarea id="services-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            <div class="pt-4"><label for="services-show-button-toggle" class="flex items-center cursor-pointer"><div class="relative"><input type="checkbox" id="services-show-button-toggle" class="sr-only toggle-checkbox"><div class="block bg-slate-600 w-14 h-8 rounded-full toggle-label transition"><div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition transform"></div></div></div><div class="ml-3 text-white font-medium">Exibir botão "Tenho Interesse!"</div></label></div>
+                        </div>
+                        <div id="services-container" class="space-y-4 pt-6"></div>
+                        <footer class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-6 border-t border-slate-700 gap-4">
+                            <button id="add-service" class="secondary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg><span>Adicionar Serviço</span></button>
+                            <button id="save-services" data-original-text="Salvar Alterações" class="save-button primary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button>
+                        </footer>
                     </div>
                 </div>
 
                 <div id="section-testimonials" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de Depoimentos</h2>
-                         <div><label for="testimonials-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div><label for="testimonials-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                         <div id="testimonials-container" class="space-y-4 pt-4"></div>
-                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
-                            <button id="add-testimonial" class="add-button">Adicionar Depoimento</button>
-                            <button id="save-testimonials" class="save-button">Salvar Alterações</button>
-                         </div>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                         <header class="border-b border-slate-700 pb-4 mb-6"><h2 class="text-2xl font-bold text-white">Depoimentos</h2><p class="text-slate-400 mt-1">O que seus clientes dizem sobre você.</p></header>
+                         <div><label for="testimonials-title" class="block text-sm font-medium text-slate-400 mb-1">Título da Seção</label><input type="text" id="testimonials-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div class="mt-4"><label for="testimonials-subtitle" class="block text-sm font-medium text-slate-400 mb-1">Subtítulo da Seção</label><textarea id="testimonials-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div id="testimonials-container" class="space-y-4 pt-6"></div>
+                         <footer class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-6 border-t border-slate-700 gap-4">
+                            <button id="add-testimonial" class="secondary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg><span>Adicionar Depoimento</span></button>
+                            <button id="save-testimonials" data-original-text="Salvar Alterações" class="save-button primary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button>
+                        </footer>
                     </div>
                 </div>
-
+                
                 <div id="section-faq" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Seção de FAQ</h2>
-                         <div><label for="faq-title" class="block text-sm font-medium text-slate-400">Título da Seção</label><input type="text" id="faq-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div><label for="faq-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo da Seção</label><textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                         <div id="faq-container" class="space-y-4 pt-4"></div>
-                         <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-700">
-                             <button id="add-faq" class="add-button">Adicionar Pergunta</button>
-                             <button id="save-faq" class="save-button">Salvar Alterações</button>
-                         </div>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                         <header class="border-b border-slate-700 pb-4 mb-6"><h2 class="text-2xl font-bold text-white">Perguntas Frequentes (FAQ)</h2><p class="text-slate-400 mt-1">Responda as dúvidas mais comuns.</p></header>
+                         <div><label for="faq-title" class="block text-sm font-medium text-slate-400 mb-1">Título da Seção</label><input type="text" id="faq-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                         <div class="mt-4"><label for="faq-subtitle" class="block text-sm font-medium text-slate-400 mb-1">Subtítulo da Seção</label><textarea id="faq-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                         <div id="faq-container" class="space-y-4 pt-6"></div>
+                         <footer class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-6 border-t border-slate-700 gap-4">
+                            <button id="add-faq" class="secondary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg><span>Adicionar Pergunta</span></button>
+                            <button id="save-faq" data-original-text="Salvar Alterações" class="save-button primary-button w-full sm:w-auto"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button>
+                        </footer>
                     </div>
                 </div>
-
+                
                 <div id="section-cta" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Chamada Final (CTA)</h2>
-                         <div><label for="cta-title" class="block text-sm font-medium text-slate-400">Título</label><input type="text" id="cta-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div><label for="cta-subtitle" class="block text-sm font-medium text-slate-400">Subtítulo</label><textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                         <div><label for="cta-button-text" class="block text-sm font-medium text-slate-400">Texto do Botão</label><input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         <div><label for="cta-button-link" class="block text-sm font-medium text-slate-400">URL do Botão (Opcional)</label><input type="url" id="cta-button-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"><p class="mt-2 text-sm text-slate-500">Se preenchido, o botão levará a este link. Caso contrário, abrirá o modal de contato.</p></div>
-                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-cta" class="save-button">Salvar Alterações</button></div>
+                    <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                        <header class="border-b border-slate-700 pb-4 mb-6"><h2 class="text-2xl font-bold text-white">Chamada Final (CTA)</h2><p class="text-slate-400 mt-1">O convite final para o seu visitante.</p></header>
+                        <div class="space-y-6">
+                            <div><label for="cta-title" class="block text-sm font-medium text-slate-400 mb-1">Título</label><input type="text" id="cta-title" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div><label for="cta-subtitle" class="block text-sm font-medium text-slate-400 mb-1">Subtítulo</label><textarea id="cta-subtitle" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            <div><label for="cta-button-text" class="block text-sm font-medium text-slate-400 mb-1">Texto do Botão</label><input type="text" id="cta-button-text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div><label for="cta-button-link" class="block text-sm font-medium text-slate-400 mb-1">URL do Botão (Opcional)</label><input type="url" id="cta-button-link" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://"><p class="mt-2 text-xs text-slate-500">Se preenchido, o botão levará a este link. Caso contrário, abrirá o modal de contato.</p></div>
+                        </div>
+                        <footer class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-cta" data-original-text="Salvar Alterações" class="save-button primary-button"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button></footer>
                     </div>
                 </div>
-
+                
                 <div id="section-footer" class="content-section">
-                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl space-y-6">
-                         <h2 class="text-2xl font-bold text-white border-b border-slate-700 pb-4 mb-6">Editar Rodapé</h2>
-                         <div class="grid md:grid-cols-2 gap-6">
-                             <div><label for="footer-logo" class="block text-sm font-medium text-slate-400">Texto da Logo</label><input type="text" id="footer-logo" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                             <div><label for="footer-description" class="block text-sm font-medium text-slate-400">Descrição Curta</label><textarea id="footer-description" rows="2" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
-                             <div><label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-400">Nº de WhatsApp (ex: 5532...)</label><input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                             <div><label for="footer-contact-email" class="block text-sm font-medium text-slate-400">Email de Contato</label><input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                             <div><label for="footer-contact-phone" class="block text-sm font-medium text-slate-400">Telefone de Contato</label><input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                             <div><label for="footer-contact-address" class="block text-sm font-medium text-slate-400">Endereço</label><input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                             <div class="md:col-span-2"><label for="footer-favicon" class="block text-sm font-medium text-slate-400">URL do Favicon</label><div class="flex items-center space-x-4 mt-1"><input type="text" id="footer-favicon" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico"><img id="favicon-preview" src="https://placehold.co/32x32/1e293b/94a3b8?text=Favicon" alt="Pré-visualização do Favicon" class="w-8 h-8 rounded-md bg-slate-700 flex-shrink-0"></div></div>
-                             <div class="md:col-span-2"><label for="footer-copyright" class="block text-sm font-medium text-slate-400">Texto de Copyright</label><input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
-                         </div>
-                         <div class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-footer" class="save-button">Salvar Alterações</button></div>
+                     <div class="bg-slate-800/60 backdrop-blur-sm border border-slate-700 p-6 lg:p-8 rounded-xl shadow-2xl">
+                        <header class="border-b border-slate-700 pb-4 mb-6"><h2 class="text-2xl font-bold text-white">Rodapé e Informações Gerais</h2><p class="text-slate-400 mt-1">Dados de contato, logo e copyright.</p></header>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div><label for="footer-logo" class="block text-sm font-medium text-slate-400 mb-1">Texto da Logo</label><input type="text" id="footer-logo" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div class="md:row-span-2"><label for="footer-description" class="block text-sm font-medium text-slate-400 mb-1">Descrição Curta</label><textarea id="footer-description" rows="5" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></textarea></div>
+                            <div><label for="footer-contact-whatsapp" class="block text-sm font-medium text-slate-400 mb-1">Nº de WhatsApp (ex: 5532...)</label><input type="tel" id="footer-contact-whatsapp" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div><label for="footer-contact-email" class="block text-sm font-medium text-slate-400 mb-1">Email de Contato</label><input type="email" id="footer-contact-email" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div><label for="footer-contact-phone" class="block text-sm font-medium text-slate-400 mb-1">Telefone de Contato</label><input type="tel" id="footer-contact-phone" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div class="md:col-span-2"><label for="footer-contact-address" class="block text-sm font-medium text-slate-400 mb-1">Endereço</label><input type="text" id="footer-contact-address" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                            <div class="md:col-span-2"><label for="footer-favicon" class="block text-sm font-medium text-slate-400 mb-1">URL do Favicon</label><div class="flex items-center space-x-4 mt-1"><input type="text" id="footer-favicon" class="block w-full rounded-md shadow-sm form-input text-slate-200" placeholder="https://exemplo.com/favicon.ico"><img id="favicon-preview" src="https://placehold.co/32x32/1e293b/94a3b8?text=Favicon" alt="Pré-visualização do Favicon" class="w-8 h-8 rounded-md bg-slate-700 flex-shrink-0"></div></div>
+                            <div class="md:col-span-2"><label for="footer-copyright" class="block text-sm font-medium text-slate-400 mb-1">Texto de Copyright</label><input type="text" id="footer-copyright" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200"></div>
+                        </div>
+                        <footer class="flex justify-end pt-6 border-t border-slate-700 mt-6"><button id="save-footer" data-original-text="Salvar Alterações" class="save-button primary-button"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Salvar Alterações</span></button></footer>
                     </div>
                 </div>
             </main>
@@ -335,33 +333,6 @@
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
-
-            // --- ESTILOS DOS BOTÕES ATUALIZADOS ---
-            const globalStyles = `
-                .save-button { 
-                    background-image: linear-gradient(to right, #4f46e5, #6366f1); color: white; font-weight: 600; 
-                    padding: 0.6rem 1.5rem; border-radius: 9999px; cursor: pointer; text-align: center;
-                    box-shadow: 0 4px 15px 0 rgba(79, 70, 229, 0.4); transition: all 0.3s ease-in-out; 
-                    display: inline-block;
-                }
-                .save-button:hover { transform: translateY(-2px); box-shadow: 0 8px 20px 0 rgba(79, 70, 229, 0.5); }
-                .save-button:disabled { background-image: none; background-color: #3e38a4; cursor: not-allowed; box-shadow: none; transform: none; }
-                .add-button { 
-                    background-color: #10b981; color: white; font-weight: 600; padding: 0.5rem 1.25rem; border-radius: 9999px;
-                    transition: all 0.2s ease-in-out; display: inline-flex; align-items: center;
-                }
-                .add-button:hover { background-color: #059669; transform: scale(1.05); }
-                .remove-button { 
-                    background-color: #ef4444; color: white; font-weight: 600; border-radius: 9999px;
-                    width: 1.75rem; height: 1.75rem;
-                    display: inline-flex; align-items: center; justify-content: center;
-                    transition: all 0.2s ease-in-out;
-                }
-                .remove-button:hover { background-color: #dc2626; transform: scale(1.1); }
-            `;
-            const styleSheet = document.createElement("style");
-            styleSheet.innerText = globalStyles;
-            document.head.appendChild(styleSheet);
             
             let pageData = {};
             
@@ -373,9 +344,23 @@
                 setTimeout(() => { toast.classList.add('opacity-0', 'translate-y-4'); }, 3000);
             };
             
-            const saveData = async () => {
+            const setButtonLoadingState = (isLoading) => {
                 const saveButtons = document.querySelectorAll('.save-button');
-                saveButtons.forEach(btn => { btn.disabled = true; btn.textContent = 'A guardar...'; });
+                saveButtons.forEach(btn => {
+                    btn.disabled = isLoading;
+                    const span = btn.querySelector('span');
+                    const originalText = btn.dataset.originalText;
+
+                    if (isLoading) {
+                        btn.innerHTML = `<div class="spinner"></div><span>A guardar...</span>`;
+                    } else {
+                        btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>${originalText}</span>`;
+                    }
+                });
+            };
+
+            const saveData = async () => {
+                setButtonLoadingState(true);
                 try {
                     await setDoc(contentDocRef, pageData, { merge: true }); 
                     showToast();
@@ -383,25 +368,18 @@
                     console.error("Erro ao salvar dados: ", error);
                     showToast("Ocorreu um erro ao salvar.", true);
                 } finally {
-                    saveButtons.forEach(btn => { 
-                        btn.disabled = false; 
-                        // Mantém o texto original do botão após salvar
-                        if (btn.id === 'save-style') {
-                           btn.textContent = 'Salvar Alterações de Estilo';
-                        } else {
-                           btn.textContent = 'Salvar Alterações';
-                        }
-                    });
+                    setButtonLoadingState(false);
                 }
             };
 
             const populateForms = () => {
                 const defaultD = getDefaultData();
                 pageData = pageData || defaultD;
+                // Merging defaults for each section to avoid errors if a section is missing from DB
                 pageData.style = { ...defaultD.style, ...pageData.style };
                 pageData.hero = { ...defaultD.hero, ...pageData.hero };
                 pageData.socialProof = { ...defaultD.socialProof, ...pageData.socialProof };
-                pageData.about = { ...defaultD.about, ...pageData.about };
+                pageData.about = { ...defaultD.about, ...pageData.about, step1: {...defaultD.about.step1, ...pageData.about?.step1}, step2: {...defaultD.about.step2, ...pageData.about?.step2}, step3: {...defaultD.about.step3, ...pageData.about?.step3} };
                 pageData.services = { ...defaultD.services, ...pageData.services };
                 pageData.testimonials = { ...defaultD.testimonials, ...pageData.testimonials };
                 pageData.faq = { ...defaultD.faq, ...pageData.faq };
@@ -418,22 +396,13 @@
                 document.getElementById('hero-image').value = pageData.hero.image;
 
                 // Estilo
-                document.getElementById('style-bg-color').value = pageData.style.backgroundColor;
-                document.getElementById('style-bg-image').value = pageData.style.backgroundImage;
-                document.getElementById('style-text-color').value = pageData.style.textColor;
-                document.getElementById('style-header-bg-color').value = pageData.style.headerBgColor;
-                document.getElementById('style-header-text-color').value = pageData.style.headerTextColor;
-                document.getElementById('style-primary-btn-bg-color').value = pageData.style.primaryBtnBgColor;
-                document.getElementById('style-primary-btn-text-color').value = pageData.style.primaryBtnTextColor;
-                document.getElementById('style-secondary-btn-bg-color').value = pageData.style.secondaryBtnBgColor;
-                document.getElementById('style-secondary-btn-text-color').value = pageData.style.secondaryBtnTextColor;
-                document.getElementById('style-cta-bg-color').value = pageData.style.ctaBgColor;
-                document.getElementById('style-cta-text-color').value = pageData.style.ctaTextColor;
-                document.getElementById('style-footer-bg-color').value = pageData.style.footerBgColor;
-                document.getElementById('style-footer-headings-color').value = pageData.style.footerHeadingsColor;
-                document.getElementById('style-footer-text-color').value = pageData.style.footerTextColor;
-                document.getElementById('style-about-bg-color').value = pageData.style.aboutBgColor;
-                document.getElementById('style-testimonials-bg-color').value = pageData.style.testimonialsBgColor;
+                Object.keys(pageData.style).forEach(key => {
+                    const camelKey = key.replace(/-([a-z])/g, g => g[1].toUpperCase());
+                    const element = document.getElementById(`style-${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`);
+                    if (element) {
+                        element.value = pageData.style[camelKey];
+                    }
+                });
 
                 // Prova Social
                 document.getElementById('social-title').value = pageData.socialProof.title;
@@ -511,42 +480,43 @@
             const renderLogo = (logo, index) => {
                 const container = document.getElementById('social-logos-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Logo #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-logo" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-src" value="${logo.src || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-alt" value="${logo.alt || ''}"></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-lg space-y-3 relative item-card';
+                div.innerHTML = `<header class="flex justify-between items-center"><h4 class="font-semibold text-white">Logo #${index + 1}</h4><button class="danger-button remove-item" data-index="${index}" title="Remover Logo"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></header><div><label class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-src" value="${logo.src || ''}"></div><div><label class="block text-sm font-medium text-slate-400 mb-1">Texto Alternativo (alt)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 social-logo-alt" value="${logo.alt || ''}"></div>`;
                 container.appendChild(div);
             };
             
             const renderService = (item, index) => {
                 const container = document.getElementById('services-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Serviço #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-service" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Título</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-title" value="${item.title || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Descrição</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-description">${item.description || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-image" value="${item.image || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Preço (Ex: 99,90)</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-400">URL do Botão (Opcional)</label><input type="url" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 service-item-link" value="${item.link || ''}" placeholder="https://"></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-lg space-y-3 relative item-card';
+                div.innerHTML = `<header class="flex justify-between items-center"><h4 class="font-semibold text-white">Serviço #${index + 1}</h4><button class="danger-button remove-item" title="Remover Serviço"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></header><div class="grid md:grid-cols-2 gap-4"><div><label class="block text-sm font-medium text-slate-400 mb-1">Título</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 service-item-title" value="${item.title || ''}"></div><div><label class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 service-item-image" value="${item.image || ''}"></div><div class="md:col-span-2"><label class="block text-sm font-medium text-slate-400 mb-1">Descrição</label><textarea rows="3" class="block w-full rounded-md shadow-sm form-input text-slate-200 service-item-description">${item.description || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400 mb-1">Preço (Ex: 99,90)</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 service-item-price" value="${item.price || ''}"></div><div><label class="block text-sm font-medium text-slate-400 mb-1">URL do Botão (Opcional)</label><input type="url" class="block w-full rounded-md shadow-sm form-input text-slate-200 service-item-link" value="${item.link || ''}" placeholder="https://"></div></div>`;
                 container.appendChild(div);
             };
             
             const renderTestimonial = (item, index) => {
                 const container = document.getElementById('testimonials-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">Depoimento #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-testimonial" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Depoimento</label><textarea rows="4" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-quote">${item.quote || ''}</textarea></div><div><label class="block text-sm font-medium text-slate-400">Nome do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-author" value="${item.author || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Cargo/Empresa</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-position" value="${item.position || ''}"></div><div><label class="block text-sm font-medium text-slate-400">URL da Imagem do Autor</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-image" value="${item.image || ''}"></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-lg space-y-3 relative item-card';
+                div.innerHTML = `<header class="flex justify-between items-center"><h4 class="font-semibold text-white">Depoimento #${index + 1}</h4><button class="danger-button remove-item" title="Remover Depoimento"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></header><div class="md:col-span-2"><label class="block text-sm font-medium text-slate-400 mb-1">Depoimento</label><textarea rows="4" class="block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-quote">${item.quote || ''}</textarea></div><div class="grid md:grid-cols-3 gap-4"><div><label class="block text-sm font-medium text-slate-400 mb-1">Nome do Autor</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-author" value="${item.author || ''}"></div><div><label class="block text-sm font-medium text-slate-400 mb-1">Cargo/Empresa</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-position" value="${item.position || ''}"></div><div><label class="block text-sm font-medium text-slate-400 mb-1">URL da Imagem</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 testimonial-item-image" value="${item.image || ''}"></div></div>`;
                 container.appendChild(div);
             };
 
             const renderFAQ = (item, index) => {
                 const container = document.getElementById('faq-container');
                 const div = document.createElement('div');
-                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-md space-y-3 relative';
-                div.innerHTML = `<h4 class="font-semibold text-white border-b border-slate-600 pb-2">FAQ #${index + 1}</h4><button class="remove-button absolute top-3 right-3 remove-faq" data-index="${index}">X</button><div><label class="block text-sm font-medium text-slate-400">Pergunta</label><input type="text" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-question" value="${item.question || ''}"></div><div><label class="block text-sm font-medium text-slate-400">Resposta</label><textarea rows="3" class="mt-1 block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-answer">${item.answer || ''}</textarea></div>`;
+                div.className = 'border border-slate-700 bg-slate-900/40 p-4 rounded-lg space-y-3 relative item-card';
+                div.innerHTML = `<header class="flex justify-between items-center"><h4 class="font-semibold text-white">FAQ #${index + 1}</h4><button class="danger-button remove-item" title="Remover Pergunta"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></header><div><label class="block text-sm font-medium text-slate-400 mb-1">Pergunta</label><input type="text" class="block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-question" value="${item.question || ''}"></div><div><label class="block text-sm font-medium text-slate-400 mb-1">Resposta</label><textarea rows="3" class="block w-full rounded-md shadow-sm form-input text-slate-200 faq-item-answer">${item.answer || ''}</textarea></div>`;
                 container.appendChild(div);
             };
             
+            // --- Funções para atualizar o objeto pageData com os dados dos formulários ---
             const updateHeroData = () => { pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta1Link: document.getElementById('hero-cta1-link').value, cta2Text: document.getElementById('hero-cta2-text').value, cta2Link: document.getElementById('hero-cta2-link').value, image: document.getElementById('hero-image').value }; };
             const updateStyleData = () => { pageData.style = { backgroundColor: document.getElementById('style-bg-color').value, backgroundImage: document.getElementById('style-bg-image').value, textColor: document.getElementById('style-text-color').value, headerBgColor: document.getElementById('style-header-bg-color').value, headerTextColor: document.getElementById('style-header-text-color').value, primaryBtnBgColor: document.getElementById('style-primary-btn-bg-color').value, primaryBtnTextColor: document.getElementById('style-primary-btn-text-color').value, secondaryBtnBgColor: document.getElementById('style-secondary-btn-bg-color').value, secondaryBtnTextColor: document.getElementById('style-secondary-btn-text-color').value, ctaBgColor: document.getElementById('style-cta-bg-color').value, ctaTextColor: document.getElementById('style-cta-text-color').value, footerBgColor: document.getElementById('style-footer-bg-color').value, footerHeadingsColor: document.getElementById('style-footer-headings-color').value, footerTextColor: document.getElementById('style-footer-text-color').value, aboutBgColor: document.getElementById('style-about-bg-color').value, testimonialsBgColor: document.getElementById('style-testimonials-bg-color').value }; };
-            const updateSocialProofData = () => { const newLogos = []; document.querySelectorAll('#social-logos-container > div').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; };
+            const updateSocialProofData = () => { const newLogos = Array.from(document.querySelectorAll('#social-logos-container .item-card')).map(div => ({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value })); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; };
             const updateAboutData = () => { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; };
-            const updateServicesData = () => { const newServices = []; document.querySelectorAll('#services-container > div').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, link: div.querySelector('.service-item-link').value }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices, showButton: document.getElementById('services-show-button-toggle').checked }; };
-            const updateTestimonialsData = () => { const newTestimonials = []; document.querySelectorAll('#testimonials-container > div').forEach(div => { newTestimonials.push({ quote: div.querySelector('.testimonial-item-quote').value, author: div.querySelector('.testimonial-item-author').value, position: div.querySelector('.testimonial-item-position').value, image: div.querySelector('.testimonial-item-image').value, }); }); pageData.testimonials = { title: document.getElementById('testimonials-title').value, subtitle: document.getElementById('testimonials-subtitle').value, items: newTestimonials }; };
-            const updateFaqData = () => { const newFaqs = []; document.querySelectorAll('#faq-container > div').forEach(div => { newFaqs.push({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value }); }); pageData.faq = { title: document.getElementById('faq-title').value, subtitle: document.getElementById('faq-subtitle').value, items: newFaqs }; };
+            const updateServicesData = () => { const newServices = Array.from(document.querySelectorAll('#services-container .item-card')).map(div => ({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, link: div.querySelector('.service-item-link').value })); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices, showButton: document.getElementById('services-show-button-toggle').checked }; };
+            const updateTestimonialsData = () => { const newTestimonials = Array.from(document.querySelectorAll('#testimonials-container .item-card')).map(div => ({ quote: div.querySelector('.testimonial-item-quote').value, author: div.querySelector('.testimonial-item-author').value, position: div.querySelector('.testimonial-item-position').value, image: div.querySelector('.testimonial-item-image').value, })); pageData.testimonials = { title: document.getElementById('testimonials-title').value, subtitle: document.getElementById('testimonials-subtitle').value, items: newTestimonials }; };
+            const updateFaqData = () => { const newFaqs = Array.from(document.querySelectorAll('#faq-container .item-card')).map(div => ({ question: div.querySelector('.faq-item-question').value, answer: div.querySelector('.faq-item-answer').value })); pageData.faq = { title: document.getElementById('faq-title').value, subtitle: document.getElementById('faq-subtitle').value, items: newFaqs }; };
             const updateCtaData = () => { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value, buttonLink: document.getElementById('cta-button-link').value }; };
             const updateFooterData = () => { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, favicon: document.getElementById('footer-favicon').value, copyright: document.getElementById('footer-copyright').value }; };
 
@@ -567,7 +537,7 @@
                 overlay.addEventListener('click', toggleSidebar);
 
                 sidebarLinks.forEach(link => {
-                    if(link.id !== 'logout-button') {
+                    if(!link.parentElement.classList.contains('mt-auto')) {
                         link.addEventListener('click', e => {
                             e.preventDefault();
                             sidebarLinks.forEach(l => l.classList.remove('active'));
@@ -582,6 +552,7 @@
                 
                 document.getElementById('logout-button').addEventListener('click', async (e) => { e.preventDefault(); try { await signOut(auth); } catch (error) { console.error('Erro ao fazer logout:', error); } });
                 
+                // --- Event Listeners para salvar ---
                 document.getElementById('save-hero').addEventListener('click', () => { updateHeroData(); saveData(); });
                 document.getElementById('save-style').addEventListener('click', () => { updateStyleData(); saveData(); });
                 document.getElementById('save-social-proof').addEventListener('click', () => { updateSocialProofData(); saveData(); });
@@ -592,14 +563,16 @@
                 document.getElementById('save-cta').addEventListener('click', () => { updateCtaData(); saveData(); });
                 document.getElementById('save-footer').addEventListener('click', () => { updateFooterData(); saveData(); });
                 
-                document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; renderLogo({}, pageData.socialProof.logos.length); });
-                document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; renderService({}, pageData.services.items.length); });
-                document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials?.items) pageData.testimonials.items = []; renderTestimonial({}, pageData.testimonials.items.length); });
-                document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; renderFAQ({}, pageData.faq.items.length); });
+                // --- Event Listeners para adicionar itens dinâmicos ---
+                document.getElementById('add-social-logo').addEventListener('click', () => { if (!pageData.socialProof?.logos) pageData.socialProof.logos = []; const newIndex = document.querySelectorAll('#social-logos-container .item-card').length; renderLogo({}, newIndex); });
+                document.getElementById('add-service').addEventListener('click', () => { if (!pageData.services?.items) pageData.services.items = []; const newIndex = document.querySelectorAll('#services-container .item-card').length; renderService({}, newIndex); });
+                document.getElementById('add-testimonial').addEventListener('click', () => { if (!pageData.testimonials?.items) pageData.testimonials.items = []; const newIndex = document.querySelectorAll('#testimonials-container .item-card').length; renderTestimonial({}, newIndex); });
+                document.getElementById('add-faq').addEventListener('click', () => { if (!pageData.faq?.items) pageData.faq.items = []; const newIndex = document.querySelectorAll('#faq-container .item-card').length; renderFAQ({}, newIndex); });
                 
                 document.body.addEventListener('click', e => {
-                    if (e.target.matches('.remove-button')) {
-                        e.target.closest('.border').remove();
+                    const removeBtn = e.target.closest('.remove-item');
+                    if (removeBtn) {
+                        removeBtn.closest('.item-card').remove();
                     }
                 });
                 
@@ -632,4 +605,3 @@
     </script>
 </body>
 </html>
-
