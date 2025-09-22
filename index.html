@@ -332,7 +332,8 @@
                 ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF',
                 footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF',
                 aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB',
-                aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937'
+                aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937',
+                testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563'
             },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
@@ -391,12 +392,14 @@
                 section#sobre .interactive-card { background-color: ${styles.aboutStepsBgColor} !important; }
                 section#sobre .interactive-card h3, section#sobre .interactive-card p { color: ${styles.aboutStepsTextColor} !important; }
                 section#depoimentos { background-color: ${styles.testimonialsBgColor} !important; }
+                section#depoimentos .interactive-card { background-color: ${styles.testimonialsCardBgColor} !important; }
+                section#depoimentos .interactive-card p { color: ${styles.testimonialsCardTextColor} !important; }
                 #contact-modal *, #contact-modal p { color: initial !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
             
             document.querySelectorAll('main *:not(a[class*="bg-"], button[class*="bg-"])').forEach(el => {
-                if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay') && !el.closest('#about-step1') && !el.closest('#about-step2') && !el.closest('#about-step3')) {
+                if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay') && !el.closest('#about-step1') && !el.closest('#about-step2') && !el.closest('#about-step3') && !el.closest('#depoimentos .interactive-card')) {
                    if (el.style) el.style.color = styles.textColor;
                 }
             });
@@ -474,7 +477,7 @@
             const testimonialsContainer = document.getElementById('testimonials-container');
             testimonialsContainer.innerHTML = '';
             (data.testimonials?.items || []).forEach(item => {
-                testimonialsContainer.innerHTML += `<div class="interactive-card bg-gray-50/50 backdrop-blur-sm border border-gray-200/50 p-8 rounded-xl"><p class="text-gray-600">"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold text-gray-900">${item.author}</p><p class="text-sm text-gray-500">${item.position}</p></div></div></div>`;
+                testimonialsContainer.innerHTML += `<div class="interactive-card backdrop-blur-sm border border-gray-200/50 p-8 rounded-xl"><p>"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold">${item.author}</p><p class="text-sm">${item.position}</p></div></div></div>`;
             });
 
             document.getElementById('faq-title').textContent = data.faq?.title || '';
