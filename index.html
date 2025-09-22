@@ -15,12 +15,17 @@
             font-family: 'Inter', sans-serif;
             transition: background-color 0.5s, color 0.5s;
             position: relative;
+            overflow-x: hidden;
         }
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         
         /* --- ESTILOS VISUAIS APRIMORADOS --- */
+        .gradient-text {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
 
-        /* Carrossel de Serviços */
         .service-carousel-container { position: relative; }
         .service-carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 1rem; }
         .service-carousel-track::-webkit-scrollbar { display: none; }
@@ -79,16 +84,21 @@
         .carousel-btn#prevBtn { left: -1.5rem; }
         .carousel-btn#nextBtn { right: -1.5rem; }
 
-        /* Modal e Animações */
         #contact-modal { transition: opacity 0.3s ease-in-out; }
         #contact-modal > div { transition: transform 0.3s ease-in-out; }
-        .animated-section > * { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        
+        .animated-section { opacity: 0; transition: opacity 1s; }
+        .animated-section.is-visible { opacity: 1; }
+        .animated-section > * { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000), transform 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000); 
+        }
         .animated-section.is-visible > * { opacity: 1; transform: translateY(0); }
-        .animated-section.is-visible > *:nth-child(2) { transition-delay: 0.1s; }
-        .animated-section.is-visible > *:nth-child(3) { transition-delay: 0.2s; }
-        .animated-section.is-visible > *:nth-child(4) { transition-delay: 0.3s; }
+        .animated-section.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
+        .animated-section.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
+        .animated-section.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
 
-        /* Cards e Botões */
         .interactive-card {
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
@@ -103,24 +113,6 @@
             transform: translateY(-3px) scale(1.03);
         }
 
-        /* Efeitos Adicionais */
-        #spotlight {
-            position: fixed; top: 0; left: 0; width: 400px; height: 400px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
-            pointer-events: none; z-index: 1000; mix-blend-mode: overlay;
-            transition: transform 0.1s ease-out;
-        }
-        .parallax-container {
-            overflow: hidden; border-radius: 0.75rem;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
-        }
-        #hero-image {
-            width: 100%; height: 110%; object-fit: cover;
-            transition: transform 0.2s ease-out;
-        }
-        
-        /* Loader */
         .loader {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-left-color: #4f46e5;
@@ -128,38 +120,56 @@
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        #aurora-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden;
+            background-color: var(--bg-color, #f9fafb);
+        }
+        #aurora-bg::before, #aurora-bg::after {
+            content: ''; position: absolute;
+            width: 800px; height: 800px; border-radius: 50%;
+            filter: blur(150px); mix-blend-mode: multiply; opacity: 0.4;
+            animation: aurora-move 30s infinite linear;
+        }
+        #aurora-bg::before { background-color: var(--aurora-color1, #4f46e5); top: -25%; left: -25%; }
+        #aurora-bg::after { background-color: var(--aurora-color2, #1e40af); bottom: -25%; right: -25%; animation-delay: -15s; }
+        @keyframes aurora-move {
+            0%, 100% { transform: translate(0, 50px) rotate(0deg); }
+            50% { transform: translate(100px, -50px) rotate(180deg); }
+        }
     </style>
     <style id="dynamic-styles"></style>
 </head>
-<body class="bg-gray-50">
+<body class="text-gray-800">
 
-    <div id="spotlight"></div>
+    <div id="aurora-bg"></div>
 
     <div id="loading-overlay" class="fixed inset-0 bg-gray-50 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
         <div class="loader"></div>
         <p class="mt-4 text-gray-600 text-lg">A carregar a sua experiência...</p>
     </div>
 
-    <header id="home" class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-40 hidden border-b border-gray-200/80">
+    <header id="home" class="sticky top-0 z-40 hidden">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-gray-900" id="nav-logo">SuaLogo</a>
+            <a href="#" class="text-2xl font-bold" id="nav-logo">SuaLogo</a>
             <div class="hidden lg:flex items-center space-x-8">
-                <a href="#sobre" class="text-gray-600 hover:text-indigo-600 transition duration-300">Sobre</a>
-                <a href="#servicos" class="text-gray-600 hover:text-indigo-600 transition duration-300">Serviços</a>
-                <a href="#depoimentos" class="text-gray-600 hover:text-indigo-600 transition duration-300">Depoimentos</a>
-                <a href="#contato" class="text-gray-600 hover:text-indigo-600 transition duration-300">Contato</a>
+                <a href="#sobre" class="transition duration-300">Sobre</a>
+                <a href="#servicos" class="transition duration-300">Serviços</a>
+                <a href="#depoimentos" class="transition duration-300">Depoimentos</a>
+                <a href="#contato" class="transition duration-300">Contato</a>
             </div>
-            <a href="#contato" class="hidden lg:inline-block text-white font-semibold px-6 py-2.5 rounded-lg enhanced-button" id="nav-cta">Comece Agora</a>
-            <button id="mobile-menu-button" class="lg:hidden text-gray-700 focus:outline-none">
+            <a href="#contato" class="hidden lg:inline-block font-semibold px-6 py-2.5 rounded-lg enhanced-button" id="nav-cta">Comece Agora</a>
+            <button id="mobile-menu-button" class="lg:hidden focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </nav>
         <div id="mobile-menu" class="hidden lg:hidden px-6 pt-2 pb-4 space-y-2">
-            <a href="#sobre" class="block text-gray-600 hover:text-indigo-600 py-2">Sobre</a>
-            <a href="#servicos" class="block text-gray-600 hover:text-indigo-600 py-2">Serviços</a>
-            <a href="#depoimentos" class="block text-gray-600 hover:text-indigo-600 py-2">Depoimentos</a>
-            <a href="#contato" class="block text-gray-600 hover:text-indigo-600 py-2">Contato</a>
-            <a href="#contato" class="block mt-4 text-white text-center font-semibold px-5 py-3 rounded-lg enhanced-button" id="nav-cta-mobile">Comece Agora</a>
+            <a href="#sobre" class="block py-2">Sobre</a>
+            <a href="#servicos" class="block py-2">Serviços</a>
+            <a href="#depoimentos" class="block py-2">Depoimentos</a>
+            <a href="#contato" class="block py-2">Contato</a>
+            <a href="#contato" class="block mt-4 text-center font-semibold px-5 py-3 rounded-lg enhanced-button" id="nav-cta-mobile">Comece Agora</a>
         </div>
     </header>
 
@@ -167,22 +177,22 @@
         <section class="animated-section">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
                 <div class="text-center lg:text-left">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight" id="hero-title"></h1>
-                    <p class="mt-6 text-lg text-gray-600 max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight gradient-text" id="hero-title"></h1>
+                    <p class="mt-6 text-lg max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <a href="#servicos" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta1-text"></a>
-                        <a href="#contato" class="bg-gray-200 text-gray-800 font-semibold px-8 py-4 rounded-lg shadow-lg transition hover:bg-gray-300 hover:shadow-xl enhanced-button" id="hero-cta2-text"></a>
+                        <a href="#contato" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta2-text"></a>
                     </div>
                 </div>
-                <div class="parallax-container">
-                    <img src="https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando..." alt="Ilustração do produto ou serviço" class="w-full" id="hero-image">
+                <div>
+                    <img src="https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando..." alt="Ilustração do produto ou serviço" class="w-full rounded-lg shadow-2xl" id="hero-image">
                 </div>
             </div>
         </section>
 
         <section class="py-16 animated-section">
             <div class="container mx-auto px-6 text-center">
-                <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider" id="social-title"></h3>
+                <h3 class="text-sm font-semibold uppercase tracking-wider" id="social-title"></h3>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
@@ -190,28 +200,22 @@
         <section id="sobre" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="about-title"></h2>
-                    <p class="mt-4 text-lg text-gray-600" id="about-subtitle"></p>
+                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="about-title"></h2>
+                    <p class="mt-4 text-lg" id="about-subtitle"></p>
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
                     <div class="interactive-card p-8 rounded-xl" id="about-step1">
-                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                        </div>
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div>
                         <h3 class="text-xl font-semibold" id="about-step1-title"></h3>
                         <p class="mt-2" id="about-step1-desc"></p>
                     </div>
                     <div class="interactive-card p-8 rounded-xl" id="about-step2">
-                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                        </div>
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
                         <h3 class="text-xl font-semibold" id="about-step2-title"></h3>
                         <p class="mt-2" id="about-step2-desc"></p>
                     </div>
                     <div class="interactive-card p-8 rounded-xl" id="about-step3">
-                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block">
-                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>
-                        </div>
+                        <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg></div>
                         <h3 class="text-xl font-semibold" id="about-step3-title"></h3>
                         <p class="mt-2" id="about-step3-desc"></p>
                     </div>
@@ -222,8 +226,8 @@
         <section id="servicos" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="services-title"></h2>
-                    <p class="mt-4 text-lg text-gray-600" id="services-subtitle"></p>
+                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="services-title"></h2>
+                    <p class="mt-4 text-lg" id="services-subtitle"></p>
                 </div>
                 <div class="mt-16 service-carousel-container">
                     <div id="service-carousel-track" class="service-carousel-track"></div>
@@ -236,8 +240,8 @@
         <section id="depoimentos" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="testimonials-title"></h2>
-                    <p class="mt-4 text-lg text-gray-600" id="testimonials-subtitle"></p>
+                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="testimonials-title"></h2>
+                    <p class="mt-4 text-lg" id="testimonials-subtitle"></p>
                 </div>
                 <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container"></div>
             </div>
@@ -246,8 +250,8 @@
         <section id="faq" class="py-24 animated-section">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900" id="faq-title"></h2>
-                    <p class="mt-4 text-lg text-gray-600" id="faq-subtitle"></p>
+                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="faq-title"></h2>
+                    <p class="mt-4 text-lg" id="faq-subtitle"></p>
                 </div>
                 <div class="mt-12 space-y-4" id="faq-container"></div>
             </div>
@@ -326,6 +330,8 @@
             hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
             style: { 
                 backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937',
+                auroraColor1: '#4f46e5', auroraColor2: '#1e40af', 
+                gradientColor1: '#4f46e5', gradientColor2: '#a855f7',
                 headerBgColor: '#FFFFFF', headerTextColor: '#4B5563',
                 primaryBtnBgColor: '#4F46E5', primaryBtnTextColor: '#FFFFFF',
                 secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937',
@@ -350,18 +356,23 @@
             const styles = { ...defaultData.style, ...data.style };
 
             const dynamicStyleEl = document.getElementById('dynamic-styles');
+            const root = document.documentElement;
+
             if (styles.backgroundImage) {
-                document.body.style.backgroundImage = `url('${styles.backgroundImage}')`;
-                document.body.style.backgroundSize = 'cover';
-                document.body.style.backgroundPosition = 'center';
-                document.body.style.backgroundAttachment = 'fixed';
-                document.body.style.backgroundColor = '';
+                root.style.setProperty('--bg-image', `url('${styles.backgroundImage}')`);
+                root.style.setProperty('--bg-color', 'transparent');
             } else {
-                document.body.style.backgroundImage = 'none';
-                document.body.style.backgroundColor = styles.backgroundColor;
+                root.style.setProperty('--bg-image', 'none');
+                root.style.setProperty('--bg-color', styles.backgroundColor);
             }
             
             let cssString = `
+                :root {
+                    --aurora-color1: ${styles.auroraColor1};
+                    --aurora-color2: ${styles.auroraColor2};
+                }
+                body { color: ${styles.textColor}; }
+                .gradient-text { background-image: linear-gradient(to right, ${styles.gradientColor1}, ${styles.gradientColor2}); }
                 header#home { background-color: ${styles.headerBgColor}CC !important; }
                 header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
                 .enhanced-button {
@@ -392,27 +403,21 @@
                 section#sobre .interactive-card { background-color: ${styles.aboutStepsBgColor} !important; }
                 section#sobre .interactive-card h3, section#sobre .interactive-card p { color: ${styles.aboutStepsTextColor} !important; }
                 section#depoimentos { background-color: ${styles.testimonialsBgColor} !important; }
-                section#depoimentos .interactive-card { background-color: ${styles.testimonialsCardBgColor} !important; }
+                section#depoimentos .interactive-card { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
                 section#depoimentos .interactive-card p { color: ${styles.testimonialsCardTextColor} !important; }
                 #contact-modal *, #contact-modal p { color: initial !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
-            
-            document.querySelectorAll('main *:not(a[class*="bg-"], button[class*="bg-"])').forEach(el => {
-                if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay') && !el.closest('#about-step1') && !el.closest('#about-step2') && !el.closest('#about-step3') && !el.closest('#depoimentos .interactive-card')) {
-                   if (el.style) el.style.color = styles.textColor;
-                }
-            });
 
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
             if (data.footer?.favicon) document.getElementById('favicon-link').href = data.footer.favicon;
 
-            document.getElementById('hero-title').textContent = data.hero?.title || '';
-            document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
-            document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
+            document.getElementById('hero-title').innerHTML = data.hero?.title || '';
+            document.getElementById('hero-subtitle').innerHTML = data.hero?.subtitle || '';
+            document.getElementById('hero-cta1-text').innerHTML = data.hero?.cta1Text || '';
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
-            document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
+            document.getElementById('hero-cta2-text').innerHTML = data.hero?.cta2Text || '';
             document.getElementById('hero-cta2-text').href = data.hero?.cta2Link || '#contato';
             document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
             document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
@@ -428,14 +433,14 @@
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100">`;
             });
 
-            document.getElementById('about-title').textContent = data.about?.title || '';
-            document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
-            document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
-            document.getElementById('about-step1-desc').textContent = data.about?.step1?.description || '';
-            document.getElementById('about-step2-title').textContent = data.about?.step2?.title || '';
-            document.getElementById('about-step2-desc').textContent = data.about?.step2?.description || '';
-            document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
-            document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
+            document.getElementById('about-title').innerHTML = data.about?.title || '';
+            document.getElementById('about-subtitle').innerHTML = data.about?.subtitle || '';
+            document.getElementById('about-step1-title').innerHTML = data.about?.step1?.title || '';
+            document.getElementById('about-step1-desc').innerHTML = data.about?.step1?.description || '';
+            document.getElementById('about-step2-title').innerHTML = data.about?.step2?.title || '';
+            document.getElementById('about-step2-desc').innerHTML = data.about?.step2?.description || '';
+            document.getElementById('about-step3-title').innerHTML = data.about?.step3?.title || '';
+            document.getElementById('about-step3-desc').innerHTML = data.about?.step3?.description || '';
             
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
@@ -444,6 +449,8 @@
             const showServiceButton = servicesData.showButton === true;
 
             if(servicesItems.length > 0) {
+                document.getElementById('services-title').innerHTML = servicesData.title || '';
+                document.getElementById('services-subtitle').innerHTML = servicesData.subtitle || '';
                 servicesItems.forEach(item => {
                     let buttonHtml = '';
                     if (showServiceButton) {
@@ -469,24 +476,36 @@
                         </div>`;
                 });
             } else {
-                track.innerHTML = '<p class="text-center w-full text-gray-500">Nenhum serviço cadastrado no momento.</p>';
+                document.getElementById('servicos').style.display = 'none';
             }
 
-            document.getElementById('testimonials-title').textContent = data.testimonials?.title || '';
-            document.getElementById('testimonials-subtitle').textContent = data.testimonials?.subtitle || '';
-            const testimonialsContainer = document.getElementById('testimonials-container');
-            testimonialsContainer.innerHTML = '';
-            (data.testimonials?.items || []).forEach(item => {
-                testimonialsContainer.innerHTML += `<div class="interactive-card backdrop-blur-sm border border-gray-200/50 p-8 rounded-xl"><p>"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold">${item.author}</p><p class="text-sm">${item.position}</p></div></div></div>`;
-            });
-
-            document.getElementById('faq-title').textContent = data.faq?.title || '';
-            document.getElementById('faq-subtitle').textContent = data.faq?.subtitle || '';
-            const faqContainer = document.getElementById('faq-container');
-            faqContainer.innerHTML = '';
-            (data.faq?.items || []).forEach(item => {
-                faqContainer.innerHTML += `<div class="bg-white rounded-lg shadow-sm border border-gray-200/50"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="text-lg font-semibold text-gray-800">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p class="text-gray-600">${item.answer}</p></div></div>`;
-            });
+            const testimonialsData = data.testimonials || {};
+            const testimonialsItems = testimonialsData.items || [];
+            if(testimonialsItems.length > 0) {
+                document.getElementById('testimonials-title').innerHTML = testimonialsData.title || '';
+                document.getElementById('testimonials-subtitle').innerHTML = testimonialsData.subtitle || '';
+                const testimonialsContainer = document.getElementById('testimonials-container');
+                testimonialsContainer.innerHTML = '';
+                testimonialsItems.forEach(item => {
+                    testimonialsContainer.innerHTML += `<div class="interactive-card p-8 rounded-xl"><p>"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold">${item.author}</p><p class="text-sm">${item.position}</p></div></div></div>`;
+                });
+            } else {
+                 document.getElementById('depoimentos').style.display = 'none';
+            }
+            
+            const faqData = data.faq || {};
+            const faqItems = faqData.items || [];
+            if(faqItems.length > 0) {
+                document.getElementById('faq-title').innerHTML = faqData.title || '';
+                document.getElementById('faq-subtitle').innerHTML = faqData.subtitle || '';
+                const faqContainer = document.getElementById('faq-container');
+                faqContainer.innerHTML = '';
+                faqItems.forEach(item => {
+                    faqContainer.innerHTML += `<div class="bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-lg shadow-sm"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="text-lg font-semibold">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p>${item.answer}</p></div></div>`;
+                });
+            } else {
+                document.getElementById('faq').style.display = 'none';
+            }
 
             const ctaButton = document.getElementById('cta-button');
             ctaButton.textContent = data.cta?.buttonText || '';
@@ -499,8 +518,8 @@
                 ctaButton.classList.add('open-modal-button');
                 ctaButton.setAttribute('data-service-title', 'Gostaria de solicitar um orçamento.');
             }
-            document.getElementById('cta-title').textContent = data.cta?.title || '';
-            document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
+            document.getElementById('cta-title').innerHTML = data.cta?.title || '';
+            document.getElementById('cta-subtitle').innerHTML = data.cta?.subtitle || '';
             
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
@@ -620,15 +639,6 @@
                 let message = `Olá, meu nome é ${name}.\n\nTenho interesse em: *${currentServiceTitle}*.\n\nMeus dados de contato são:\n*Email:* ${email}\n*Telefone:* ${phone}`;
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
                 window.open(whatsappUrl, '_blank');
-            });
-
-            const spotlight = document.getElementById('spotlight');
-            const heroImage = document.getElementById('hero-image');
-            window.addEventListener('mousemove', e => {
-                if (spotlight) spotlight.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
-            });
-            window.addEventListener('scroll', () => {
-                if (heroImage) heroImage.style.transform = `translateY(${window.scrollY * 0.2}px)`;
             });
         });
     </script>
