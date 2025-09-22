@@ -331,7 +331,8 @@
                 secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937',
                 ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF',
                 footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF',
-                aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB'
+                aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB',
+                aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937'
             },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
@@ -387,13 +388,15 @@
                 footer a:hover { color: ${styles.footerHeadingsColor} !important; }
                 .service-card-overlay .enhanced-button { color: ${styles.primaryBtnTextColor} !important; }
                 section#sobre { background-color: ${styles.aboutBgColor} !important; }
+                section#sobre .interactive-card { background-color: ${styles.aboutStepsBgColor} !important; }
+                section#sobre .interactive-card h3, section#sobre .interactive-card p { color: ${styles.aboutStepsTextColor} !important; }
                 section#depoimentos { background-color: ${styles.testimonialsBgColor} !important; }
                 #contact-modal *, #contact-modal p { color: initial !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
             
             document.querySelectorAll('main *:not(a[class*="bg-"], button[class*="bg-"])').forEach(el => {
-                if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay')) {
+                if (!el.closest('#contato') && !el.closest('footer') && !el.closest('.service-card-overlay') && !el.closest('#about-step1') && !el.closest('#about-step2') && !el.closest('#about-step3')) {
                    if (el.style) el.style.color = styles.textColor;
                 }
             });
