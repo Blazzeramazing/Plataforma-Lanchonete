@@ -141,7 +141,7 @@
     </style>
     <style id="dynamic-styles"></style>
 </head>
-<body class="text-gray-800">
+<body>
 
     <div id="aurora-bg"></div>
 
@@ -358,19 +358,21 @@
             const dynamicStyleEl = document.getElementById('dynamic-styles');
             const root = document.documentElement;
 
-            if (styles.backgroundImage) {
-                root.style.setProperty('--bg-image', `url('${styles.backgroundImage}')`);
-                root.style.setProperty('--bg-color', 'transparent');
+            // Define CSS variables for aurora effect and background
+            const auroraBg = document.getElementById('aurora-bg');
+            if(styles.backgroundImage) {
+                auroraBg.style.backgroundImage = `url('${styles.backgroundImage}')`;
+                auroraBg.style.backgroundSize = 'cover';
+                auroraBg.style.backgroundPosition = 'center';
+                auroraBg.style.backgroundColor = 'transparent';
             } else {
-                root.style.setProperty('--bg-image', 'none');
-                root.style.setProperty('--bg-color', styles.backgroundColor);
+                auroraBg.style.backgroundImage = 'none';
+                auroraBg.style.backgroundColor = styles.backgroundColor;
             }
+            auroraBg.style.setProperty('--aurora-color1', styles.auroraColor1);
+            auroraBg.style.setProperty('--aurora-color2', styles.auroraColor2);
             
             let cssString = `
-                :root {
-                    --aurora-color1: ${styles.auroraColor1};
-                    --aurora-color2: ${styles.auroraColor2};
-                }
                 body { color: ${styles.textColor}; }
                 .gradient-text { background-image: linear-gradient(to right, ${styles.gradientColor1}, ${styles.gradientColor2}); }
                 header#home { background-color: ${styles.headerBgColor}CC !important; }
@@ -391,8 +393,8 @@
                 section#contato { background-color: ${styles.ctaBgColor} !important; background-image: linear-gradient(to right, ${styles.ctaBgColor}, color-mix(in srgb, ${styles.ctaBgColor} 70%, black)); }
                 section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
                 section#contato #cta-button {
-                    background-image: none !important; background-color: ${styles.primaryBtnBgColor} !important;
-                    color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+                    background-image: none !important; background-color: ${styles.primaryBtnTextColor} !important;
+                    color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
                 }
                 footer { background-color: ${styles.footerBgColor} !important; }
                 footer h3, footer h4 { color: ${styles.footerHeadingsColor} !important; }
@@ -644,5 +646,4 @@
     </script>
 </body>
 </html>
-
 
