@@ -247,6 +247,62 @@
                                     <div><label for="style-gradient-color2" class="block text-sm font-medium text-slate-400 mb-1">Gradiente Título - Cor 2</label><input type="color" id="style-gradient-color2" class="w-full h-10 rounded-md border-slate-600 shadow-sm form-input p-1"></div>
                                 </div>
                             </div>
+                            
+                            <div class="border-t border-slate-700 pt-8">
+                                <h3 class="text-lg font-semibold text-white mb-6">Tipografia</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
+                                    
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between items-center text-sm font-medium text-slate-400"><span>Títulos Principais</span><span id="style-size-headings-value" class="text-xs text-slate-500"></span></label>
+                                        <select id="style-font-headings" class="w-full rounded-md shadow-sm form-input text-slate-200">
+                                            <option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Lato', sans-serif">Lato</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Merriweather', serif">Merriweather</option><option value="'Lora', serif">Lora</option><option value="'Roboto Mono', monospace">Roboto Mono</option><option value="'Inter', sans-serif">Inter</option>
+                                        </select>
+                                        <input type="range" id="style-size-headings" min="24" max="72" step="1" class="w-full">
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between items-center text-sm font-medium text-slate-400"><span>Subtítulos de Seção</span><span id="style-size-subheadings-value" class="text-xs text-slate-500"></span></label>
+                                        <select id="style-font-subheadings" class="w-full rounded-md shadow-sm form-input text-slate-200">
+                                           <option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Lato', sans-serif">Lato</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Merriweather', serif">Merriweather</option><option value="'Lora', serif">Lora</option><option value="'Roboto Mono', monospace">Roboto Mono</option><option value="'Inter', sans-serif">Inter</option>
+                                        </select>
+                                        <input type="range" id="style-size-subheadings" min="16" max="36" step="1" class="w-full">
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between items-center text-sm font-medium text-slate-400"><span>Corpo de Texto (Padrão)</span><span id="style-size-body-value" class="text-xs text-slate-500"></span></label>
+                                        <select id="style-font-body" class="w-full rounded-md shadow-sm form-input text-slate-200">
+                                            <option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Lato', sans-serif">Lato</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Merriweather', serif">Merriweather</option><option value="'Lora', serif">Lora</option><option value="'Roboto Mono', monospace">Roboto Mono</option><option value="'Inter', sans-serif">Inter</option>
+                                        </select>
+                                        <input type="range" id="style-size-body" min="14" max="20" step="1" class="w-full">
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between items-center text-sm font-medium text-slate-400"><span>Botões e Links</span><span id="style-size-buttons-value" class="text-xs text-slate-500"></span></label>
+                                        <select id="style-font-buttons" class="w-full rounded-md shadow-sm form-input text-slate-200">
+                                           <option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Lato', sans-serif">Lato</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Merriweather', serif">Merriweather</option><option value="'Lora', serif">Lora</option><option value="'Roboto Mono', monospace">Roboto Mono</option><option value="'Inter', sans-serif">Inter</option>
+                                        </select>
+                                        <input type="range" id="style-size-buttons" min="14" max="24" step="1" class="w-full">
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between items-center text-sm font-medium text-slate-400"><span>Títulos dos Cards</span><span id="style-size-card-titles-value" class="text-xs text-slate-500"></span></label>
+                                        <select id="style-font-card-titles" class="w-full rounded-md shadow-sm form-input text-slate-200">
+                                           <option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Lato', sans-serif">Lato</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Merriweather', serif">Merriweather</option><option value="'Lora', serif">Lora</option><option value="'Roboto Mono', monospace">Roboto Mono</option><option value="'Inter', sans-serif">Inter</option>
+                                        </select>
+                                        <input type="range" id="style-size-card-titles" min="16" max="32" step="1" class="w-full">
+                                    </div>
+
+                                    <div class="space-y-2">
+                                        <label class="flex justify-between items-center text-sm font-medium text-slate-400"><span>Texto Utilitário (Pequeno)</span><span id="style-size-utility-value" class="text-xs text-slate-500"></span></label>
+                                        <select id="style-font-utility" class="w-full rounded-md shadow-sm form-input text-slate-200">
+                                            <option value="'Poppins', sans-serif">Poppins</option><option value="'Montserrat', sans-serif">Montserrat</option><option value="'Lato', sans-serif">Lato</option><option value="'Playfair Display', serif">Playfair Display</option><option value="'Merriweather', serif">Merriweather</option><option value="'Lora', serif">Lora</option><option value="'Roboto Mono', monospace">Roboto Mono</option><option value="'Inter', sans-serif">Inter</option>
+                                        </select>
+                                        <input type="range" id="style-size-utility" min="12" max="16" step="1" class="w-full">
+                                    </div>
+
+                                </div>
+                            </div>
+
 
                             <div class="border-t border-slate-700 pt-8">
                                 <h3 class="text-lg font-semibold text-white mb-4">Imagem de Fundo</h3>
@@ -510,6 +566,7 @@
                 pageData = pageData || defaultD;
                 pageData.style = { ...defaultD.style, ...(pageData.style || {}) };
                 pageData.style.animations = { ...defaultD.style.animations, ...(pageData.style.animations || {}) };
+                pageData.style.typography = { ...defaultD.style.typography, ...(pageData.style.typography || {}) };
                 pageData.hero = { ...defaultD.hero, ...pageData.hero };
                 pageData.socialProof = { ...defaultD.socialProof, ...pageData.socialProof };
                 pageData.about = { ...defaultD.about, ...pageData.about };
@@ -519,7 +576,6 @@
                 pageData.cta = { ...defaultD.cta, ...pageData.cta };
                 pageData.footer = { ...defaultD.footer, ...pageData.footer };
 
-                // Hero
                 document.getElementById('hero-title').value = pageData.hero.title;
                 document.getElementById('hero-subtitle').value = pageData.hero.subtitle;
                 document.getElementById('hero-cta1-text').value = pageData.hero.cta1Text;
@@ -528,7 +584,6 @@
                 document.getElementById('hero-cta2-link').value = pageData.hero.cta2Link || '';
                 document.getElementById('hero-image').value = pageData.hero.image;
 
-                // Estilo
                 const styles = pageData.style;
                 document.getElementById('style-bg-color').value = styles.backgroundColor;
                 document.getElementById('style-bg-image').value = styles.backgroundImage;
@@ -555,7 +610,6 @@
                 document.getElementById('style-gradient-color1').value = styles.gradientColor1;
                 document.getElementById('style-gradient-color2').value = styles.gradientColor2;
                 
-                // Animações
                 const animations = styles.animations;
                 document.getElementById('animate-section-reveal-toggle').checked = animations.sectionReveal;
                 document.getElementById('animate-card-hover-tilt-toggle').checked = animations.cardHoverTilt;
@@ -564,12 +618,29 @@
                 document.getElementById('animate-hero-text-toggle').checked = animations.heroTextAnimation;
                 document.getElementById('animate-cursor-follower-toggle').checked = animations.cursorFollower;
 
-                // Prova Social
+                const typography = styles.typography;
+                document.getElementById('style-font-headings').value = typography.fontHeadings;
+                document.getElementById('style-size-headings').value = parseInt(typography.sizeHeadings);
+                document.getElementById('style-font-subheadings').value = typography.fontSubheadings;
+                document.getElementById('style-size-subheadings').value = parseInt(typography.sizeSubheadings);
+                document.getElementById('style-font-body').value = typography.fontBody;
+                document.getElementById('style-size-body').value = parseInt(typography.sizeBody);
+                document.getElementById('style-font-buttons').value = typography.fontButtons;
+                document.getElementById('style-size-buttons').value = parseInt(typography.sizeButtons);
+                document.getElementById('style-font-card-titles').value = typography.fontCardTitles;
+                document.getElementById('style-size-card-titles').value = parseInt(typography.sizeCardTitles);
+                document.getElementById('style-font-utility').value = typography.fontUtility;
+                document.getElementById('style-size-utility').value = parseInt(typography.sizeUtility);
+
+                document.querySelectorAll('input[type="range"]').forEach(slider => {
+                    const valueDisplay = document.getElementById(`${slider.id}-value`);
+                    if (valueDisplay) valueDisplay.textContent = `${slider.value}px`;
+                });
+
                 document.getElementById('social-title').value = pageData.socialProof.title;
                 document.getElementById('social-logos-container').innerHTML = '';
                 pageData.socialProof.logos?.forEach(renderLogo);
 
-                // Sobre
                 document.getElementById('about-title').value = pageData.about.title;
                 document.getElementById('about-subtitle').value = pageData.about.subtitle;
                 document.getElementById('about-step1-title').value = pageData.about.step1?.title;
@@ -579,32 +650,27 @@
                 document.getElementById('about-step3-title').value = pageData.about.step3?.title;
                 document.getElementById('about-step3-desc').value = pageData.about.step3?.description;
 
-                // Serviços
                 document.getElementById('services-title').value = pageData.services.title;
                 document.getElementById('services-subtitle').value = pageData.services.subtitle;
                 document.getElementById('services-show-button-toggle').checked = pageData.services.showButton;
                 document.getElementById('services-container').innerHTML = '';
                 pageData.services.items?.forEach(renderService);
 
-                // Depoimentos
                 document.getElementById('testimonials-title').value = pageData.testimonials.title;
                 document.getElementById('testimonials-subtitle').value = pageData.testimonials.subtitle;
                 document.getElementById('testimonials-container').innerHTML = '';
                 pageData.testimonials.items?.forEach(renderTestimonial);
 
-                // FAQ
                 document.getElementById('faq-title').value = pageData.faq.title;
                 document.getElementById('faq-subtitle').value = pageData.faq.subtitle;
                 document.getElementById('faq-container').innerHTML = '';
                 pageData.faq.items?.forEach(renderFAQ);
 
-                // CTA
                 document.getElementById('cta-title').value = pageData.cta.title;
                 document.getElementById('cta-subtitle').value = pageData.cta.subtitle;
                 document.getElementById('cta-button-text').value = pageData.cta.buttonText;
                 document.getElementById('cta-button-link').value = pageData.cta.buttonLink || '';
 
-                // Rodapé
                 document.getElementById('footer-logo').value = pageData.footer.logo;
                 document.getElementById('footer-description').value = pageData.footer.description;
                 document.getElementById('footer-contact-whatsapp').value = pageData.footer.whatsapp;
@@ -670,7 +736,7 @@
             };
 
             const updateHeroData = () => { pageData.hero = { title: document.getElementById('hero-title').value, subtitle: document.getElementById('hero-subtitle').value, cta1Text: document.getElementById('hero-cta1-text').value, cta1Link: document.getElementById('hero-cta1-link').value, cta2Text: document.getElementById('hero-cta2-text').value, cta2Link: document.getElementById('hero-cta2-link').value, image: document.getElementById('hero-image').value }; };
-            const updateStyleData = () => { pageData.style = { backgroundColor: document.getElementById('style-bg-color').value, backgroundImage: document.getElementById('style-bg-image').value, textColor: document.getElementById('style-text-color').value, headerBgColor: document.getElementById('style-header-bg-color').value, headerTextColor: document.getElementById('style-header-text-color').value, primaryBtnBgColor: document.getElementById('style-primary-btn-bg-color').value, primaryBtnTextColor: document.getElementById('style-primary-btn-text-color').value, secondaryBtnBgColor: document.getElementById('style-secondary-btn-bg-color').value, secondaryBtnTextColor: document.getElementById('style-secondary-btn-text-color').value, ctaBgColor: document.getElementById('style-cta-bg-color').value, ctaTextColor: document.getElementById('style-cta-text-color').value, footerBgColor: document.getElementById('style-footer-bg-color').value, footerHeadingsColor: document.getElementById('style-footer-headings-color').value, footerTextColor: document.getElementById('style-footer-text-color').value, aboutBgColor: document.getElementById('style-about-bg-color').value, aboutStepsBgColor: document.getElementById('style-about-steps-bg-color').value, aboutStepsTextColor: document.getElementById('style-about-steps-text-color').value, testimonialsBgColor: document.getElementById('style-testimonials-bg-color').value, testimonialsCardBgColor: document.getElementById('style-testimonials-card-bg-color').value, testimonialsCardTextColor: document.getElementById('style-testimonials-card-text-color').value, auroraColor1: document.getElementById('style-aurora-color1').value, auroraColor2: document.getElementById('style-aurora-color2').value, gradientColor1: document.getElementById('style-gradient-color1').value, gradientColor2: document.getElementById('style-gradient-color2').value, animations: { sectionReveal: document.getElementById('animate-section-reveal-toggle').checked, cardHoverTilt: document.getElementById('animate-card-hover-tilt-toggle').checked, heroImageZoom: document.getElementById('animate-hero-image-zoom-toggle').checked, auroraEffect: document.getElementById('animate-aurora-effect-toggle').checked, heroTextAnimation: document.getElementById('animate-hero-text-toggle').checked, cursorFollower: document.getElementById('animate-cursor-follower-toggle').checked } }; };
+            const updateStyleData = () => { pageData.style = { backgroundColor: document.getElementById('style-bg-color').value, backgroundImage: document.getElementById('style-bg-image').value, textColor: document.getElementById('style-text-color').value, headerBgColor: document.getElementById('style-header-bg-color').value, headerTextColor: document.getElementById('style-header-text-color').value, primaryBtnBgColor: document.getElementById('style-primary-btn-bg-color').value, primaryBtnTextColor: document.getElementById('style-primary-btn-text-color').value, secondaryBtnBgColor: document.getElementById('style-secondary-btn-bg-color').value, secondaryBtnTextColor: document.getElementById('style-secondary-btn-text-color').value, ctaBgColor: document.getElementById('style-cta-bg-color').value, ctaTextColor: document.getElementById('style-cta-text-color').value, footerBgColor: document.getElementById('style-footer-bg-color').value, footerHeadingsColor: document.getElementById('style-footer-headings-color').value, footerTextColor: document.getElementById('style-footer-text-color').value, aboutBgColor: document.getElementById('style-about-bg-color').value, aboutStepsBgColor: document.getElementById('style-about-steps-bg-color').value, aboutStepsTextColor: document.getElementById('style-about-steps-text-color').value, testimonialsBgColor: document.getElementById('style-testimonials-bg-color').value, testimonialsCardBgColor: document.getElementById('style-testimonials-card-bg-color').value, testimonialsCardTextColor: document.getElementById('style-testimonials-card-text-color').value, auroraColor1: document.getElementById('style-aurora-color1').value, auroraColor2: document.getElementById('style-aurora-color2').value, gradientColor1: document.getElementById('style-gradient-color1').value, gradientColor2: document.getElementById('style-gradient-color2').value, animations: { sectionReveal: document.getElementById('animate-section-reveal-toggle').checked, cardHoverTilt: document.getElementById('animate-card-hover-tilt-toggle').checked, heroImageZoom: document.getElementById('animate-hero-image-zoom-toggle').checked, auroraEffect: document.getElementById('animate-aurora-effect-toggle').checked, heroTextAnimation: document.getElementById('animate-hero-text-toggle').checked, cursorFollower: document.getElementById('animate-cursor-follower-toggle').checked }, typography: { fontHeadings: document.getElementById('style-font-headings').value, sizeHeadings: document.getElementById('style-size-headings').value + 'px', fontSubheadings: document.getElementById('style-font-subheadings').value, sizeSubheadings: document.getElementById('style-size-subheadings').value + 'px', fontBody: document.getElementById('style-font-body').value, sizeBody: document.getElementById('style-size-body').value + 'px', fontButtons: document.getElementById('style-font-buttons').value, sizeButtons: document.getElementById('style-size-buttons').value + 'px', fontCardTitles: document.getElementById('style-font-card-titles').value, sizeCardTitles: document.getElementById('style-size-card-titles').value + 'px', fontUtility: document.getElementById('style-font-utility').value, sizeUtility: document.getElementById('style-size-utility').value + 'px' } }; };
             const updateSocialProofData = () => { const newLogos = []; document.querySelectorAll('#social-logos-container > div').forEach(div => { newLogos.push({ src: div.querySelector('.social-logo-src').value, alt: div.querySelector('.social-logo-alt').value }); }); pageData.socialProof = { title: document.getElementById('social-title').value, logos: newLogos }; };
             const updateAboutData = () => { pageData.about = { title: document.getElementById('about-title').value, subtitle: document.getElementById('about-subtitle').value, step1: { title: document.getElementById('about-step1-title').value, description: document.getElementById('about-step1-desc').value }, step2: { title: document.getElementById('about-step2-title').value, description: document.getElementById('about-step2-desc').value }, step3: { title: document.getElementById('about-step3-title').value, description: document.getElementById('about-step3-desc').value } }; };
             const updateServicesData = () => { const newServices = []; document.querySelectorAll('#services-container > div').forEach(div => { newServices.push({ title: div.querySelector('.service-item-title').value, description: div.querySelector('.service-item-description').value, image: div.querySelector('.service-item-image').value, price: div.querySelector('.service-item-price').value, link: div.querySelector('.service-item-link').value }); }); pageData.services = { title: document.getElementById('services-title').value, subtitle: document.getElementById('services-subtitle').value, items: newServices, showButton: document.getElementById('services-show-button-toggle').checked }; };
@@ -679,7 +745,7 @@
             const updateCtaData = () => { pageData.cta = { title: document.getElementById('cta-title').value, subtitle: document.getElementById('cta-subtitle').value, buttonText: document.getElementById('cta-button-text').value, buttonLink: document.getElementById('cta-button-link').value }; };
             const updateFooterData = () => { pageData.footer = { logo: document.getElementById('footer-logo').value, description: document.getElementById('footer-description').value, whatsapp: document.getElementById('footer-contact-whatsapp').value, email: document.getElementById('footer-contact-email').value, phone: document.getElementById('footer-contact-phone').value, address: document.getElementById('footer-contact-address').value, favicon: document.getElementById('footer-favicon').value, copyright: document.getElementById('footer-copyright').value }; };
 
-            const getDefaultData = () => ({ hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta1Link: '#servicos', cta2Text: 'Fale com um Especialista', cta2Link: '#contato', image: 'https://placehold.co/600x400/6366f1/FFFFFF?text=Imagem+Incrível' }, style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937', auroraColor1: '#a855f7', auroraColor2: '#4f46e5', gradientColor1: '#4f46e5', gradientColor2: '#a855f7', headerBgColor: '#FFFFFF', headerTextColor: '#4B5563', primaryBtnBgColor: '#4F46E5', primaryBtnTextColor: '#FFFFFF', secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937', ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF', footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF', aboutBgColor: '#FFFFFF', aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#4B5563', testimonialsBgColor: '#F9FAFB', testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563', animations: { sectionReveal: true, cardHoverTilt: true, heroImageZoom: true, auroraEffect: true, heroTextAnimation: true, cursorFollower: true } }, socialProof: { title: 'Confiado por grandes empresas', logos: [{ src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' }] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [{ title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90', link: '' }], showButton: true }, testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [{ quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' }] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [{ question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' }] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito', buttonLink: '' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } });
+            const getDefaultData = () => ({ hero: { title: 'Transforme Sua Ideia em um Negócio de Sucesso', subtitle: 'Nós fornecemos as ferramentas e a expertise que você precisa para crescer, inovar e alcançar seus objetivos mais ambiciosos.', cta1Text: 'Conheça Nossos Serviços', cta1Link: '#servicos', cta2Text: 'Fale com um Especialista', cta2Link: '#contato', image: 'https://placehold.co/600x400/6366f1/FFFFFF?text=Imagem+Incrível' }, style: { backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937', auroraColor1: '#a855f7', auroraColor2: '#4f46e5', gradientColor1: '#4f46e5', gradientColor2: '#a855f7', headerBgColor: '#FFFFFF', headerTextColor: '#4B5563', primaryBtnBgColor: '#4F46E5', primaryBtnTextColor: '#FFFFFF', secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937', ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF', footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF', aboutBgColor: '#FFFFFF', aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#4B5563', testimonialsBgColor: '#F9FAFB', testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563', animations: { sectionReveal: true, cardHoverTilt: true, heroImageZoom: true, auroraEffect: true, heroTextAnimation: true, cursorFollower: true }, typography: { fontHeadings: "'Poppins', sans-serif", sizeHeadings: '48px', fontSubheadings: "'Inter', sans-serif", sizeSubheadings: '20px', fontBody: "'Inter', sans-serif", sizeBody: '16px', fontButtons: "'Inter', sans-serif", sizeButtons: '16px', fontCardTitles: "'Poppins', sans-serif", sizeCardTitles: '20px', fontUtility: "'Inter', sans-serif", sizeUtility: '14px' } }, socialProof: { title: 'Confiado por grandes empresas', logos: [{ src: 'https://placehold.co/140x40/cbd5e1/475569?text=Empresa+A', alt: 'Logo Empresa A' }] }, about: { title: 'Um Processo Simples para Resultados Incríveis', subtitle: 'Descomplicamos o caminho para o sucesso. Veja como nossa metodologia funciona em apenas 3 passos.', step1: { title: '1. Diagnóstico', description: 'Entendemos suas necessidades e objetivos para criar uma estratégia personalizada.' }, step2: { title: '2. Implementação', description: 'Colocamos o plano em ação com agilidade e precisão, utilizando as melhores tecnologias.' }, step3: { title: '3. Análise e Otimização', description: 'Monitoramos os resultados e otimizamos continuamente para garantir o máximo de performance.' } }, services: { title: 'Soluções Completas para Você', subtitle: 'Oferecemos uma gama de serviços projetados para atender às suas necessidades específicas e impulsionar seu crescimento.', items: [{ title: 'Produto Exemplo 1', description: 'Descrição detalhada do produto 1.', image: 'https://placehold.co/400x300/FDBA74/422006?text=Produto+1', price: '99,90', link: '' }], showButton: true }, testimonials: { title: 'O que Nossos Clientes Dizem', subtitle: 'O sucesso de nossos clientes é a nossa maior recompensa.', items: [{ quote: 'A parceria com [Sua Empresa] foi um divisor de águas para nós.', author: 'João da Silva', position: 'CEO, Empresa X', image: 'https://placehold.co/48x48/E2E8F0/475569?text=J' }] }, faq: { title: 'Perguntas Frequentes', subtitle: 'Ainda tem dúvidas? Encontre aqui as respostas.', items: [{ question: 'Qual o diferencial dos seus serviços?', answer: 'Nosso principal diferencial é a abordagem personalizada.' }] }, cta: { title: 'Pronto para Levar Seu Negócio para o Próximo Nível?', subtitle: 'Não espere mais. Fale com um de nossos especialistas hoje mesmo.', buttonText: 'Solicitar um Orçamento Gratuito', buttonLink: '' }, footer: { logo: 'SuaLogo', description: 'Soluções inovadoras para impulsionar o seu sucesso.', whatsapp: '5532999998888', email: 'contato@suaempresa.com', phone: '(XX) XXXX-XXXX', address: 'Sua Rua, 123 - Cidade, Estado', favicon: '', copyright: '© 2024 Sua Empresa. Todos os direitos reservados.' } });
 
             const toggleSidebar = () => {
                 sidebar.classList.toggle('-translate-x-full');
@@ -707,6 +773,13 @@
                             if (window.innerWidth < 1024) toggleSidebar();
                         });
                     }
+                });
+                
+                document.querySelectorAll('input[type="range"]').forEach(slider => {
+                    const valueDisplay = document.getElementById(`${slider.id}-value`);
+                    slider.addEventListener('input', (e) => {
+                        if (valueDisplay) valueDisplay.textContent = `${e.target.value}px`;
+                    });
                 });
 
                 document.getElementById('logout-button').addEventListener('click', async (e) => { e.preventDefault(); try { await signOut(auth); } catch (error) { console.error('Erro ao fazer logout:', error); } });

@@ -9,10 +9,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lato:wght@400;700&family=Lora:wght@400;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;700;800&family=Playfair+Display:wght@400;700;800&family=Poppins:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { 
-            font-family: 'Inter', sans-serif;
             transition: background-color 0.5s, color 0.5s;
             position: relative;
             overflow-x: hidden;
@@ -155,7 +154,7 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+            transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s, transform 0.1s ease-out;
             mix-blend-mode: difference;
         }
     </style>
@@ -198,8 +197,8 @@
         <section class="animated-section">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
                 <div class="text-center lg:text-left">
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight gradient-text" id="hero-title"></h1>
-                    <p class="mt-6 text-lg max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
+                    <h1 class="font-extrabold leading-tight gradient-text" id="hero-title"></h1>
+                    <p class="mt-6 max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                         <a href="#servicos" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta1-text"></a>
                         <a href="#contato" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta2-text"></a>
@@ -213,7 +212,7 @@
 
         <section class="py-16 animated-section">
             <div class="container mx-auto px-6 text-center">
-                <h3 class="text-sm font-semibold uppercase tracking-wider" id="social-title"></h3>
+                <h3 class="font-semibold uppercase tracking-wider" id="social-title"></h3>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
@@ -221,23 +220,23 @@
         <section id="sobre" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="about-title"></h2>
-                    <p class="mt-4 text-lg" id="about-subtitle"></p>
+                    <h2 class="font-bold gradient-text" id="about-title"></h2>
+                    <p class="mt-4" id="about-subtitle"></p>
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
                     <div class="interactive-card p-8 rounded-xl" id="about-step1">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div>
-                        <h3 class="text-xl font-semibold" id="about-step1-title"></h3>
+                        <h3 class="font-semibold" id="about-step1-title"></h3>
                         <p class="mt-2" id="about-step1-desc"></p>
                     </div>
                     <div class="interactive-card p-8 rounded-xl" id="about-step2">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
-                        <h3 class="text-xl font-semibold" id="about-step2-title"></h3>
+                        <h3 class="font-semibold" id="about-step2-title"></h3>
                         <p class="mt-2" id="about-step2-desc"></p>
                     </div>
                     <div class="interactive-card p-8 rounded-xl" id="about-step3">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg></div>
-                        <h3 class="text-xl font-semibold" id="about-step3-title"></h3>
+                        <h3 class="font-semibold" id="about-step3-title"></h3>
                         <p class="mt-2" id="about-step3-desc"></p>
                     </div>
                 </div>
@@ -247,8 +246,8 @@
         <section id="servicos" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="services-title"></h2>
-                    <p class="mt-4 text-lg" id="services-subtitle"></p>
+                    <h2 class="font-bold gradient-text" id="services-title"></h2>
+                    <p class="mt-4" id="services-subtitle"></p>
                 </div>
                 <div class="mt-16 service-carousel-container">
                     <div id="service-carousel-track" class="service-carousel-track"></div>
@@ -261,8 +260,8 @@
         <section id="depoimentos" class="py-24 animated-section">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
-                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="testimonials-title"></h2>
-                    <p class="mt-4 text-lg" id="testimonials-subtitle"></p>
+                    <h2 class="font-bold gradient-text" id="testimonials-title"></h2>
+                    <p class="mt-4" id="testimonials-subtitle"></p>
                 </div>
                 <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container"></div>
             </div>
@@ -271,8 +270,8 @@
         <section id="faq" class="py-24 animated-section">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold gradient-text" id="faq-title"></h2>
-                    <p class="mt-4 text-lg" id="faq-subtitle"></p>
+                    <h2 class="font-bold gradient-text" id="faq-title"></h2>
+                    <p class="mt-4" id="faq-subtitle"></p>
                 </div>
                 <div class="mt-12 space-y-4" id="faq-container"></div>
             </div>
@@ -280,9 +279,9 @@
 
         <section id="contato" class="animated-section">
             <div class="container mx-auto px-6 py-20 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold" id="cta-title"></h2>
-                <p class="mt-4 text-lg max-w-2xl mx-auto" id="cta-subtitle"></p>
-                <a href="#" class="mt-8 inline-block font-bold px-10 py-4 rounded-lg text-lg open-modal-button enhanced-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
+                <h2 class="font-bold" id="cta-title"></h2>
+                <p class="mt-4 max-w-2xl mx-auto" id="cta-subtitle"></p>
+                <a href="#" class="mt-8 inline-block font-bold px-10 py-4 rounded-lg open-modal-button enhanced-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
             </div>
         </section>
     </main>
@@ -292,20 +291,20 @@
             <div class="grid md:grid-cols-3 gap-8">
                 <div>
                     <h3 class="text-xl font-bold" id="footer-logo"></h3>
-                    <p class="mt-4 text-gray-400" id="footer-description"></p>
+                    <p class="mt-4" id="footer-description"></p>
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold uppercase">Links Úteis</h4>
                     <ul class="mt-4 space-y-2">
-                        <li><a href="#sobre" class="text-gray-400 hover:text-white transition">Sobre Nós</a></li>
-                        <li><a href="#servicos" class="text-gray-400 hover:text-white transition">Serviços</a></li>
-                        <li><a href="#depoimentos" class="text-gray-400 hover:text-white transition">Depoimentos</a></li>
-                        <li><a href="#contato" class="text-gray-400 hover:text-white transition">Contato</a></li>
+                        <li><a href="#sobre" class="hover:text-white transition">Sobre Nós</a></li>
+                        <li><a href="#servicos" class="hover:text-white transition">Serviços</a></li>
+                        <li><a href="#depoimentos" class="hover:text-white transition">Depoimentos</a></li>
+                        <li><a href="#contato" class="hover:text-white transition">Contato</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold uppercase">Contato</h4>
-                    <ul class="mt-4 space-y-2 text-gray-400">
+                    <ul class="mt-4 space-y-2">
                         <li id="footer-email"></li>
                         <li id="footer-phone"></li>
                         <li id="footer-address"></li>
@@ -361,14 +360,8 @@
                 aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB',
                 aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937',
                 testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563',
-                animations: {
-                    sectionReveal: true,
-                    cardHoverTilt: true,
-                    heroImageZoom: true,
-                    auroraEffect: true,
-                    heroTextAnimation: true,
-                    cursorFollower: true
-                }
+                animations: { sectionReveal: true, cardHoverTilt: true, heroImageZoom: true, auroraEffect: true, heroTextAnimation: true, cursorFollower: true },
+                typography: { fontHeadings: "'Poppins', sans-serif", sizeHeadings: '48px', fontSubheadings: "'Inter', sans-serif", sizeSubheadings: '20px', fontBody: "'Inter', sans-serif", sizeBody: '16px', fontButtons: "'Inter', sans-serif", sizeButtons: '16px', fontCardTitles: "'Poppins', sans-serif", sizeCardTitles: '20px', fontUtility: "'Inter', sans-serif", sizeUtility: '14px' }
             },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
@@ -416,7 +409,7 @@
             const originalText = element.getAttribute('data-original-text') || element.textContent;
             element.setAttribute('data-original-text', originalText);
             
-            if (enable) {
+            if (enable && originalText) {
                 element.innerHTML = originalText.split('').map((char, index) => 
                     `<span class="hero-text-char" style="animation-delay: ${index * 0.03}s">${char === ' ' ? '&nbsp;' : char}</span>`
                 ).join('');
@@ -440,7 +433,7 @@
             const onMouseOverLink = () => {
                 cursor.style.width = '60px';
                 cursor.style.height = '60px';
-                cursor.style.backgroundColor = color + '33'; // Add some opacity
+                cursor.style.backgroundColor = color + '33';
             };
 
             const onMouseOutLink = () => {
@@ -448,6 +441,12 @@
                 cursor.style.height = '30px';
                 cursor.style.backgroundColor = 'transparent';
             };
+            
+            window.removeEventListener('mousemove', onMouseMove);
+            document.querySelectorAll('a, button').forEach(el => {
+                el.removeEventListener('mouseover', onMouseOverLink);
+                el.removeEventListener('mouseout', onMouseOutLink);
+            });
 
             if (enable) {
                 window.addEventListener('mousemove', onMouseMove);
@@ -455,27 +454,20 @@
                     el.addEventListener('mouseover', onMouseOverLink);
                     el.addEventListener('mouseout', onMouseOutLink);
                 });
-            } else {
-                window.removeEventListener('mousemove', onMouseMove);
-                 document.querySelectorAll('a, button').forEach(el => {
-                    el.removeEventListener('mouseover', onMouseOverLink);
-                    el.removeEventListener('mouseout', onMouseOutLink);
-                });
             }
         }
-
 
         function renderContent(pageData) {
             pageDataStore = pageData || defaultData;
             const data = pageDataStore;
             const styles = { ...defaultData.style, ...data.style };
-            const animations = { ...defaultData.style.animations, ...(styles.animations || {}) };
+            styles.animations = { ...defaultData.style.animations, ...(styles.animations || {}) };
+            styles.typography = { ...defaultData.style.typography, ...(styles.typography || {}) };
 
             const dynamicStyleEl = document.getElementById('dynamic-styles');
-            const root = document.documentElement;
-
             const auroraBg = document.getElementById('aurora-bg');
-            auroraBg.style.display = animations.auroraEffect ? 'block' : 'none';
+            
+            auroraBg.style.display = styles.animations.auroraEffect ? 'block' : 'none';
             if(styles.backgroundImage) {
                 auroraBg.style.backgroundImage = `url('${styles.backgroundImage}')`;
                 auroraBg.style.backgroundSize = 'cover';
@@ -488,31 +480,27 @@
             auroraBg.style.setProperty('--aurora-color1', styles.auroraColor1);
             auroraBg.style.setProperty('--aurora-color2', styles.auroraColor2);
             
+            const typo = styles.typography;
             let cssString = `
-                body { color: ${styles.textColor}; }
+                :root { --font-headings: ${typo.fontHeadings}; --size-headings: ${typo.sizeHeadings}; --font-subheadings: ${typo.fontSubheadings}; --size-subheadings: ${typo.sizeSubheadings}; --font-body: ${typo.fontBody}; --size-body: ${typo.sizeBody}; --font-buttons: ${typo.fontButtons}; --size-buttons: ${typo.sizeButtons}; --font-card-titles: ${typo.fontCardTitles}; --size-card-titles: ${typo.sizeCardTitles}; --font-utility: ${typo.fontUtility}; --size-utility: ${typo.sizeUtility}; }
+                body { font-family: var(--font-body); font-size: var(--size-body); color: ${styles.textColor}; }
+                h1, h2, h3, h4 { letter-spacing: -0.025em; }
+                #hero-title, #about-title, #services-title, #testimonials-title, #faq-title, #cta-title { font-family: var(--font-headings); font-size: var(--size-headings); }
+                #hero-subtitle, #about-subtitle, #services-subtitle, #testimonials-subtitle, #faq-subtitle, #cta-subtitle { font-family: var(--font-subheadings); font-size: var(--size-subheadings); }
+                .enhanced-button, header a, #mobile-menu a { font-family: var(--font-buttons); font-size: var(--size-buttons); }
+                #about-step1-title, #about-step2-title, #about-step3-title, .service-card h3, #testimonials-container .font-semibold, .faq-toggle span { font-family: var(--font-card-titles); font-size: var(--size-card-titles); }
+                #social-title, #testimonials-container .text-sm, footer { font-family: var(--font-utility); font-size: var(--size-utility); }
                 .gradient-text { background-image: linear-gradient(to right, ${styles.gradientColor1}, ${styles.gradientColor2}); }
                 header#home { background-color: ${styles.headerBgColor}CC !important; }
                 header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
-                .enhanced-button {
-                    background-image: linear-gradient(to right, ${styles.primaryBtnBgColor}, color-mix(in srgb, ${styles.primaryBtnBgColor} 80%, black)) !important;
-                    color: ${styles.primaryBtnTextColor} !important;
-                    box-shadow: 0 10px 20px -5px ${styles.primaryBtnBgColor}66;
-                }
+                .enhanced-button { background-image: linear-gradient(to right, ${styles.primaryBtnBgColor}, color-mix(in srgb, ${styles.primaryBtnBgColor} 80%, black)) !important; color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px ${styles.primaryBtnBgColor}66; }
                 .enhanced-button:hover { box-shadow: 0 15px 25px -5px ${styles.primaryBtnBgColor}88; }
-                #hero-cta2-text.enhanced-button {
-                    background-image: none !important;
-                    background-color: ${styles.secondaryBtnBgColor} !important;
-                    color: ${styles.secondaryBtnTextColor} !important;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                }
+                #hero-cta2-text.enhanced-button { background-image: none !important; background-color: ${styles.secondaryBtnBgColor} !important; color: ${styles.secondaryBtnTextColor} !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
                 #hero-cta2-text.enhanced-button:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
                 section#contato { background-color: ${styles.ctaBgColor} !important; background-image: linear-gradient(to right, ${styles.ctaBgColor}, color-mix(in srgb, ${styles.ctaBgColor} 70%, black)); }
                 section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
-                section#contato #cta-button {
-                    background-image: none !important; background-color: ${styles.primaryBtnBgColor} !important;
-                    color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
-                }
-                 section#contato #cta-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important; }
+                section#contato #cta-button { background-image: none !important; background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3); }
+                section#contato #cta-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important; }
                 footer { background-color: ${styles.footerBgColor} !important; }
                 footer h3, footer h4 { color: ${styles.footerHeadingsColor} !important; }
                 footer p, footer li, footer a { color: ${styles.footerTextColor} !important; }
@@ -523,32 +511,13 @@
                 section#sobre .interactive-card h3, section#sobre .interactive-card p { color: ${styles.aboutStepsTextColor} !important; }
                 section#depoimentos { background-color: ${styles.testimonialsBgColor} !important; }
                 section#depoimentos .interactive-card { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
-                section#depoimentos .interactive-card p { color: ${styles.testimonialsCardTextColor} !important; }
-                
-                #contact-modal-content {
-                    background-color: ${styles.testimonialsCardBgColor} !important;
-                    backdrop-filter: blur(10px);
-                }
-                #contact-modal-content h3, #contact-modal-content p, #contact-modal-content label, #close-modal-button {
-                    color: ${styles.testimonialsCardTextColor} !important;
-                }
-                #contact-modal-content input {
-                    background-color: color-mix(in srgb, ${styles.testimonialsCardBgColor} 85%, black) !important;
-                    color: ${styles.testimonialsCardTextColor} !important;
-                    border-color: color-mix(in srgb, ${styles.testimonialsCardTextColor} 30%, transparent) !important;
-                }
-                #contact-modal-content input:focus {
-                    border-color: ${styles.primaryBtnBgColor} !important;
-                    box-shadow: 0 0 0 2px ${styles.primaryBtnBgColor}80 !important;
-                    outline: none;
-                }
-                #submit-whatsapp-button {
-                    background-color: ${styles.primaryBtnBgColor} !important;
-                    color: ${styles.primaryBtnTextColor} !important;
-                }
-                #submit-whatsapp-button:hover {
-                    background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important;
-                }
+                section#depoimentos .interactive-card p, #depoimentos .interactive-card .text-sm { color: ${styles.testimonialsCardTextColor} !important; }
+                #contact-modal-content { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
+                #contact-modal-content h3, #contact-modal-content p, #contact-modal-content label, #close-modal-button { color: ${styles.testimonialsCardTextColor} !important; }
+                #contact-modal-content input { background-color: color-mix(in srgb, ${styles.testimonialsCardBgColor} 85%, black) !important; color: ${styles.testimonialsCardTextColor} !important; border-color: color-mix(in srgb, ${styles.testimonialsCardTextColor} 30%, transparent) !important; }
+                #contact-modal-content input:focus { border-color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 0 0 2px ${styles.primaryBtnBgColor}80 !important; outline: none; }
+                #submit-whatsapp-button { background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; }
+                #submit-whatsapp-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important; }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
 
@@ -565,9 +534,10 @@
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
             document.getElementById('hero-cta2-text').innerHTML = data.hero?.cta2Text || '';
             document.getElementById('hero-cta2-text').href = data.hero?.cta2Link || '#contato';
-            document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
-            document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
-            document.getElementById('hero-image').classList.toggle('animate-zoom-in', animations.heroImageZoom);
+            const heroImage = document.getElementById('hero-image');
+            heroImage.src = data.hero?.image || defaultData.hero.image;
+            heroImage.alt = data.hero?.title || 'Ilustração';
+            heroImage.classList.toggle('animate-zoom-in', animations.heroImageZoom);
 
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
@@ -601,7 +571,7 @@
                 servicesItems.forEach(item => {
                     let buttonHtml = '';
                     if (showServiceButton) {
-                        const commonClasses = "font-semibold px-6 py-2.5 rounded-lg enhanced-button text-sm";
+                        const commonClasses = "font-semibold px-6 py-2.5 rounded-lg enhanced-button";
                         if (item.link) {
                             buttonHtml = `<a href="${item.link}" target="_blank" class="${commonClasses}">Tenho Interesse!</a>`;
                         } else {
@@ -609,18 +579,7 @@
                         }
                     }
 
-                    track.innerHTML += `
-                        <div class="service-card rounded-xl shadow-lg bg-white border border-gray-200/50 group">
-                            <img src="${item.image}" alt="${item.title}" class="w-full h-80 object-cover service-card-image">
-                            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
-                                <h3 class="text-xl font-bold text-white">${item.title}</h3>
-                            </div>
-                            <div class="service-card-overlay">
-                                <p class="text-white/90 font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>
-                                ${item.price ? `<p class="text-3xl font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}
-                                ${buttonHtml}
-                            </div>
-                        </div>`;
+                    track.innerHTML += `<div class="service-card rounded-xl shadow-lg bg-white border border-gray-200/50 group"><img src="${item.image}" alt="${item.title}" class="w-full h-80 object-cover service-card-image"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent"><h3 class="font-bold text-white">${item.title}</h3></div><div class="service-card-overlay"><p class="text-white/90 font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>${item.price ? `<p class="font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}${buttonHtml}</div></div>`;
                 });
             } else {
                 document.getElementById('servicos').style.display = 'none';
@@ -648,7 +607,7 @@
                 const faqContainer = document.getElementById('faq-container');
                 faqContainer.innerHTML = '';
                 faqItems.forEach(item => {
-                    faqContainer.innerHTML += `<div class="bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-lg shadow-sm"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="text-lg font-semibold">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p>${item.answer}</p></div></div>`;
+                    faqContainer.innerHTML += `<div class="bg-white/50 backdrop-blur-sm border border-gray-200/50 rounded-lg shadow-sm"><button class="faq-toggle w-full text-left p-6 flex justify-between items-center"><span class="font-semibold">${item.question}</span><svg class="faq-icon w-6 h-6 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button><div class="faq-content px-6 pb-4"><p>${item.answer}</p></div></div>`;
                 });
             } else {
                 document.getElementById('faq').style.display = 'none';
