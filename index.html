@@ -405,12 +405,15 @@
         
         function animateHeroText(element, newText, enable) {
             if (!element) return;
-            const currentAnimatedText = element.getAttribute('data-animated-text');
+            const textToRender = newText || '';
+            const currentRawText = element.getAttribute('data-raw-text');
+            const isAnimated = element.querySelector('.hero-text-char') !== null;
+            
             if (enable) {
-                if (newText !== currentAnimatedText) {
-                    element.setAttribute('data-animated-text', newText);
-                    if (newText) {
-                        element.innerHTML = newText.split('').map((char, index) => 
+                if (!isAnimated || currentRawText !== textToRender) {
+                    element.setAttribute('data-raw-text', textToRender);
+                    if (textToRender) {
+                        element.innerHTML = textToRender.split('').map((char, index) => 
                             `<span class="hero-text-char" style="animation-delay: ${index * 0.03}s">${char === ' ' ? '&nbsp;' : char}</span>`
                         ).join('');
                     } else {
@@ -418,8 +421,10 @@
                     }
                 }
             } else {
-                element.textContent = newText;
-                element.removeAttribute('data-animated-text');
+                if (isAnimated || element.textContent !== textToRender) {
+                    element.textContent = textToRender;
+                    element.removeAttribute('data-raw-text');
+                }
             }
         }
 
@@ -530,7 +535,7 @@
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
             if (data.footer?.favicon) document.getElementById('favicon-link').href = data.footer.favicon;
             
-            animateHeroText(document.getElementById('hero-title'), data.hero?.title || '', styles.animations.heroTextAnimation);
+            animateHeroText(document.getElementById('hero-title'), data.hero?.title, styles.animations.heroTextAnimation);
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
             
             document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
