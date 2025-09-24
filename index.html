@@ -499,8 +499,8 @@
                 #hero-cta2-text.enhanced-button:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
                 section#contato { background-color: ${styles.ctaBgColor} !important; background-image: linear-gradient(to right, ${styles.ctaBgColor}, color-mix(in srgb, ${styles.ctaBgColor} 70%, black)); }
                 section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
-                section#contato #cta-button { background-image: none !important; background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3); }
-                section#contato #cta-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important; }
+                section#contato #cta-button { background-image: none !important; background-color: ${styles.primaryBtnTextColor} !important; color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3); }
+                section#contato #cta-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnTextColor} 90%, black) !important; }
                 footer { background-color: ${styles.footerBgColor} !important; }
                 footer h3, footer h4 { color: ${styles.footerHeadingsColor} !important; }
                 footer p, footer li, footer a { color: ${styles.footerTextColor} !important; }
@@ -528,16 +528,16 @@
             document.getElementById('hero-title').textContent = data.hero?.title || '';
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
 
-            animateHeroText('#hero-title', animations.heroTextAnimation);
+            animateHeroText('#hero-title', styles.animations.heroTextAnimation);
             
-            document.getElementById('hero-cta1-text').innerHTML = data.hero?.cta1Text || '';
+            document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
-            document.getElementById('hero-cta2-text').innerHTML = data.hero?.cta2Text || '';
+            document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
             document.getElementById('hero-cta2-text').href = data.hero?.cta2Link || '#contato';
             const heroImage = document.getElementById('hero-image');
             heroImage.src = data.hero?.image || defaultData.hero.image;
             heroImage.alt = data.hero?.title || 'Ilustração';
-            heroImage.classList.toggle('animate-zoom-in', animations.heroImageZoom);
+            heroImage.classList.toggle('animate-zoom-in', styles.animations.heroImageZoom);
 
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
@@ -550,14 +550,14 @@
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100">`;
             });
 
-            document.getElementById('about-title').innerHTML = data.about?.title || '';
-            document.getElementById('about-subtitle').innerHTML = data.about?.subtitle || '';
-            document.getElementById('about-step1-title').innerHTML = data.about?.step1?.title || '';
-            document.getElementById('about-step1-desc').innerHTML = data.about?.step1?.description || '';
-            document.getElementById('about-step2-title').innerHTML = data.about?.step2?.title || '';
-            document.getElementById('about-step2-desc').innerHTML = data.about?.step2?.description || '';
-            document.getElementById('about-step3-title').innerHTML = data.about?.step3?.title || '';
-            document.getElementById('about-step3-desc').innerHTML = data.about?.step3?.description || '';
+            document.getElementById('about-title').textContent = data.about?.title || '';
+            document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
+            document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
+            document.getElementById('about-step1-desc').textContent = data.about?.step1?.description || '';
+            document.getElementById('about-step2-title').textContent = data.about?.step2?.title || '';
+            document.getElementById('about-step2-desc').textContent = data.about?.step2?.description || '';
+            document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
+            document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
             
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
@@ -566,8 +566,8 @@
             const showServiceButton = servicesData.showButton === true;
 
             if(servicesItems.length > 0) {
-                document.getElementById('services-title').innerHTML = servicesData.title || '';
-                document.getElementById('services-subtitle').innerHTML = servicesData.subtitle || '';
+                document.getElementById('services-title').textContent = servicesData.title || '';
+                document.getElementById('services-subtitle').textContent = servicesData.subtitle || '';
                 servicesItems.forEach(item => {
                     let buttonHtml = '';
                     if (showServiceButton) {
@@ -588,8 +588,8 @@
             const testimonialsData = data.testimonials || {};
             const testimonialsItems = testimonialsData.items || [];
             if(testimonialsItems.length > 0) {
-                document.getElementById('testimonials-title').innerHTML = testimonialsData.title || '';
-                document.getElementById('testimonials-subtitle').innerHTML = testimonialsData.subtitle || '';
+                document.getElementById('testimonials-title').textContent = testimonialsData.title || '';
+                document.getElementById('testimonials-subtitle').textContent = testimonialsData.subtitle || '';
                 const testimonialsContainer = document.getElementById('testimonials-container');
                 testimonialsContainer.innerHTML = '';
                 testimonialsItems.forEach(item => {
@@ -602,8 +602,8 @@
             const faqData = data.faq || {};
             const faqItems = faqData.items || [];
             if(faqItems.length > 0) {
-                document.getElementById('faq-title').innerHTML = faqData.title || '';
-                document.getElementById('faq-subtitle').innerHTML = faqData.subtitle || '';
+                document.getElementById('faq-title').textContent = faqData.title || '';
+                document.getElementById('faq-subtitle').textContent = faqData.subtitle || '';
                 const faqContainer = document.getElementById('faq-container');
                 faqContainer.innerHTML = '';
                 faqItems.forEach(item => {
@@ -624,8 +624,8 @@
                 ctaButton.classList.add('open-modal-button');
                 ctaButton.setAttribute('data-service-title', 'Gostaria de solicitar um orçamento.');
             }
-            document.getElementById('cta-title').innerHTML = data.cta?.title || '';
-            document.getElementById('cta-subtitle').innerHTML = data.cta?.subtitle || '';
+            document.getElementById('cta-title').textContent = data.cta?.title || '';
+            document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
             
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
@@ -634,9 +634,9 @@
             document.getElementById('footer-address').textContent = `Endereço: ${data.footer?.address || ''}`;
             document.getElementById('footer-copyright').textContent = data.footer?.copyright || '';
             
-            document.querySelectorAll('.animated-section').forEach(el => el.classList.toggle('animate-on-scroll', animations.sectionReveal));
-            setupCardTilt(animations.cardHoverTilt);
-            setupCursorFollower(animations.cursorFollower, styles.primaryBtnBgColor);
+            document.querySelectorAll('.animated-section').forEach(el => el.classList.toggle('animate-on-scroll', styles.animations.sectionReveal));
+            setupCardTilt(styles.animations.cardHoverTilt);
+            setupCursorFollower(styles.animations.cursorFollower, styles.primaryBtnBgColor);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -646,39 +646,43 @@
             const loadingOverlay = document.getElementById('loading-overlay');
             const header = document.querySelector('header');
             const main = document.querySelector('main');
+            
+            const hideLoader = () => {
+                if (!isInitialLoad) return;
+                loadingOverlay.style.opacity = '0';
+                loadingOverlay.addEventListener('transitionend', () => loadingOverlay.classList.add('hidden'), { once: true });
+                header.classList.remove('hidden');
+                main.classList.remove('hidden');
+                isInitialLoad = false;
+            };
 
             onSnapshot(contentDocRef, (doc) => {
-                const data = doc.exists() ? doc.data() : defaultData;
-                renderContent(data);
+                try {
+                    const data = doc.exists() ? doc.data() : defaultData;
+                    renderContent(data);
 
-                if (isInitialLoad) {
-                    setTimeout(() => {
-                        loadingOverlay.style.opacity = '0';
-                        loadingOverlay.addEventListener('transitionend', () => loadingOverlay.classList.add('hidden'));
-                        header.classList.remove('hidden');
-                        main.classList.remove('hidden');
-                        isInitialLoad = false;
-
-                        const sections = document.querySelectorAll('.animated-section');
-                        if (data.style?.animations?.sectionReveal !== false) {
-                            const observer = new IntersectionObserver((entries) => {
-                                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
-                            }, { threshold: 0.1 });
-                            sections.forEach(section => observer.observe(section));
-                        } else {
-                            sections.forEach(section => section.classList.add('is-visible'));
-                        }
-                    }, 500);
+                    if (isInitialLoad) {
+                        setTimeout(() => {
+                            hideLoader();
+                            const sections = document.querySelectorAll('.animated-section');
+                            if (data.style?.animations?.sectionReveal !== false) {
+                                const observer = new IntersectionObserver((entries) => {
+                                    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+                                }, { threshold: 0.1 });
+                                sections.forEach(section => observer.observe(section));
+                            } else {
+                                sections.forEach(section => section.classList.add('is-visible'));
+                            }
+                        }, 500);
+                    }
+                } catch (e) {
+                    console.error("Erro ao renderizar conteúdo:", e);
+                    hideLoader();
                 }
             }, (error) => { 
                 console.error("Erro ao buscar dados:", error); 
                 renderContent(defaultData); 
-                if (isInitialLoad) {
-                    loadingOverlay.classList.add('hidden');
-                    header.classList.remove('hidden');
-                    main.classList.remove('hidden');
-                    isInitialLoad = false;
-                }
+                hideLoader();
             });
             
             const mobileMenuButton = document.getElementById('mobile-menu-button');
