@@ -78,11 +78,9 @@
         #contact-modal { transition: opacity 0.3s ease-in-out; }
         #contact-modal > div { transition: transform 0.3s ease-in-out; }
         
-        /* --- CORREÇÃO NA LÓGICA DE ANIMAÇÃO DE SCROLL --- */
-        .animated-section { transition: opacity 1s; } /* Estilo base inofensivo */
-
-        .animated-section.animate-on-scroll { opacity: 0; } /* Esconde a seção APENAS se a animação estiver ativa */
-        .animated-section.animate-on-scroll.is-visible { opacity: 1; } /* Mostra a seção quando visível */
+        .animated-section { transition: opacity 1s; }
+        .animated-section.animate-on-scroll { opacity: 0; }
+        .animated-section.animate-on-scroll.is-visible { opacity: 1; }
 
         .animated-section.animate-on-scroll > * { 
             opacity: 0; 
@@ -93,7 +91,6 @@
         .animated-section.animate-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
         .animated-section.animate-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
         .animated-section.animate-on-scroll.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
-        /* --- FIM DA CORREÇÃO --- */
 
         .interactive-card:hover {
             transform: translateY(-8px);
@@ -406,19 +403,23 @@
             });
         }
         
-        function animateHeroText(selector, enable) {
-            const element = document.querySelector(selector);
+        function animateHeroText(element, newText, enable) {
             if (!element) return;
-            
-            const originalText = element.getAttribute('data-original-text') || element.textContent;
-            element.setAttribute('data-original-text', originalText);
-            
-            if (enable && originalText) {
-                element.innerHTML = originalText.split('').map((char, index) => 
-                    `<span class="hero-text-char" style="animation-delay: ${index * 0.03}s">${char === ' ' ? '&nbsp;' : char}</span>`
-                ).join('');
+            const currentAnimatedText = element.getAttribute('data-animated-text');
+            if (enable) {
+                if (newText !== currentAnimatedText) {
+                    element.setAttribute('data-animated-text', newText);
+                    if (newText) {
+                        element.innerHTML = newText.split('').map((char, index) => 
+                            `<span class="hero-text-char" style="animation-delay: ${index * 0.03}s">${char === ' ' ? '&nbsp;' : char}</span>`
+                        ).join('');
+                    } else {
+                        element.innerHTML = '';
+                    }
+                }
             } else {
-                element.innerHTML = originalText;
+                element.textContent = newText;
+                element.removeAttribute('data-animated-text');
             }
         }
 
@@ -528,11 +529,9 @@
             document.getElementById('page-title').textContent = data.hero?.title || defaultData.hero.title;
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
             if (data.footer?.favicon) document.getElementById('favicon-link').href = data.footer.favicon;
-
-            document.getElementById('hero-title').textContent = data.hero?.title || '';
+            
+            animateHeroText(document.getElementById('hero-title'), data.hero?.title || '', styles.animations.heroTextAnimation);
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
-
-            animateHeroText('#hero-title', styles.animations.heroTextAnimation);
             
             document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
