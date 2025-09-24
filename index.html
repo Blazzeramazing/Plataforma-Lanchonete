@@ -25,12 +25,10 @@
             overflow-x: hidden;
         }
 
-        /* 3. Efeito de brilho customizado para os botões */
         .btn-glow:hover {
             box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.4);
         }
         
-        /* 4. Estilos para o cabeçalho dinâmico */
         header#home {
             transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             background-color: transparent;
@@ -41,7 +39,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* 5. Acordeão (Accordion) Animado no FAQ */
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         .faq-toggle .faq-icon { transition: transform 0.3s ease-in-out; }
 
@@ -60,7 +57,7 @@
             margin-right: 1.5rem;
             position: relative; 
             overflow: hidden; 
-            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Efeito Hover */
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
         }
         .service-card-image { transition: transform 0.4s ease-in-out; }
         .service-card:hover .service-card-image { transform: scale(1.05); }
@@ -173,6 +170,24 @@
             transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s, transform 0.1s ease-out;
             mix-blend-mode: difference;
         }
+
+        /* ESTILO GENÉRICO: Para seções com imagem de fundo */
+        .customizable-bg {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+        }
+        .customizable-bg.has-bg-image::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); /* Overlay para garantir a legibilidade do texto */
+            z-index: 1;
+        }
+        .customizable-bg > div {
+            position: relative;
+            z-index: 2;
+        }
     </style>
     <style id="dynamic-styles"></style>
 </head>
@@ -210,7 +225,7 @@
     </header>
 
     <main class="hidden">
-        <section class="overflow-hidden">
+        <section id="hero-section" class="overflow-hidden customizable-bg">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
                 <div class="text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
                     <h1 class="font-extrabold leading-tight gradient-text" id="hero-title"></h1>
@@ -226,14 +241,14 @@
             </div>
         </section>
 
-        <section class="py-16 overflow-hidden" data-aos="fade-up">
+        <section id="social-proof-section" class="py-16 overflow-hidden customizable-bg" data-aos="fade-up">
             <div class="container mx-auto px-6 text-center">
                 <h3 class="font-semibold uppercase tracking-wider" id="social-title"></h3>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
 
-        <section id="sobre" class="py-24 overflow-hidden">
+        <section id="sobre" class="py-24 overflow-hidden customizable-bg">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
                     <h2 class="font-bold gradient-text" id="about-title"></h2>
@@ -259,7 +274,7 @@
             </div>
         </section>
 
-        <section id="servicos" class="py-24 overflow-hidden" data-aos="fade-up">
+        <section id="servicos" class="py-24 overflow-hidden customizable-bg" data-aos="fade-up">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="font-bold gradient-text" id="services-title"></h2>
@@ -273,7 +288,7 @@
             </div>
         </section>
 
-        <section id="depoimentos" class="py-24 overflow-hidden">
+        <section id="depoimentos" class="py-24 overflow-hidden customizable-bg">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
                     <h2 class="font-bold gradient-text" id="testimonials-title"></h2>
@@ -283,7 +298,7 @@
             </div>
         </section>
 
-        <section id="faq" class="py-24 overflow-hidden">
+        <section id="faq" class="py-24 overflow-hidden customizable-bg">
             <div class="container mx-auto px-6 max-w-4xl">
                 <div class="text-center" data-aos="fade-up">
                     <h2 class="font-bold gradient-text" id="faq-title"></h2>
@@ -293,7 +308,7 @@
             </div>
         </section>
 
-        <section id="contato" class="overflow-hidden" data-aos="zoom-in">
+        <section id="contato" class="overflow-hidden customizable-bg" data-aos="zoom-in">
             <div class="container mx-auto px-6 py-20 text-center">
                 <h2 class="font-bold" id="cta-title"></h2>
                 <p class="mt-4 max-w-2xl mx-auto" id="cta-subtitle"></p>
@@ -350,15 +365,11 @@
         </div>
     </div>
 
-    <!-- 6. Botão "Voltar ao Topo" -->
     <button id="back-to-top" class="hidden fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
     </button>
 
-    <!-- Firebase -->
     <script src="./firebase-config.js"></script>
-
-    <!-- Biblioteca de Animação (AOS) JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script type="module">
@@ -371,9 +382,11 @@
         let pageDataStore = null;
         let currentServiceTitle = '';
 
-        // Mantive seus dados padrão intactos
         const defaultData = {
-            hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
+            hero: { 
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...',
+                backgroundImage: '', transparent: false 
+            },
             style: { 
                 backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937',
                 auroraColor1: '#a855f7', auroraColor2: '#4f46e5', 
@@ -383,22 +396,44 @@
                 secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937',
                 ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF',
                 footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF',
-                aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB',
+                heroBgColor: '#FFFFFF', // Cor padrão para a seção Hero
+                socialProofBgColor: '#F9FAFB', // Cor padrão para Social Proof
+                aboutBgColor: '#FFFFFF',
+                servicesBgColor: '#F9FAFB', // Cor padrão para Serviços
+                testimonialsBgColor: '#FFFFFF',
+                faqBgColor: '#F9FAFB', // Cor padrão para FAQ
                 aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937',
                 testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563',
                 animations: { sectionReveal: true, cardHoverTilt: true, heroImageZoom: true, auroraEffect: true, heroTextAnimation: true, cursorFollower: true },
                 typography: { fontHeadings: "'Poppins', sans-serif", sizeHeadings: '48px', fontSubheadings: "'Inter', sans-serif", sizeSubheadings: '20px', fontBody: "'Inter', sans-serif", sizeBody: '16px', fontButtons: "'Inter', sans-serif", sizeButtons: '16px', fontCardTitles: "'Poppins', sans-serif", sizeCardTitles: '20px', fontUtility: "'Inter', sans-serif", sizeUtility: '14px' }
             },
-            socialProof: { title: 'Carregando...', logos: [] },
-            about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
-            services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], showButton: true },
-            testimonials: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
-            faq: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [] },
-            cta: { title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...', buttonLink: '' },
+            socialProof: { 
+                title: 'Carregando...', logos: [],
+                backgroundImage: '', transparent: false 
+            },
+            about: { 
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {},
+                backgroundImage: '', transparent: false 
+            },
+            services: { 
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], showButton: true,
+                backgroundImage: '', transparent: false 
+            },
+            testimonials: { 
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [],
+                backgroundImage: '', transparent: false 
+            },
+            faq: { 
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [],
+                backgroundImage: '', transparent: false 
+            },
+            cta: { 
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...', buttonLink: '',
+                backgroundImage: '', transparent: false
+            },
             footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
-        // Suas funções de animação foram mantidas
         const handleMouseMoveTilt = (e) => {
             const card = e.currentTarget;
             const rect = card.getBoundingClientRect();
@@ -492,6 +527,25 @@
                 });
             }
         }
+        
+        // NOVA FUNÇÃO: Aplica estilos de fundo a qualquer seção
+        function applyBackgroundStyles(element, sectionData, defaultColor) {
+            if (!element) return;
+
+            element.classList.remove('has-bg-image');
+            
+            if (sectionData.backgroundImage) {
+                element.style.backgroundImage = `url('${sectionData.backgroundImage}')`;
+                element.style.backgroundColor = 'transparent';
+                element.classList.add('has-bg-image');
+            } else if (sectionData.transparent) {
+                element.style.backgroundImage = 'none';
+                element.style.backgroundColor = 'transparent';
+            } else {
+                element.style.backgroundImage = 'none';
+                element.style.backgroundColor = defaultColor;
+            }
+        }
 
         function renderContent(pageData) {
             pageDataStore = pageData || defaultData;
@@ -527,16 +581,13 @@
                 #about-step1-title, #about-step2-title, #about-step3-title, .service-card h3, #testimonials-container .font-semibold, .faq-toggle span { font-family: var(--font-card-titles); font-size: var(--size-card-titles); }
                 #social-title, #testimonials-container .text-sm, footer { font-family: var(--font-utility); font-size: var(--size-utility); }
                 .gradient-text { background-image: linear-gradient(to right, ${styles.gradientColor1}, ${styles.gradientColor2}); }
-                /* MODIFICAÇÃO: Aplica cor de fundo apenas no header com a classe .scrolled */
                 header#home.scrolled { background-color: ${styles.headerBgColor}CC !important; }
                 header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
-                /* NOVO: Estilo dinâmico para o botão "Voltar ao Topo" */
                 #back-to-top { background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; }
                 .enhanced-button { background-image: linear-gradient(to right, ${styles.primaryBtnBgColor}, color-mix(in srgb, ${styles.primaryBtnBgColor} 80%, black)) !important; color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px ${styles.primaryBtnBgColor}66; }
                 .enhanced-button:hover { box-shadow: 0 15px 25px -5px ${styles.primaryBtnBgColor}88; }
                 #hero-cta2-text.enhanced-button { background-image: none !important; background-color: ${styles.secondaryBtnBgColor} !important; color: ${styles.secondaryBtnTextColor} !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
                 #hero-cta2-text.enhanced-button:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-                section#contato { background-color: ${styles.ctaBgColor} !important; background-image: linear-gradient(to right, ${styles.ctaBgColor}, color-mix(in srgb, ${styles.ctaBgColor} 70%, black)); }
                 section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
                 section#contato #cta-button { background-image: none !important; background-color: ${styles.primaryBtnTextColor} !important; color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3); }
                 section#contato #cta-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnTextColor} 90%, black) !important; }
@@ -545,10 +596,8 @@
                 footer p, footer li, footer a { color: ${styles.footerTextColor} !important; }
                 footer a:hover { color: ${styles.footerHeadingsColor} !important; }
                 .service-card-overlay .enhanced-button { color: ${styles.primaryBtnTextColor} !important; }
-                section#sobre { background-color: ${styles.aboutBgColor} !important; }
                 section#sobre .interactive-card { background-color: ${styles.aboutStepsBgColor} !important; }
                 section#sobre .interactive-card h3, section#sobre .interactive-card p { color: ${styles.aboutStepsTextColor} !important; }
-                section#depoimentos { background-color: ${styles.testimonialsBgColor} !important; }
                 section#depoimentos .interactive-card { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
                 section#depoimentos .interactive-card p, #depoimentos .interactive-card .text-sm { color: ${styles.testimonialsCardTextColor} !important; }
                 #contact-modal-content { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
@@ -566,7 +615,6 @@
             
             animateHeroText(document.getElementById('hero-title'), data.hero?.title, styles.animations.heroTextAnimation);
             document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
-            
             document.getElementById('hero-cta1-text').textContent = data.hero?.cta1Text || '';
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
             document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
@@ -580,29 +628,32 @@
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
             document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
 
-            document.getElementById('social-title').textContent = data.socialProof?.title || '';
+            // Seção de Prova Social
+            const socialProofData = { ...defaultData.socialProof, ...(data.socialProof || {}) };
+            document.getElementById('social-title').textContent = socialProofData.title || '';
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
-            (data.socialProof?.logos || []).forEach(logo => {
-                // Efeito de hover adicionado aqui
+            (socialProofData.logos || []).forEach(logo => {
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110">`;
             });
 
-            document.getElementById('about-title').textContent = data.about?.title || '';
-            document.getElementById('about-subtitle').textContent = data.about?.subtitle || '';
-            document.getElementById('about-step1-title').textContent = data.about?.step1?.title || '';
-            document.getElementById('about-step1-desc').textContent = data.about?.step1?.description || '';
-            document.getElementById('about-step2-title').textContent = data.about?.step2?.title || '';
-            document.getElementById('about-step2-desc').textContent = data.about?.step2?.description || '';
-            document.getElementById('about-step3-title').textContent = data.about?.step3?.title || '';
-            document.getElementById('about-step3-desc').textContent = data.about?.step3?.description || '';
+            // Seção Sobre
+            const aboutData = { ...defaultData.about, ...(data.about || {}) };
+            document.getElementById('about-title').textContent = aboutData.title || '';
+            document.getElementById('about-subtitle').textContent = aboutData.subtitle || '';
+            document.getElementById('about-step1-title').textContent = aboutData.step1?.title || '';
+            document.getElementById('about-step1-desc').textContent = aboutData.step1?.description || '';
+            document.getElementById('about-step2-title').textContent = aboutData.step2?.title || '';
+            document.getElementById('about-step2-desc').textContent = aboutData.step2?.description || '';
+            document.getElementById('about-step3-title').textContent = aboutData.step3?.title || '';
+            document.getElementById('about-step3-desc').textContent = aboutData.step3?.description || '';
             
+            // Seção de Serviços
+            const servicesData = { ...defaultData.services, ...(data.services || {}) };
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
-            const servicesData = data.services || {};
             const servicesItems = servicesData.items || [];
             const showServiceButton = servicesData.showButton === true;
-
             if(servicesItems.length > 0) {
                 document.getElementById('services-title').textContent = servicesData.title || '';
                 document.getElementById('services-subtitle').textContent = servicesData.subtitle || '';
@@ -616,14 +667,14 @@
                             buttonHtml = `<button class="open-modal-button ${commonClasses}" data-service-title="${item.title}">Tenho Interesse!</button>`;
                         }
                     }
-                    // Efeito de hover adicionado ao card de serviço
                     track.innerHTML += `<div class="service-card rounded-xl shadow-lg bg-white border border-gray-200/50 group hover:-translate-y-2"><img src="${item.image}" alt="${item.title}" class="w-full h-80 object-cover service-card-image"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent"><h3 class="font-bold text-white">${item.title}</h3></div><div class="service-card-overlay"><p class="text-white/90 font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>${item.price ? `<p class="font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}${buttonHtml}</div></div>`;
                 });
             } else {
                 document.getElementById('servicos').style.display = 'none';
             }
 
-            const testimonialsData = data.testimonials || {};
+            // Seção de Depoimentos
+            const testimonialsData = { ...defaultData.testimonials, ...(data.testimonials || {}) };
             const testimonialsItems = testimonialsData.items || [];
             if(testimonialsItems.length > 0) {
                 document.getElementById('testimonials-title').textContent = testimonialsData.title || '';
@@ -637,7 +688,8 @@
                  document.getElementById('depoimentos').style.display = 'none';
             }
             
-            const faqData = data.faq || {};
+            // Seção de FAQ
+            const faqData = { ...defaultData.faq, ...(data.faq || {}) };
             const faqItems = faqData.items || [];
             if(faqItems.length > 0) {
                 document.getElementById('faq-title').textContent = faqData.title || '';
@@ -651,10 +703,12 @@
                 document.getElementById('faq').style.display = 'none';
             }
 
+            // Seção CTA
+            const ctaData = { ...defaultData.cta, ...(data.cta || {}) };
             const ctaButton = document.getElementById('cta-button');
-            ctaButton.textContent = data.cta?.buttonText || '';
-            if (data.cta?.buttonLink) {
-                ctaButton.href = data.cta.buttonLink;
+            ctaButton.textContent = ctaData.buttonText || '';
+            if (ctaData.buttonLink) {
+                ctaButton.href = ctaData.buttonLink;
                 ctaButton.classList.remove('open-modal-button');
                 ctaButton.removeAttribute('data-service-title');
             } else {
@@ -662,9 +716,19 @@
                 ctaButton.classList.add('open-modal-button');
                 ctaButton.setAttribute('data-service-title', 'Gostaria de solicitar um orçamento.');
             }
-            document.getElementById('cta-title').textContent = data.cta?.title || '';
-            document.getElementById('cta-subtitle').textContent = data.cta?.subtitle || '';
+            document.getElementById('cta-title').textContent = ctaData.title || '';
+            document.getElementById('cta-subtitle').textContent = ctaData.subtitle || '';
             
+            // APLICA FUNDOS EM TODAS AS SEÇÕES
+            applyBackgroundStyles(document.getElementById('hero-section'), { ...defaultData.hero, ...data.hero }, styles.heroBgColor);
+            applyBackgroundStyles(document.getElementById('social-proof-section'), socialProofData, styles.socialProofBgColor);
+            applyBackgroundStyles(document.getElementById('sobre'), aboutData, styles.aboutBgColor);
+            applyBackgroundStyles(document.getElementById('servicos'), servicesData, styles.servicesBgColor);
+            applyBackgroundStyles(document.getElementById('depoimentos'), testimonialsData, styles.testimonialsBgColor);
+            applyBackgroundStyles(document.getElementById('faq'), faqData, styles.faqBgColor);
+            applyBackgroundStyles(document.getElementById('contato'), ctaData, styles.ctaBgColor);
+            
+            // Seção de Rodapé
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
             document.getElementById('footer-email').textContent = `Email: ${data.footer?.email || ''}`;
@@ -672,7 +736,6 @@
             document.getElementById('footer-address').textContent = `Endereço: ${data.footer?.address || ''}`;
             document.getElementById('footer-copyright').textContent = data.footer?.copyright || '';
             
-            // REMOVIDO: Lógica de animação customizada foi substituída pela inicialização do AOS
             setupCardTilt(styles.animations.cardHoverTilt);
             setupCursorFollower(styles.animations.cursorFollower, styles.primaryBtnBgColor);
         }
@@ -682,7 +745,7 @@
             let isInitialLoad = true;
             
             const loadingOverlay = document.getElementById('loading-overlay');
-            const header = document.querySelector('header');
+            const header = document.getElementById('home');
             const main = document.querySelector('main');
             
             const hideLoader = () => {
@@ -702,12 +765,11 @@
                     if (isInitialLoad) {
                         setTimeout(() => {
                             hideLoader();
-                            // INICIALIZAÇÃO DA BIBLIOTECA DE ANIMAÇÃO (AOS)
                             if (data.style?.animations?.sectionReveal !== false) {
                                 AOS.init({
-                                    duration: 800, // Duração da animação
-                                    once: true,    // Animar apenas uma vez
-                                    offset: 100,   // Começar animação 100px antes do elemento aparecer
+                                    duration: 800,
+                                    once: true,
+                                    offset: 100,
                                 });
                             }
                         }, 500);
@@ -722,13 +784,11 @@
                 hideLoader();
             });
             
-            // Lógica do menu mobile mantida
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-            // Lógica do FAQ mantida
             document.getElementById('faq-container').addEventListener('click', (e) => {
                 const toggle = e.target.closest('.faq-toggle');
                 if (!toggle) return;
@@ -755,7 +815,6 @@
                 }
             });
 
-            // Lógica do carrossel mantida
             const track = document.getElementById('service-carousel-track'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
             if(track && prevBtn && nextBtn){
                 const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 24 : 300; }
@@ -763,7 +822,6 @@
                 prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
             }
 
-            // Lógica do modal mantida
             const modal = document.getElementById('contact-modal');
             const modalContent = document.getElementById('contact-modal-content');
             const closeModalButton = document.getElementById('close-modal-button');
@@ -810,18 +868,15 @@
                 window.open(whatsappUrl, '_blank');
             });
 
-            // NOVO: Lógica para Header Dinâmico e Botão "Voltar ao Topo"
             const backToTopButton = document.getElementById('back-to-top');
             
             window.addEventListener('scroll', () => {
-                // Header dinâmico
                 if (window.scrollY > 50) {
                     header.classList.add('scrolled');
                 } else {
                     header.classList.remove('scrolled');
                 }
 
-                // Botão "Voltar ao Topo"
                 if (window.scrollY > 400) {
                     backToTopButton.classList.remove('hidden');
                 } else {
@@ -837,3 +892,4 @@
     </script>
 </body>
 </html>
+
