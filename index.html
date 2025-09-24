@@ -19,7 +19,7 @@
         }
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         
-        /* --- ESTILOS VISUAIS APRIMORADOS --- */
+        /* --- ESTILOS DE ANIMAÇÃO E VISUAIS --- */
         .gradient-text {
             background-clip: text;
             -webkit-background-clip: text;
@@ -36,12 +36,8 @@
             position: relative; 
             overflow: hidden; 
         }
-        .service-card-image {
-            transition: transform 0.4s ease-in-out;
-        }
-        .service-card:hover .service-card-image {
-            transform: scale(1.05);
-        }
+        .service-card-image { transition: transform 0.4s ease-in-out; }
+        .service-card:hover .service-card-image { transform: scale(1.05); }
         @media (min-width: 768px) { .service-card { flex-basis: 45%; } }
         @media (min-width: 1024px) { .service-card { flex-basis: 31%; } }
         
@@ -61,10 +57,7 @@
             opacity: 0;
         }
         .service-card:hover .service-card-overlay { opacity: 1; }
-        .service-card:hover .service-card-overlay > * { 
-            transform: translateY(0);
-            opacity: 1;
-        }
+        .service-card:hover .service-card-overlay > * { transform: translateY(0); opacity: 1; }
         .service-card:hover .service-card-overlay > *:nth-child(2) { transition-delay: 0.1s; }
         .service-card:hover .service-card-overlay > *:nth-child(3) { transition-delay: 0.2s; }
         
@@ -89,29 +82,24 @@
         
         .animated-section { opacity: 0; transition: opacity 1s; }
         .animated-section.is-visible { opacity: 1; }
-        .animated-section > * { 
+        .animated-section.animate-on-scroll > * { 
             opacity: 0; 
             transform: translateY(40px); 
             transition: opacity 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000), transform 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000); 
         }
-        .animated-section.is-visible > * { opacity: 1; transform: translateY(0); }
-        .animated-section.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
-        .animated-section.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
-        .animated-section.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
+        .animated-section.animate-on-scroll.is-visible > * { opacity: 1; transform: translateY(0); }
+        .animated-section.animate-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
+        .animated-section.animate-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
+        .animated-section.animate-on-scroll.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
 
-        .interactive-card {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
         .interactive-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        .enhanced-button {
-            transition: all 0.3s ease-in-out;
-        }
-        .enhanced-button:hover {
-            transform: translateY(-3px) scale(1.03);
-        }
+        .card-tilt-enabled { transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; }
+
+        .enhanced-button { transition: all 0.3s ease-in-out; }
+        .enhanced-button:hover { transform: translateY(-3px) scale(1.03); }
 
         .loader {
             border: 4px solid rgba(0, 0, 0, 0.1);
@@ -137,6 +125,15 @@
         @keyframes aurora-move {
             0%, 100% { transform: translate(0, 50px) rotate(0deg); }
             50% { transform: translate(100px, -50px) rotate(180deg); }
+        }
+
+        #hero-image.animate-zoom-in {
+            opacity: 0;
+            transform: scale(1.1);
+            animation: heroZoomIn 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;
+        }
+        @keyframes heroZoomIn {
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
     <style id="dynamic-styles"></style>
@@ -339,7 +336,13 @@
                 footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF',
                 aboutBgColor: '#FFFFFF', testimonialsBgColor: '#F9FAFB',
                 aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937',
-                testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563'
+                testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563',
+                animations: {
+                    sectionReveal: true,
+                    cardHoverTilt: true,
+                    heroImageZoom: true,
+                    auroraEffect: true
+                }
             },
             socialProof: { title: 'Carregando...', logos: [] },
             about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: {}, step2: {}, step3: {} },
@@ -350,15 +353,49 @@
             footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
+        // --- Lógica de Animação ---
+        const handleMouseMoveTilt = (e) => {
+            const card = e.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const { width, height } = rect;
+            const rotateX = (y - height / 2) / (height / 2) * -4;
+            const rotateY = (x - width / 2) / (width / 2) * 4;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        };
+
+        const handleMouseLeaveTilt = (e) => {
+            e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        };
+
+        function setupCardTilt(enable) {
+            const cards = document.querySelectorAll('.interactive-card');
+            cards.forEach(card => {
+                card.classList.toggle('card-tilt-enabled', enable);
+                if (enable) {
+                    card.addEventListener('mousemove', handleMouseMoveTilt);
+                    card.addEventListener('mouseleave', handleMouseLeaveTilt);
+                } else {
+                    card.removeEventListener('mousemove', handleMouseMoveTilt);
+                    card.removeEventListener('mouseleave', handleMouseLeaveTilt);
+                    card.style.transform = ''; 
+                }
+            });
+        }
+        // --- Fim da Lógica de Animação ---
+
         function renderContent(pageData) {
             pageDataStore = pageData || defaultData;
             const data = pageDataStore;
             const styles = { ...defaultData.style, ...data.style };
+            const animations = { ...defaultData.style.animations, ...(styles.animations || {}) };
 
             const dynamicStyleEl = document.getElementById('dynamic-styles');
             const root = document.documentElement;
 
             const auroraBg = document.getElementById('aurora-bg');
+            auroraBg.style.display = animations.auroraEffect ? 'block' : 'none';
             if(styles.backgroundImage) {
                 auroraBg.style.backgroundImage = `url('${styles.backgroundImage}')`;
                 auroraBg.style.backgroundSize = 'cover';
@@ -407,7 +444,6 @@
                 section#depoimentos .interactive-card { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
                 section#depoimentos .interactive-card p { color: ${styles.testimonialsCardTextColor} !important; }
                 
-                /* Estilos do Modal de Contato */
                 #contact-modal-content {
                     background-color: ${styles.testimonialsCardBgColor} !important;
                     backdrop-filter: blur(10px);
@@ -447,7 +483,8 @@
             document.getElementById('hero-cta2-text').href = data.hero?.cta2Link || '#contato';
             document.getElementById('hero-image').src = data.hero?.image || defaultData.hero.image;
             document.getElementById('hero-image').alt = data.hero?.title || 'Ilustração';
-            
+            document.getElementById('hero-image').classList.toggle('animate-zoom-in', animations.heroImageZoom);
+
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
             document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
@@ -553,6 +590,10 @@
             document.getElementById('footer-phone').textContent = `Telefone: ${data.footer?.phone || ''}`;
             document.getElementById('footer-address').textContent = `Endereço: ${data.footer?.address || ''}`;
             document.getElementById('footer-copyright').textContent = data.footer?.copyright || '';
+            
+            // Ativar ou desativar animações com base nos dados
+            document.querySelectorAll('.animated-section').forEach(el => el.classList.toggle('animate-on-scroll', animations.sectionReveal));
+            setupCardTilt(animations.cardHoverTilt);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -576,10 +617,14 @@
                         isInitialLoad = false;
 
                         const sections = document.querySelectorAll('.animated-section');
-                        const observer = new IntersectionObserver((entries) => {
-                            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
-                        }, { threshold: 0.1 });
-                        sections.forEach(section => observer.observe(section));
+                        if (data.style?.animations?.sectionReveal !== false) {
+                            const observer = new IntersectionObserver((entries) => {
+                                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
+                            }, { threshold: 0.1 });
+                            sections.forEach(section => observer.observe(section));
+                        } else {
+                            sections.forEach(section => section.classList.add('is-visible'));
+                        }
                     }, 500);
                 }
             }, (error) => { 
