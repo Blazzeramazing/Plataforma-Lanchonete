@@ -6,18 +6,45 @@
     <title id="page-title">Sua Empresa | A Solução Ideal para o Seu Negócio</title>
     <meta name="description" id="page-description" content="Oferecemos soluções inovadoras para impulsionar o seu sucesso. Conheça nossos serviços e transforme seus resultados.">
     <link id="favicon-link" rel="icon" type="image/x-icon" href="">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Biblioteca de Animação (AOS) -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Fontes do Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lato:wght@400;700&family=Lora:wght@400;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;700;800&family=Playfair+Display:wght@400;700;800&family=Poppins:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         body { 
             transition: background-color 0.5s, color 0.5s;
             position: relative;
             overflow-x: hidden;
         }
-        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+
+        /* 3. Efeito de brilho customizado para os botões */
+        .btn-glow:hover {
+            box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.4);
+        }
         
+        /* 4. Estilos para o cabeçalho dinâmico */
+        header#home {
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: transparent;
+        }
+        header#home.scrolled {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        /* 5. Acordeão (Accordion) Animado no FAQ */
+        .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
+        .faq-toggle .faq-icon { transition: transform 0.3s ease-in-out; }
+
         .gradient-text {
             background-clip: text;
             -webkit-background-clip: text;
@@ -33,6 +60,7 @@
             margin-right: 1.5rem;
             position: relative; 
             overflow: hidden; 
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Efeito Hover */
         }
         .service-card-image { transition: transform 0.4s ease-in-out; }
         .service-card:hover .service-card-image { transform: scale(1.05); }
@@ -78,20 +106,7 @@
         #contact-modal { transition: opacity 0.3s ease-in-out; }
         #contact-modal > div { transition: transform 0.3s ease-in-out; }
         
-        .animated-section { transition: opacity 1s; }
-        .animated-section.animate-on-scroll { opacity: 0; }
-        .animated-section.animate-on-scroll.is-visible { opacity: 1; }
-
-        .animated-section.animate-on-scroll > * { 
-            opacity: 0; 
-            transform: translateY(40px); 
-            transition: opacity 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000), transform 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000); 
-        }
-        .animated-section.animate-on-scroll.is-visible > * { opacity: 1; transform: translateY(0); }
-        .animated-section.animate-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
-        .animated-section.animate-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
-        .animated-section.animate-on-scroll.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
-
+        .interactive-card { transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; }
         .interactive-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -175,12 +190,12 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-bold" id="nav-logo">SuaLogo</a>
             <div class="hidden lg:flex items-center space-x-8">
-                <a href="#sobre" class="transition duration-300">Sobre</a>
-                <a href="#servicos" class="transition duration-300">Serviços</a>
-                <a href="#depoimentos" class="transition duration-300">Depoimentos</a>
-                <a href="#contato" class="transition duration-300">Contato</a>
+                <a href="#sobre" class="transition duration-300 hover:text-indigo-500">Sobre</a>
+                <a href="#servicos" class="transition duration-300 hover:text-indigo-500">Serviços</a>
+                <a href="#depoimentos" class="transition duration-300 hover:text-indigo-500">Depoimentos</a>
+                <a href="#contato" class="transition duration-300 hover:text-indigo-500">Contato</a>
             </div>
-            <a href="#contato" class="hidden lg:inline-block font-semibold px-6 py-2.5 rounded-lg enhanced-button" id="nav-cta">Comece Agora</a>
+            <a href="#contato" class="hidden lg:inline-block font-semibold px-6 py-2.5 rounded-lg enhanced-button btn-glow" id="nav-cta">Comece Agora</a>
             <button id="mobile-menu-button" class="lg:hidden focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
@@ -190,52 +205,52 @@
             <a href="#servicos" class="block py-2">Serviços</a>
             <a href="#depoimentos" class="block py-2">Depoimentos</a>
             <a href="#contato" class="block py-2">Contato</a>
-            <a href="#contato" class="block mt-4 text-center font-semibold px-5 py-3 rounded-lg enhanced-button" id="nav-cta-mobile">Comece Agora</a>
+            <a href="#contato" class="block mt-4 text-center font-semibold px-5 py-3 rounded-lg enhanced-button btn-glow" id="nav-cta-mobile">Comece Agora</a>
         </div>
     </header>
 
     <main class="hidden">
-        <section class="animated-section">
+        <section class="overflow-hidden">
             <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
-                <div class="text-center lg:text-left">
+                <div class="text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
                     <h1 class="font-extrabold leading-tight gradient-text" id="hero-title"></h1>
                     <p class="mt-6 max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                        <a href="#servicos" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta1-text"></a>
+                        <a href="#servicos" class="font-semibold px-8 py-4 rounded-lg enhanced-button btn-glow" id="hero-cta1-text"></a>
                         <a href="#contato" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta2-text"></a>
                     </div>
                 </div>
-                <div>
+                <div data-aos="fade-left" data-aos-duration="1000">
                     <img src="https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando..." alt="Ilustração do produto ou serviço" class="w-full rounded-lg shadow-2xl" id="hero-image">
                 </div>
             </div>
         </section>
 
-        <section class="py-16 animated-section">
+        <section class="py-16 overflow-hidden" data-aos="fade-up">
             <div class="container mx-auto px-6 text-center">
                 <h3 class="font-semibold uppercase tracking-wider" id="social-title"></h3>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-x-12 gap-y-6" id="social-logos-container"></div>
             </div>
         </section>
 
-        <section id="sobre" class="py-24 animated-section">
+        <section id="sobre" class="py-24 overflow-hidden">
             <div class="container mx-auto px-6">
-                <div class="text-center max-w-3xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
                     <h2 class="font-bold gradient-text" id="about-title"></h2>
                     <p class="mt-4" id="about-subtitle"></p>
                 </div>
                 <div class="mt-16 grid md:grid-cols-3 gap-8 text-center">
-                    <div class="interactive-card p-8 rounded-xl" id="about-step1">
+                    <div class="interactive-card p-8 rounded-xl" id="about-step1" data-aos="fade-up" data-aos-delay="100">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div>
                         <h3 class="font-semibold" id="about-step1-title"></h3>
                         <p class="mt-2" id="about-step1-desc"></p>
                     </div>
-                    <div class="interactive-card p-8 rounded-xl" id="about-step2">
+                    <div class="interactive-card p-8 rounded-xl" id="about-step2" data-aos="fade-up" data-aos-delay="200">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
                         <h3 class="font-semibold" id="about-step2-title"></h3>
                         <p class="mt-2" id="about-step2-desc"></p>
                     </div>
-                    <div class="interactive-card p-8 rounded-xl" id="about-step3">
+                    <div class="interactive-card p-8 rounded-xl" id="about-step3" data-aos="fade-up" data-aos-delay="300">
                         <div class="bg-indigo-100 text-indigo-600 rounded-full p-4 mb-4 inline-block"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg></div>
                         <h3 class="font-semibold" id="about-step3-title"></h3>
                         <p class="mt-2" id="about-step3-desc"></p>
@@ -244,7 +259,7 @@
             </div>
         </section>
 
-        <section id="servicos" class="py-24 animated-section">
+        <section id="servicos" class="py-24 overflow-hidden" data-aos="fade-up">
             <div class="container mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto">
                     <h2 class="font-bold gradient-text" id="services-title"></h2>
@@ -258,31 +273,31 @@
             </div>
         </section>
 
-        <section id="depoimentos" class="py-24 animated-section">
+        <section id="depoimentos" class="py-24 overflow-hidden">
             <div class="container mx-auto px-6">
-                <div class="text-center max-w-3xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
                     <h2 class="font-bold gradient-text" id="testimonials-title"></h2>
                     <p class="mt-4" id="testimonials-subtitle"></p>
                 </div>
-                <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container"></div>
+                <div class="mt-16 grid lg:grid-cols-3 gap-8" id="testimonials-container" data-aos="zoom-in-up" data-aos-delay="200"></div>
             </div>
         </section>
 
-        <section id="faq" class="py-24 animated-section">
+        <section id="faq" class="py-24 overflow-hidden">
             <div class="container mx-auto px-6 max-w-4xl">
-                <div class="text-center">
+                <div class="text-center" data-aos="fade-up">
                     <h2 class="font-bold gradient-text" id="faq-title"></h2>
                     <p class="mt-4" id="faq-subtitle"></p>
                 </div>
-                <div class="mt-12 space-y-4" id="faq-container"></div>
+                <div class="mt-12 space-y-4" id="faq-container" data-aos="fade-up" data-aos-delay="200"></div>
             </div>
         </section>
 
-        <section id="contato" class="animated-section">
+        <section id="contato" class="overflow-hidden" data-aos="zoom-in">
             <div class="container mx-auto px-6 py-20 text-center">
                 <h2 class="font-bold" id="cta-title"></h2>
                 <p class="mt-4 max-w-2xl mx-auto" id="cta-subtitle"></p>
-                <a href="#" class="mt-8 inline-block font-bold px-10 py-4 rounded-lg open-modal-button enhanced-button" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
+                <a href="#" class="mt-8 inline-block font-bold px-10 py-4 rounded-lg open-modal-button enhanced-button btn-glow" id="cta-button" data-service-title="Gostaria de solicitar um orçamento."></a>
             </div>
         </section>
     </main>
@@ -335,8 +350,17 @@
         </div>
     </div>
 
+    <!-- 6. Botão "Voltar ao Topo" -->
+    <button id="back-to-top" class="hidden fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </button>
+
     <!-- Firebase -->
     <script src="./firebase-config.js"></script>
+
+    <!-- Biblioteca de Animação (AOS) JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -347,6 +371,7 @@
         let pageDataStore = null;
         let currentServiceTitle = '';
 
+        // Mantive seus dados padrão intactos
         const defaultData = {
             hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
             style: { 
@@ -373,6 +398,7 @@
             footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
+        // Suas funções de animação foram mantidas
         const handleMouseMoveTilt = (e) => {
             const card = e.currentTarget;
             const rect = card.getBoundingClientRect();
@@ -501,8 +527,11 @@
                 #about-step1-title, #about-step2-title, #about-step3-title, .service-card h3, #testimonials-container .font-semibold, .faq-toggle span { font-family: var(--font-card-titles); font-size: var(--size-card-titles); }
                 #social-title, #testimonials-container .text-sm, footer { font-family: var(--font-utility); font-size: var(--size-utility); }
                 .gradient-text { background-image: linear-gradient(to right, ${styles.gradientColor1}, ${styles.gradientColor2}); }
-                header#home { background-color: ${styles.headerBgColor}CC !important; }
+                /* MODIFICAÇÃO: Aplica cor de fundo apenas no header com a classe .scrolled */
+                header#home.scrolled { background-color: ${styles.headerBgColor}CC !important; }
                 header#home #nav-logo, header#home a, header#home button { color: ${styles.headerTextColor} !important; }
+                /* NOVO: Estilo dinâmico para o botão "Voltar ao Topo" */
+                #back-to-top { background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; }
                 .enhanced-button { background-image: linear-gradient(to right, ${styles.primaryBtnBgColor}, color-mix(in srgb, ${styles.primaryBtnBgColor} 80%, black)) !important; color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px ${styles.primaryBtnBgColor}66; }
                 .enhanced-button:hover { box-shadow: 0 15px 25px -5px ${styles.primaryBtnBgColor}88; }
                 #hero-cta2-text.enhanced-button { background-image: none !important; background-color: ${styles.secondaryBtnBgColor} !important; color: ${styles.secondaryBtnTextColor} !important; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -555,7 +584,8 @@
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
             (data.socialProof?.logos || []).forEach(logo => {
-                logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100">`;
+                // Efeito de hover adicionado aqui
+                logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110">`;
             });
 
             document.getElementById('about-title').textContent = data.about?.title || '';
@@ -586,8 +616,8 @@
                             buttonHtml = `<button class="open-modal-button ${commonClasses}" data-service-title="${item.title}">Tenho Interesse!</button>`;
                         }
                     }
-
-                    track.innerHTML += `<div class="service-card rounded-xl shadow-lg bg-white border border-gray-200/50 group"><img src="${item.image}" alt="${item.title}" class="w-full h-80 object-cover service-card-image"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent"><h3 class="font-bold text-white">${item.title}</h3></div><div class="service-card-overlay"><p class="text-white/90 font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>${item.price ? `<p class="font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}${buttonHtml}</div></div>`;
+                    // Efeito de hover adicionado ao card de serviço
+                    track.innerHTML += `<div class="service-card rounded-xl shadow-lg bg-white border border-gray-200/50 group hover:-translate-y-2"><img src="${item.image}" alt="${item.title}" class="w-full h-80 object-cover service-card-image"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent"><h3 class="font-bold text-white">${item.title}</h3></div><div class="service-card-overlay"><p class="text-white/90 font-medium mb-4" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">${item.description}</p>${item.price ? `<p class="font-extrabold text-white mb-6" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">R$ ${item.price}</p>` : ''}${buttonHtml}</div></div>`;
                 });
             } else {
                 document.getElementById('servicos').style.display = 'none';
@@ -642,7 +672,7 @@
             document.getElementById('footer-address').textContent = `Endereço: ${data.footer?.address || ''}`;
             document.getElementById('footer-copyright').textContent = data.footer?.copyright || '';
             
-            document.querySelectorAll('.animated-section').forEach(el => el.classList.toggle('animate-on-scroll', styles.animations.sectionReveal));
+            // REMOVIDO: Lógica de animação customizada foi substituída pela inicialização do AOS
             setupCardTilt(styles.animations.cardHoverTilt);
             setupCursorFollower(styles.animations.cursorFollower, styles.primaryBtnBgColor);
         }
@@ -672,14 +702,13 @@
                     if (isInitialLoad) {
                         setTimeout(() => {
                             hideLoader();
-                            const sections = document.querySelectorAll('.animated-section');
+                            // INICIALIZAÇÃO DA BIBLIOTECA DE ANIMAÇÃO (AOS)
                             if (data.style?.animations?.sectionReveal !== false) {
-                                const observer = new IntersectionObserver((entries) => {
-                                    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); });
-                                }, { threshold: 0.1 });
-                                sections.forEach(section => observer.observe(section));
-                            } else {
-                                sections.forEach(section => section.classList.add('is-visible'));
+                                AOS.init({
+                                    duration: 800, // Duração da animação
+                                    once: true,    // Animar apenas uma vez
+                                    offset: 100,   // Começar animação 100px antes do elemento aparecer
+                                });
                             }
                         }, 500);
                     }
@@ -693,27 +722,40 @@
                 hideLoader();
             });
             
+            // Lógica do menu mobile mantida
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
             document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
+            // Lógica do FAQ mantida
             document.getElementById('faq-container').addEventListener('click', (e) => {
                 const toggle = e.target.closest('.faq-toggle');
                 if (!toggle) return;
                 const content = toggle.nextElementSibling;
                 const icon = toggle.querySelector('.faq-icon');
-                const isOpening = !content.style.maxHeight;
+                const isOpening = !content.style.maxHeight || content.style.maxHeight === '0px';
+                
                 document.querySelectorAll('.faq-content').forEach(c => {
-                    c.style.maxHeight = null;
-                    c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                    if (c !== content) {
+                        c.style.maxHeight = null;
+                        c.parentElement.classList.remove('open');
+                        c.previousElementSibling.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+                    }
                 });
+                
                 if (isOpening) {
                     content.style.maxHeight = content.scrollHeight + "px";
+                    toggle.parentElement.classList.add('open');
                     icon.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.maxHeight = null;
+                    toggle.parentElement.classList.remove('open');
+                    icon.style.transform = 'rotate(0deg)';
                 }
             });
 
+            // Lógica do carrossel mantida
             const track = document.getElementById('service-carousel-track'), prevBtn = document.getElementById('prevBtn'), nextBtn = document.getElementById('nextBtn');
             if(track && prevBtn && nextBtn){
                 const scrollStep = () => { const firstCard = track.querySelector('.service-card'); return firstCard ? firstCard.offsetWidth + 24 : 300; }
@@ -721,6 +763,7 @@
                 prevBtn.addEventListener('click', () => track.scrollBy({ left: -scrollStep(), behavior: 'smooth' }));
             }
 
+            // Lógica do modal mantida
             const modal = document.getElementById('contact-modal');
             const modalContent = document.getElementById('contact-modal-content');
             const closeModalButton = document.getElementById('close-modal-button');
@@ -765,6 +808,30 @@
                 let message = `Olá, meu nome é ${name}.\n\nTenho interesse em: *${currentServiceTitle}*.\n\nMeus dados de contato são:\n*Email:* ${email}\n*Telefone:* ${phone}`;
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
                 window.open(whatsappUrl, '_blank');
+            });
+
+            // NOVO: Lógica para Header Dinâmico e Botão "Voltar ao Topo"
+            const backToTopButton = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                // Header dinâmico
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Botão "Voltar ao Topo"
+                if (window.scrollY > 400) {
+                    backToTopButton.classList.remove('hidden');
+                } else {
+                    backToTopButton.classList.add('hidden');
+                }
+            });
+
+            backToTopButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
     </script>
