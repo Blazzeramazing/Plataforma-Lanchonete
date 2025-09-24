@@ -135,11 +135,35 @@
         @keyframes heroZoomIn {
             to { opacity: 1; transform: scale(1); }
         }
+        
+        .hero-text-char {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px) rotate(10deg);
+            animation: heroCharReveal 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+        }
+        @keyframes heroCharReveal {
+            to { opacity: 1; transform: translateY(0) rotate(0); }
+        }
+        
+        #cursor-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--cursor-color, #4f46e5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+            mix-blend-mode: difference;
+        }
     </style>
     <style id="dynamic-styles"></style>
 </head>
 <body>
 
+    <div id="cursor-follower" class="hidden md:block"></div>
     <div id="aurora-bg"></div>
 
     <div id="loading-overlay" class="fixed inset-0 bg-gray-50 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
@@ -327,7 +351,7 @@
             hero: { title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...' },
             style: { 
                 backgroundColor: '#F9FAFB', backgroundImage: '', textColor: '#1F2937',
-                auroraColor1: '#4f46e5', auroraColor2: '#1e40af', 
+                auroraColor1: '#a855f7', auroraColor2: '#4f46e5', 
                 gradientColor1: '#4f46e5', gradientColor2: '#a855f7',
                 headerBgColor: '#FFFFFF', headerTextColor: '#4B5563',
                 primaryBtnBgColor: '#4F46E5', primaryBtnTextColor: '#FFFFFF',
@@ -341,7 +365,9 @@
                     sectionReveal: true,
                     cardHoverTilt: true,
                     heroImageZoom: true,
-                    auroraEffect: true
+                    auroraEffect: true,
+                    heroTextAnimation: true,
+                    cursorFollower: true
                 }
             },
             socialProof: { title: 'Carregando...', logos: [] },
@@ -353,7 +379,6 @@
             footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
-        // --- Lógica de Animação ---
         const handleMouseMoveTilt = (e) => {
             const card = e.currentTarget;
             const rect = card.getBoundingClientRect();
@@ -383,7 +408,62 @@
                 }
             });
         }
-        // --- Fim da Lógica de Animação ---
+        
+        function animateHeroText(selector, enable) {
+            const element = document.querySelector(selector);
+            if (!element) return;
+            
+            const originalText = element.getAttribute('data-original-text') || element.textContent;
+            element.setAttribute('data-original-text', originalText);
+            
+            if (enable) {
+                element.innerHTML = originalText.split('').map((char, index) => 
+                    `<span class="hero-text-char" style="animation-delay: ${index * 0.03}s">${char === ' ' ? '&nbsp;' : char}</span>`
+                ).join('');
+            } else {
+                element.innerHTML = originalText;
+            }
+        }
+
+        function setupCursorFollower(enable, color) {
+            const cursor = document.getElementById('cursor-follower');
+            if (!cursor) return;
+            
+            cursor.style.display = enable ? 'block' : 'none';
+            cursor.style.setProperty('--cursor-color', color);
+
+            const onMouseMove = (e) => {
+                cursor.style.left = `${e.clientX}px`;
+                cursor.style.top = `${e.clientY}px`;
+            };
+
+            const onMouseOverLink = () => {
+                cursor.style.width = '60px';
+                cursor.style.height = '60px';
+                cursor.style.backgroundColor = color + '33'; // Add some opacity
+            };
+
+            const onMouseOutLink = () => {
+                cursor.style.width = '30px';
+                cursor.style.height = '30px';
+                cursor.style.backgroundColor = 'transparent';
+            };
+
+            if (enable) {
+                window.addEventListener('mousemove', onMouseMove);
+                document.querySelectorAll('a, button').forEach(el => {
+                    el.addEventListener('mouseover', onMouseOverLink);
+                    el.addEventListener('mouseout', onMouseOutLink);
+                });
+            } else {
+                window.removeEventListener('mousemove', onMouseMove);
+                 document.querySelectorAll('a, button').forEach(el => {
+                    el.removeEventListener('mouseover', onMouseOverLink);
+                    el.removeEventListener('mouseout', onMouseOutLink);
+                });
+            }
+        }
+
 
         function renderContent(pageData) {
             pageDataStore = pageData || defaultData;
@@ -429,9 +509,10 @@
                 section#contato { background-color: ${styles.ctaBgColor} !important; background-image: linear-gradient(to right, ${styles.ctaBgColor}, color-mix(in srgb, ${styles.ctaBgColor} 70%, black)); }
                 section#contato *, section#contato h2, section#contato p { color: ${styles.ctaTextColor} !important; }
                 section#contato #cta-button {
-                    background-image: none !important; background-color: ${styles.primaryBtnTextColor} !important;
-                    color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+                    background-image: none !important; background-color: ${styles.primaryBtnBgColor} !important;
+                    color: ${styles.primaryBtnTextColor} !important; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
                 }
+                 section#contato #cta-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important; }
                 footer { background-color: ${styles.footerBgColor} !important; }
                 footer h3, footer h4 { color: ${styles.footerHeadingsColor} !important; }
                 footer p, footer li, footer a { color: ${styles.footerTextColor} !important; }
@@ -475,8 +556,11 @@
             document.getElementById('page-description').content = data.hero?.subtitle || defaultData.hero.subtitle;
             if (data.footer?.favicon) document.getElementById('favicon-link').href = data.footer.favicon;
 
-            document.getElementById('hero-title').innerHTML = data.hero?.title || '';
-            document.getElementById('hero-subtitle').innerHTML = data.hero?.subtitle || '';
+            document.getElementById('hero-title').textContent = data.hero?.title || '';
+            document.getElementById('hero-subtitle').textContent = data.hero?.subtitle || '';
+
+            animateHeroText('#hero-title', animations.heroTextAnimation);
+            
             document.getElementById('hero-cta1-text').innerHTML = data.hero?.cta1Text || '';
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
             document.getElementById('hero-cta2-text').innerHTML = data.hero?.cta2Text || '';
@@ -591,9 +675,9 @@
             document.getElementById('footer-address').textContent = `Endereço: ${data.footer?.address || ''}`;
             document.getElementById('footer-copyright').textContent = data.footer?.copyright || '';
             
-            // Ativar ou desativar animações com base nos dados
             document.querySelectorAll('.animated-section').forEach(el => el.classList.toggle('animate-on-scroll', animations.sectionReveal));
             setupCardTilt(animations.cardHoverTilt);
+            setupCursorFollower(animations.cursorFollower, styles.primaryBtnBgColor);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
