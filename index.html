@@ -18,7 +18,6 @@
         }
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-in-out; }
         
-        /* --- ESTILOS DE ANIMAÇÃO E VISUAIS --- */
         .gradient-text {
             background-clip: text;
             -webkit-background-clip: text;
@@ -79,8 +78,12 @@
         #contact-modal { transition: opacity 0.3s ease-in-out; }
         #contact-modal > div { transition: transform 0.3s ease-in-out; }
         
-        .animated-section { opacity: 0; transition: opacity 1s; }
-        .animated-section.is-visible { opacity: 1; }
+        /* --- CORREÇÃO NA LÓGICA DE ANIMAÇÃO DE SCROLL --- */
+        .animated-section { transition: opacity 1s; } /* Estilo base inofensivo */
+
+        .animated-section.animate-on-scroll { opacity: 0; } /* Esconde a seção APENAS se a animação estiver ativa */
+        .animated-section.animate-on-scroll.is-visible { opacity: 1; } /* Mostra a seção quando visível */
+
         .animated-section.animate-on-scroll > * { 
             opacity: 0; 
             transform: translateY(40px); 
@@ -90,6 +93,7 @@
         .animated-section.animate-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
         .animated-section.animate-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
         .animated-section.animate-on-scroll.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
+        /* --- FIM DA CORREÇÃO --- */
 
         .interactive-card:hover {
             transform: translateY(-8px);
