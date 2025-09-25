@@ -138,15 +138,6 @@
             0%, 100% { transform: translate(0, 50px) rotate(0deg); }
             50% { transform: translate(100px, -50px) rotate(180deg); }
         }
-
-        #hero-image.animate-zoom-in {
-            opacity: 0;
-            transform: scale(1.1);
-            animation: heroZoomIn 1.2s cubic-bezier(0.19, 1, 0.22, 1) 0.2s forwards;
-        }
-        @keyframes heroZoomIn {
-            to { opacity: 1; transform: scale(1); }
-        }
         
         .hero-text-char {
             display: inline-block;
@@ -171,7 +162,6 @@
             mix-blend-mode: difference;
         }
 
-        /* ESTILO GENÉRICO: Para seções com imagem de fundo */
         .customizable-bg {
             position: relative;
             background-size: cover;
@@ -181,13 +171,71 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); /* Overlay para garantir a legibilidade do texto */
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 1;
         }
         .customizable-bg > div {
             position: relative;
             z-index: 2;
         }
+
+        /* ESTILOS DO CARROSSEL HERO */
+        #hero-carousel-container { aspect-ratio: 16 / 10; max-height: 600px; }
+        @media (min-width: 1024px) { #hero-carousel-container { aspect-ratio: auto; height: 500px; } }
+        
+        .hero-slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-slide-image {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.5s ease-in-out;
+        }
+        .hero-slide:hover .hero-slide-image { transform: scale(1.05); }
+
+        .hero-slide-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        #hero-carousel-container:hover .hero-slide-overlay { opacity: 1; }
+        
+        .hero-carousel-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 9999px;
+            width: 2.75rem; height: 2.75rem;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        #hero-carousel-container:hover .hero-carousel-btn { opacity: 1; }
+        .hero-carousel-btn:hover { transform: translateY(-50%) scale(1.1); background-color: white; }
+        #hero-prev-btn { left: 1rem; }
+        #hero-next-btn { right: 1rem; }
+        
+        .hero-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .hero-dot:hover { background-color: white; transform: scale(1.2); }
+        .hero-dot.active { background-color: white; transform: scale(1.3); }
+
     </style>
     <style id="dynamic-styles"></style>
 </head>
@@ -226,8 +274,8 @@
 
     <main class="hidden">
         <section id="hero-section" class="overflow-hidden customizable-bg">
-            <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
-                <div class="text-center lg:text-left" data-aos="fade-right" data-aos-duration="1000">
+            <div class="container mx-auto px-6 py-20 lg:py-32 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                <div class="text-center lg:text-left z-10" data-aos="fade-right" data-aos-duration="1000">
                     <h1 class="font-extrabold leading-tight gradient-text" id="hero-title"></h1>
                     <p class="mt-6 max-w-xl mx-auto lg:mx-0" id="hero-subtitle"></p>
                     <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -235,8 +283,18 @@
                         <a href="#contato" class="font-semibold px-8 py-4 rounded-lg enhanced-button" id="hero-cta2-text"></a>
                     </div>
                 </div>
-                <div data-aos="fade-left" data-aos-duration="1000">
-                    <img src="https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando..." alt="Ilustração do produto ou serviço" class="w-full rounded-lg shadow-2xl" id="hero-image">
+                <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200" class="w-full">
+                    <!-- CARROSSEL INTELIGENTE INSERIDO AQUI -->
+                    <div id="hero-carousel-container" class="relative w-full rounded-2xl shadow-2xl overflow-hidden group">
+                        <div id="hero-carousel-track" class="flex h-full transition-transform duration-500 ease-in-out">
+                            <!-- Slides serão injetados aqui pelo JS -->
+                        </div>
+                        <button id="hero-prev-btn" class="hero-carousel-btn"><svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                        <button id="hero-next-btn" class="hero-carousel-btn"><svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+                        <div id="hero-dots-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+                            <!-- Pontos de navegação serão injetados aqui pelo JS -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -387,7 +445,9 @@
 
         const defaultData = {
             hero: { 
-                title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta1Link: '#servicos', cta2Text: '...', cta2Link: '#contato', image: 'https://placehold.co/600x400/E0E7FF/4F46E5?text=Carregando...',
+                title: 'Carregando...', subtitle: 'Aguarde um momento.', cta1Text: '...', cta2Text: '...',
+                autoplay: true,
+                slides: [{ image: 'https://placehold.co/800x600/E0E7FF/4F46E5?text=Carregando...', description: 'Esta é uma descrição de exemplo.' }],
                 backgroundImage: '', transparent: false 
             },
             style: { 
@@ -399,44 +459,23 @@
                 secondaryBtnBgColor: '#E5E7EB', secondaryBtnTextColor: '#1F2937',
                 ctaBgColor: '#4338CA', ctaTextColor: '#FFFFFF',
                 footerBgColor: '#111827', footerHeadingsColor: '#FFFFFF', footerTextColor: '#9CA3AF',
-                heroBgColor: '#FFFFFF', // Cor padrão para a seção Hero
-                socialProofBgColor: '#F9FAFB', // Cor padrão para Social Proof
+                heroBgColor: '#FFFFFF',
+                socialProofBgColor: '#F9FAFB',
                 aboutBgColor: '#FFFFFF',
-                servicesBgColor: '#F9FAFB', // Cor padrão para Serviços
+                servicesBgColor: '#F9FAFB',
                 testimonialsBgColor: '#FFFFFF',
-                faqBgColor: '#F9FAFB', // Cor padrão para FAQ
+                faqBgColor: '#F9FAFB',
                 aboutStepsBgColor: '#FFFFFF', aboutStepsTextColor: '#1F2937',
                 testimonialsCardBgColor: '#FFFFFF', testimonialsCardTextColor: '#4B5563',
-                animations: { sectionReveal: true, cardHoverTilt: true, heroImageZoom: true, auroraEffect: true, heroTextAnimation: true, cursorFollower: true },
+                animations: { sectionReveal: true, cardHoverTilt: true, heroImageZoom: false, auroraEffect: true, heroTextAnimation: true, cursorFollower: true },
                 typography: { fontHeadings: "'Poppins', sans-serif", sizeHeadings: '48px', fontSubheadings: "'Inter', sans-serif", sizeSubheadings: '20px', fontBody: "'Inter', sans-serif", sizeBody: '16px', fontButtons: "'Inter', sans-serif", sizeButtons: '16px', fontCardTitles: "'Poppins', sans-serif", sizeCardTitles: '20px', fontUtility: "'Inter', sans-serif", sizeUtility: '14px' }
             },
-            socialProof: { 
-                title: 'Carregando...', logos: [],
-                backgroundImage: '', transparent: false 
-            },
-            about: { 
-                title: 'Carregando...', subtitle: 'Aguarde um momento.', 
-                step1: { title: '', description: '', image: ''}, 
-                step2: { title: '', description: '', image: ''}, 
-                step3: { title: '', description: '', image: ''},
-                backgroundImage: '', transparent: false 
-            },
-            services: { 
-                title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], showButton: true,
-                backgroundImage: '', transparent: false 
-            },
-            testimonials: { 
-                title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [],
-                backgroundImage: '', transparent: false 
-            },
-            faq: { 
-                title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [],
-                backgroundImage: '', transparent: false 
-            },
-            cta: { 
-                title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...', buttonLink: '',
-                backgroundImage: '', transparent: false
-            },
+            socialProof: { title: 'Carregando...', logos: [], backgroundImage: '', transparent: false },
+            about: { title: 'Carregando...', subtitle: 'Aguarde um momento.', step1: { title: '', description: '', image: ''}, step2: { title: '', description: '', image: ''}, step3: { title: '', description: '', image: ''}, backgroundImage: '', transparent: false },
+            services: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], showButton: true, backgroundImage: '', transparent: false },
+            testimonials: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], backgroundImage: '', transparent: false },
+            faq: { title: 'Carregando...', subtitle: 'Aguarde um momento.', items: [], backgroundImage: '', transparent: false },
+            cta: { title: 'Carregando...', subtitle: 'Aguarde um momento.', buttonText: '...', buttonLink: '', backgroundImage: '', transparent: false },
             footer: { logo: 'SuaLogo', description: '...', whatsapp: '', email: '', phone: '', address: '', copyright: '', favicon: '' }
         };
 
@@ -534,12 +573,9 @@
             }
         }
         
-        // NOVA FUNÇÃO: Aplica estilos de fundo a qualquer seção
         function applyBackgroundStyles(element, sectionData, defaultColor) {
             if (!element) return;
-
             element.classList.remove('has-bg-image');
-            
             if (sectionData.backgroundImage) {
                 element.style.backgroundImage = `url('${sectionData.backgroundImage}')`;
                 element.style.backgroundColor = 'transparent';
@@ -551,6 +587,114 @@
                 element.style.backgroundImage = 'none';
                 element.style.backgroundColor = defaultColor;
             }
+        }
+
+        // FUNÇÃO PARA GERIR O CARROSSEL INTELIGENTE
+        function setupHeroCarousel(heroData) {
+            const container = document.getElementById('hero-carousel-container');
+            const track = document.getElementById('hero-carousel-track');
+            const dotsContainer = document.getElementById('hero-dots-container');
+            const nextBtn = document.getElementById('hero-next-btn');
+            const prevBtn = document.getElementById('hero-prev-btn');
+
+            if (!container || !track || !dotsContainer || !nextBtn || !prevBtn) return;
+
+            const slides = heroData.slides || [];
+            if (slides.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+            container.style.display = 'block';
+
+            let currentIndex = 0;
+            let autoplayInterval = null;
+            let touchStartX = 0;
+
+            track.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            slides.forEach((slide, index) => {
+                // Criar slide
+                const slideEl = document.createElement('div');
+                slideEl.className = 'hero-slide';
+                slideEl.innerHTML = `
+                    <img src="${slide.image}" alt="${slide.description || 'Imagem do carrossel'}" class="hero-slide-image">
+                    <div class="hero-slide-overlay">
+                        <p>${slide.description || ''}</p>
+                    </div>
+                `;
+                track.appendChild(slideEl);
+
+                // Criar ponto de navegação
+                const dotEl = document.createElement('div');
+                dotEl.className = 'hero-dot';
+                dotEl.addEventListener('click', () => {
+                    goToSlide(index);
+                    resetAutoplay();
+                });
+                dotsContainer.appendChild(dotEl);
+            });
+            
+            const dots = dotsContainer.querySelectorAll('.hero-dot');
+            const totalSlides = slides.length;
+
+            const updateCarousel = () => {
+                track.style.transform = `translateX(-${currentIndex * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentIndex);
+                });
+            };
+
+            const goToSlide = (index) => {
+                currentIndex = (index + totalSlides) % totalSlides;
+                updateCarousel();
+            };
+
+            const startAutoplay = () => {
+                if (heroData.autoplay && totalSlides > 1 && !autoplayInterval) {
+                    autoplayInterval = setInterval(() => goToSlide(currentIndex + 1), 5000);
+                }
+            };
+
+            const stopAutoplay = () => {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            };
+
+            const resetAutoplay = () => {
+                stopAutoplay();
+                startAutoplay();
+            };
+            
+            prevBtn.addEventListener('click', () => {
+                goToSlide(currentIndex - 1);
+                resetAutoplay();
+            });
+            nextBtn.addEventListener('click', () => {
+                goToSlide(currentIndex + 1);
+                resetAutoplay();
+            });
+            
+            container.addEventListener('mouseenter', stopAutoplay);
+            container.addEventListener('mouseleave', startAutoplay);
+
+            container.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                stopAutoplay();
+            }, { passive: true });
+
+            container.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].clientX;
+                if (touchStartX - touchEndX > 50) {
+                    goToSlide(currentIndex + 1);
+                } else if (touchEndX - touchStartX > 50) {
+                    goToSlide(currentIndex - 1);
+                }
+                startAutoplay();
+            });
+
+            goToSlide(0);
+            startAutoplay();
         }
 
         function renderContent(pageData) {
@@ -625,16 +769,14 @@
             document.getElementById('hero-cta1-text').href = data.hero?.cta1Link || '#servicos';
             document.getElementById('hero-cta2-text').textContent = data.hero?.cta2Text || '';
             document.getElementById('hero-cta2-text').href = data.hero?.cta2Link || '#contato';
-            const heroImage = document.getElementById('hero-image');
-            heroImage.src = data.hero?.image || defaultData.hero.image;
-            heroImage.alt = data.hero?.title || 'Ilustração';
-            heroImage.classList.toggle('animate-zoom-in', styles.animations.heroImageZoom);
+            
+            // Chamar a função do carrossel em vez de atualizar a imagem antiga
+            setupHeroCarousel(data.hero || defaultData.hero);
 
             document.getElementById('nav-logo').textContent = data.footer?.logo || 'SuaLogo';
             document.getElementById('nav-cta').textContent = data.hero?.cta1Text || '';
             document.getElementById('nav-cta-mobile').textContent = data.hero?.cta1Text || '';
 
-            // Seção de Prova Social
             const socialProofData = { ...defaultData.socialProof, ...(data.socialProof || {}) };
             document.getElementById('social-title').textContent = socialProofData.title || '';
             const logosContainer = document.getElementById('social-logos-container');
@@ -643,7 +785,6 @@
                 logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110">`;
             });
 
-            // Seção Sobre
             const aboutData = { ...defaultData.about, ...(data.about || {}) };
             document.getElementById('about-title').textContent = aboutData.title || '';
             document.getElementById('about-subtitle').textContent = aboutData.subtitle || '';
@@ -654,7 +795,6 @@
             document.getElementById('about-step3-title').textContent = aboutData.step3?.title || '';
             document.getElementById('about-step3-desc').textContent = aboutData.step3?.description || '';
             
-            // Lógica para imagens dos cards "Sobre"
             const setupStepImage = (stepNum, stepData) => {
                 const imageEl = document.getElementById(`about-step${stepNum}-image`);
                 const iconEl = document.getElementById(`about-step${stepNum}-icon`);
@@ -670,18 +810,17 @@
                     }
                 }
             };
-
             setupStepImage(1, aboutData.step1);
             setupStepImage(2, aboutData.step2);
             setupStepImage(3, aboutData.step3);
 
-            // Seção de Serviços
             const servicesData = { ...defaultData.services, ...(data.services || {}) };
             const track = document.getElementById('service-carousel-track');
             track.innerHTML = '';
             const servicesItems = servicesData.items || [];
             const showServiceButton = servicesData.showButton === true;
             if(servicesItems.length > 0) {
+                document.getElementById('servicos').style.display = 'block';
                 document.getElementById('services-title').textContent = servicesData.title || '';
                 document.getElementById('services-subtitle').textContent = servicesData.subtitle || '';
                 servicesItems.forEach(item => {
@@ -700,10 +839,10 @@
                 document.getElementById('servicos').style.display = 'none';
             }
 
-            // Seção de Depoimentos
             const testimonialsData = { ...defaultData.testimonials, ...(data.testimonials || {}) };
             const testimonialsItems = testimonialsData.items || [];
             if(testimonialsItems.length > 0) {
+                document.getElementById('depoimentos').style.display = 'block';
                 document.getElementById('testimonials-title').textContent = testimonialsData.title || '';
                 document.getElementById('testimonials-subtitle').textContent = testimonialsData.subtitle || '';
                 const testimonialsContainer = document.getElementById('testimonials-container');
@@ -712,13 +851,13 @@
                     testimonialsContainer.innerHTML += `<div class="interactive-card p-8 rounded-xl"><p>"${item.quote}"</p><div class="mt-6 flex items-center"><img src="${item.image}" alt="Foto de ${item.author}" class="w-12 h-12 rounded-full bg-gray-200 object-cover"><div class="ml-4"><p class="font-semibold">${item.author}</p><p class="text-sm">${item.position}</p></div></div></div>`;
                 });
             } else {
-                 document.getElementById('depoimentos').style.display = 'none';
+                document.getElementById('depoimentos').style.display = 'none';
             }
             
-            // Seção de FAQ
             const faqData = { ...defaultData.faq, ...(data.faq || {}) };
             const faqItems = faqData.items || [];
             if(faqItems.length > 0) {
+                document.getElementById('faq').style.display = 'block';
                 document.getElementById('faq-title').textContent = faqData.title || '';
                 document.getElementById('faq-subtitle').textContent = faqData.subtitle || '';
                 const faqContainer = document.getElementById('faq-container');
@@ -730,7 +869,6 @@
                 document.getElementById('faq').style.display = 'none';
             }
 
-            // Seção CTA
             const ctaData = { ...defaultData.cta, ...(data.cta || {}) };
             const ctaButton = document.getElementById('cta-button');
             ctaButton.textContent = ctaData.buttonText || '';
@@ -746,7 +884,6 @@
             document.getElementById('cta-title').textContent = ctaData.title || '';
             document.getElementById('cta-subtitle').textContent = ctaData.subtitle || '';
             
-            // APLICA FUNDOS EM TODAS AS SEÇÕES
             applyBackgroundStyles(document.getElementById('hero-section'), { ...defaultData.hero, ...data.hero }, styles.heroBgColor);
             applyBackgroundStyles(document.getElementById('social-proof-section'), socialProofData, styles.socialProofBgColor);
             applyBackgroundStyles(document.getElementById('sobre'), aboutData, styles.aboutBgColor);
@@ -755,7 +892,6 @@
             applyBackgroundStyles(document.getElementById('faq'), faqData, styles.faqBgColor);
             applyBackgroundStyles(document.getElementById('contato'), ctaData, styles.ctaBgColor);
             
-            // Seção de Rodapé
             document.getElementById('footer-logo').textContent = data.footer?.logo || '';
             document.getElementById('footer-description').textContent = data.footer?.description || '';
             document.getElementById('footer-email').textContent = `Email: ${data.footer?.email || ''}`;
@@ -898,6 +1034,7 @@
             const backToTopButton = document.getElementById('back-to-top');
             
             window.addEventListener('scroll', () => {
+                const header = document.getElementById('home');
                 if (window.scrollY > 50) {
                     header.classList.add('scrolled');
                 } else {
@@ -919,5 +1056,3 @@
     </script>
 </body>
 </html>
-
-
