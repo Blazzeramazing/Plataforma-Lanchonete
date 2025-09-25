@@ -782,7 +782,7 @@
             const logosContainer = document.getElementById('social-logos-container');
             logosContainer.innerHTML = '';
             (socialProofData.logos || []).forEach(logo => {
-                logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-8 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110">`;
+                logosContainer.innerHTML += `<img src="${logo.src}" alt="${logo.alt}" class="h-12 transition duration-300 grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110">`;
             });
 
             const aboutData = { ...defaultData.about, ...(data.about || {}) };
@@ -1056,3 +1056,4 @@
     </script>
 </body>
 </html>
+
