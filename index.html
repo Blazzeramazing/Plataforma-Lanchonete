@@ -23,9 +23,6 @@
             transition: background-color 0.5s, color 0.5s;
             position: relative;
             overflow-x: hidden;
-            background-size: cover;
-            background-position: center center;
-            background-attachment: fixed;
         }
 
         .btn-glow:hover {
@@ -184,10 +181,6 @@
 
         /* FIXES DE RESPONSIVIDADE E PERFORMANCE */
         @media screen and (max-width: 1023px) {
-            body {
-                background-attachment: scroll; /* Corrige o bug do fundo fixo em ecrãs móveis */
-            }
-            
             /* Ajusta o espaçamento da seção Hero para telas menores */
             #hero-section > .container {
                 padding-top: 3rem;
@@ -723,20 +716,17 @@
 
             const dynamicStyleEl = document.getElementById('dynamic-styles');
             const auroraBg = document.getElementById('aurora-bg');
-            const bodyEl = document.body;
             
-            // 1. Aplica o fundo (imagem ou cor) diretamente no BODY
-            if (styles.backgroundImage) {
-                bodyEl.style.backgroundImage = `url('${styles.backgroundImage}')`;
-                bodyEl.style.backgroundColor = styles.backgroundColor; // Cor de fallback
-            } else {
-                bodyEl.style.backgroundImage = 'none';
-                bodyEl.style.backgroundColor = styles.backgroundColor;
-            }
-
-            // 2. Configura a camada do efeito Aurora
             auroraBg.style.display = styles.animations.auroraEffect ? 'block' : 'none';
-            auroraBg.style.backgroundColor = 'transparent'; // O fundo do aurora deve ser sempre transparente
+            if(styles.backgroundImage) {
+                auroraBg.style.backgroundImage = `url('${styles.backgroundImage}')`;
+                auroraBg.style.backgroundSize = 'cover';
+                auroraBg.style.backgroundPosition = 'center';
+                auroraBg.style.backgroundColor = 'transparent';
+            } else {
+                auroraBg.style.backgroundImage = 'none';
+                auroraBg.style.backgroundColor = styles.backgroundColor;
+            }
             auroraBg.style.setProperty('--aurora-color1', styles.auroraColor1);
             auroraBg.style.setProperty('--aurora-color2', styles.auroraColor2);
             
