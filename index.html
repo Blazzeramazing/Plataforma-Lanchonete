@@ -25,6 +25,12 @@
             overflow-x: hidden;
         }
 
+        #page-background {
+            background-size: cover;
+            background-position: center center;
+            transition: background-image 0.5s ease-in-out;
+        }
+
         .btn-glow:hover {
             box-shadow: 0 0 20px 5px rgba(59, 130, 246, 0.4);
         }
@@ -251,6 +257,7 @@
 </head>
 <body>
 
+    <div id="page-background" class="fixed inset-0 z-[-2]"></div>
     <div id="cursor-follower" class="hidden md:block"></div>
     <div id="aurora-bg"></div>
 
@@ -419,7 +426,7 @@
         </div>
     </footer>
     
-    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-start overflow-y-auto p-4 pt-10 md:pt-16">
+    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-start md:items-center overflow-y-auto p-4 pt-10 md:pt-4">
         <div id="contact-modal-content" class="rounded-lg shadow-xl p-8 w-full max-w-md relative transform scale-95">
             <button id="close-modal-button" class="absolute top-4 right-4 transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -716,17 +723,21 @@
 
             const dynamicStyleEl = document.getElementById('dynamic-styles');
             const auroraBg = document.getElementById('aurora-bg');
+            const bodyEl = document.body;
+            const pageBackground = document.getElementById('page-background');
             
-            auroraBg.style.display = styles.animations.auroraEffect ? 'block' : 'none';
-            if(styles.backgroundImage) {
-                auroraBg.style.backgroundImage = `url('${styles.backgroundImage}')`;
-                auroraBg.style.backgroundSize = 'cover';
-                auroraBg.style.backgroundPosition = 'center';
-                auroraBg.style.backgroundColor = 'transparent';
+            // 1. Aplica o fundo (imagem ou cor)
+            if (styles.backgroundImage) {
+                pageBackground.style.backgroundImage = `url('${styles.backgroundImage}')`;
+                bodyEl.style.backgroundColor = styles.backgroundColor; // Cor de fallback
             } else {
-                auroraBg.style.backgroundImage = 'none';
-                auroraBg.style.backgroundColor = styles.backgroundColor;
+                pageBackground.style.backgroundImage = 'none';
+                bodyEl.style.backgroundColor = styles.backgroundColor;
             }
+
+            // 2. Configura a camada do efeito Aurora
+            auroraBg.style.display = styles.animations.auroraEffect ? 'block' : 'none';
+            auroraBg.style.backgroundColor = 'transparent'; // O fundo do aurora deve ser sempre transparente
             auroraBg.style.setProperty('--aurora-color1', styles.auroraColor1);
             auroraBg.style.setProperty('--aurora-color2', styles.auroraColor2);
             
@@ -1073,3 +1084,4 @@
     </script>
 </body>
 </html>
+
