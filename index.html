@@ -179,6 +179,21 @@
             z-index: 2;
         }
 
+        /* FIXES DE RESPONSIVIDADE E PERFORMANCE */
+        @media screen and (max-width: 1023px) {
+            /* Corrige o problema de "salto" do fundo fixo em navegadores móveis */
+            #aurora-bg {
+                position: absolute;
+            }
+
+            /* Ajusta o espaçamento da seção Hero para telas menores */
+            #hero-section > .container {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+                gap: 2.5rem;
+            }
+        }
+
         /* ESTILOS DO CARROSSEL HERO */
         #hero-carousel-container { aspect-ratio: 16 / 10; max-height: 600px; }
         @media (min-width: 1024px) { #hero-carousel-container { aspect-ratio: auto; height: 500px; } }
@@ -409,7 +424,7 @@
         </div>
     </footer>
     
-    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
+    <div id="contact-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-start overflow-y-auto p-4 pt-10 md:pt-16">
         <div id="contact-modal-content" class="rounded-lg shadow-xl p-8 w-full max-w-md relative transform scale-95">
             <button id="close-modal-button" class="absolute top-4 right-4 transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -756,6 +771,12 @@
                 #contact-modal-content input:focus { border-color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 0 0 2px ${styles.primaryBtnBgColor}80 !important; outline: none; }
                 #submit-whatsapp-button { background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; }
                 #submit-whatsapp-button:hover { background-color: color-mix(in srgb, ${styles.primaryBtnBgColor} 90%, black) !important; }
+                
+                /* Ajustes de tipografia responsiva */
+                @media (max-width: 767px) {
+                    #hero-title, #about-title, #services-title, #testimonials-title, #faq-title, #cta-title { font-size: calc(${parseInt(typo.sizeHeadings)}px * 0.75); }
+                    #hero-subtitle, #about-subtitle, #services-subtitle, #testimonials-subtitle, #faq-subtitle, #cta-subtitle { font-size: calc(${parseInt(typo.sizeSubheadings)}px * 0.9); }
+                }
             `;
             dynamicStyleEl.innerHTML = cssString.replace(/\s\s+/g, ' ').trim();
 
@@ -1018,6 +1039,7 @@
             
             contactForm.addEventListener('submit', (event) => {
                 event.preventDefault();
+                event.stopPropagation(); // Impede que o clique "vaze" para o fundo do modal
                 const name = document.getElementById('contact-name').value;
                 const email = document.getElementById('contact-email').value;
                 const phone = document.getElementById('contact-phone').value;
@@ -1056,5 +1078,7 @@
     </script>
 </body>
 </html>
+
+
 
 
