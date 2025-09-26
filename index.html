@@ -443,6 +443,16 @@
         </div>
     </div>
 
+    <!-- Thank You Modal -->
+    <div id="thank-you-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center p-4">
+        <div id="thank-you-modal-content" class="rounded-lg shadow-xl p-8 w-full max-w-md text-center transform scale-95 transition-transform duration-300">
+            <svg class="w-16 h-16 mx-auto text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3 class="text-2xl font-bold mb-2">Obrigado!</h3>
+            <p class="mb-6">A sua mensagem está a ser enviada. Entraremos em contacto em breve.</p>
+            <button id="close-thank-you-modal" class="font-semibold py-3 px-6 rounded-lg enhanced-button">Fechar</button>
+        </div>
+    </div>
+
     <button id="back-to-top" class="hidden fixed bottom-6 right-6 p-3 rounded-full shadow-lg transition-all duration-300 hover:-translate-y-1">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
     </button>
@@ -773,6 +783,8 @@
                 section#depoimentos .interactive-card p, #depoimentos .interactive-card .text-sm { color: ${styles.testimonialsCardTextColor} !important; }
                 #contact-modal-content { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
                 #contact-modal-content h3, #contact-modal-content p, #contact-modal-content label, #close-modal-button { color: ${styles.testimonialsCardTextColor} !important; }
+                #thank-you-modal-content { background-color: ${styles.testimonialsCardBgColor} !important; backdrop-filter: blur(10px); }
+                #thank-you-modal-content h3, #thank-you-modal-content p { color: ${styles.testimonialsCardTextColor} !important; }
                 #contact-modal-content input { background-color: color-mix(in srgb, ${styles.testimonialsCardBgColor} 85%, black) !important; color: ${styles.testimonialsCardTextColor} !important; border-color: color-mix(in srgb, ${styles.testimonialsCardTextColor} 30%, transparent) !important; }
                 #contact-modal-content input:focus { border-color: ${styles.primaryBtnBgColor} !important; box-shadow: 0 0 0 2px ${styles.primaryBtnBgColor}80 !important; outline: none; }
                 #submit-whatsapp-button { background-color: ${styles.primaryBtnBgColor} !important; color: ${styles.primaryBtnTextColor} !important; }
@@ -1018,6 +1030,22 @@
             const contactForm = document.getElementById('contact-form');
             const formError = document.getElementById('form-error');
 
+            const thankYouModal = document.getElementById('thank-you-modal');
+            const thankYouModalContent = document.getElementById('thank-you-modal-content');
+            const closeThankYouModalButton = document.getElementById('close-thank-you-modal');
+
+            const openThankYouModal = () => {
+                thankYouModal.classList.remove('hidden');
+                setTimeout(() => thankYouModalContent.classList.remove('scale-95'), 10);
+            };
+
+            const closeThankYouModal = () => {
+                thankYouModalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    thankYouModal.classList.add('hidden');
+                }, 300);
+            };
+
             const openModal = (service) => {
                 currentServiceTitle = service;
                 modal.classList.remove('hidden');
@@ -1043,6 +1071,9 @@
             closeModalButton.addEventListener('click', closeModal);
             modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
             
+            closeThankYouModalButton.addEventListener('click', closeThankYouModal);
+            thankYouModal.addEventListener('click', (e) => { if (e.target === thankYouModal) closeThankYouModal(); });
+
             contactForm.addEventListener('submit', (event) => {
                 event.preventDefault();
                 event.stopPropagation(); // Impede que o clique "vaze" para o fundo do modal
@@ -1057,6 +1088,11 @@
                 let message = `Olá, meu nome é ${name}.\n\nTenho interesse em: *${currentServiceTitle}*.\n\nMeus dados de contato são:\n*Email:* ${email}\n*Telefone:* ${phone}`;
                 const whatsappUrl = `https://wa.me/${pageDataStore.footer.whatsapp}?text=${encodeURIComponent(message)}`;
                 window.open(whatsappUrl, '_blank');
+                
+                closeModal();
+                setTimeout(() => {
+                    openThankYouModal();
+                }, 350);
             });
 
             const backToTopButton = document.getElementById('back-to-top');
@@ -1084,4 +1120,5 @@
     </script>
 </body>
 </html>
+
 
