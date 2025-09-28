@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Debys na Cozinha | Sabor e praticidade para a sua rotina</title>
-    <meta name="description" id="page-description" content="Eu vou até a sua cozinha, preparo refeições deliciosas e personalizadas, e deixo tudo organizado em marmitas. Mais tempo livre para você e mais sabor no seu prato.">
+    <title id="page-title">Sua Empresa | A Solução Ideal para o Seu Negócio</title>
+    <meta name="description" id="page-description" content="Oferecemos soluções inovadoras para impulsionar o seu sucesso. Conheça nossos serviços e transforme seus resultados.">
     <link id="favicon-link" rel="icon" type="image/x-icon" href="">
     
     <!-- Tailwind CSS -->
@@ -23,12 +23,7 @@
             transition: background-color 0.5s, color 0.5s;
             position: relative;
             overflow-x: hidden;
-        }
-
-        #page-background {
-            background-size: cover;
-            background-position: center center;
-            transition: background-image 0.5s ease-in-out;
+            background-color: transparent !important; /* Garante que o fundo do body não interfira */
         }
 
         .btn-glow:hover {
@@ -129,14 +124,19 @@
 
         #aurora-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden;
-            background-color: var(--bg-color, #f9fafb);
+            z-index: -2; overflow: hidden;
+            background-size: cover;
+            background-position: center center;
         }
         #aurora-bg::before, #aurora-bg::after {
             content: ''; position: absolute;
             width: 800px; height: 800px; border-radius: 50%;
             filter: blur(150px); mix-blend-mode: multiply; opacity: 0.4;
             animation: aurora-move 30s infinite linear;
+            display: none; /* Escondido por defeito */
+        }
+        #aurora-bg.aurora-active::before, #aurora-bg.aurora-active::after {
+            display: block; /* Mostra apenas quando a classe está ativa */
         }
         #aurora-bg::before { background-color: var(--aurora-color1, #4f46e5); top: -25%; left: -25%; }
         #aurora-bg::after { background-color: var(--aurora-color2, #1e40af); bottom: -25%; right: -25%; animation-delay: -15s; }
@@ -187,6 +187,9 @@
 
         /* FIXES DE RESPONSIVIDADE E PERFORMANCE */
         @media screen and (max-width: 1023px) {
+            #aurora-bg {
+                position: absolute; /* Resolve o bug do fundo fixo em ecrãs móveis */
+            }
             /* Ajusta o espaçamento da seção Hero para telas menores */
             #hero-section > .container {
                 padding-top: 3rem;
@@ -257,7 +260,6 @@
 </head>
 <body>
 
-    <div id="page-background" class="fixed inset-0 z-[-2]"></div>
     <div id="cursor-follower" class="hidden md:block"></div>
     <div id="aurora-bg"></div>
 
@@ -734,20 +736,19 @@
             const dynamicStyleEl = document.getElementById('dynamic-styles');
             const auroraBg = document.getElementById('aurora-bg');
             const bodyEl = document.body;
-            const pageBackground = document.getElementById('page-background');
             
-            // 1. Aplica o fundo (imagem ou cor)
+            // 1. Aplica o fundo (imagem ou cor) ao elemento #aurora-bg
             if (styles.backgroundImage) {
-                pageBackground.style.backgroundImage = `url('${styles.backgroundImage}')`;
-                bodyEl.style.backgroundColor = styles.backgroundColor; // Cor de fallback
+                auroraBg.style.backgroundImage = `url('${styles.backgroundImage}')`;
+                auroraBg.style.backgroundColor = styles.backgroundColor; // Cor de fallback
             } else {
-                pageBackground.style.backgroundImage = 'none';
-                bodyEl.style.backgroundColor = styles.backgroundColor;
+                auroraBg.style.backgroundImage = 'none';
+                auroraBg.style.backgroundColor = styles.backgroundColor;
             }
+            bodyEl.style.backgroundColor = styles.backgroundColor; // Define a cor de fundo do body para preencher qualquer espaço
 
-            // 2. Configura a camada do efeito Aurora
-            auroraBg.style.display = styles.animations.auroraEffect ? 'block' : 'none';
-            auroraBg.style.backgroundColor = 'transparent'; // O fundo do aurora deve ser sempre transparente
+            // 2. Controla o efeito aurora com uma classe
+            auroraBg.classList.toggle('aurora-active', styles.animations.auroraEffect);
             auroraBg.style.setProperty('--aurora-color1', styles.auroraColor1);
             auroraBg.style.setProperty('--aurora-color2', styles.auroraColor2);
             
@@ -1120,5 +1121,6 @@
     </script>
 </body>
 </html>
+
 
 
